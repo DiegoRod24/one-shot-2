@@ -1,8 +1,8 @@
 {
-  "version": "v6.0.5 · ONE FOCUS SESSION",
-  "build": "oneshot-v6.0.5-one-focus-session-01",
+  "version": "v6.1 · ONE REPORTS",
+  "build": "oneshot-v6.1-one-reports-01",
   "released": "2026-08-14",
-  "notes": "Cerrar Editar corta voz y micrófono; la sesión queda pausada y puede retomarse. Nuevo modo Foto grande para clasificar mirando solo la evidencia con ONE flotante. Corrección visible solo cuando el reconocimiento es dudoso.",
+  "notes": "ONE llega al ambiente Reportes: selección conversacional por hoy, semana, listas o partido; diagnóstico de observadas; revisión guiada y retorno automático desde Editar; vista previa, Excel, voz y mascota contextual.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_0_5_ONE_FOCUS_SESSION.apk"
+  "apkFilename": "ONE_SHOT_v6_1_ONE_REPORTS.apk"
 }
