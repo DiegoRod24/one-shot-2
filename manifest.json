@@ -1,16 +1,26 @@
 {
-  "id": "oneshot-v6.0.4-turn-taking-mascot",
-  "name": "ONE SHOT v6.0.4",
+  "id": "oneshot-v6.0.5-one-focus-session",
+  "name": "ONE SHOT v6.0.5",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.0.4 · Turnos de conversación reales: ONE deja de escucharse a sí mismo, micrófono persistente y mascota animada por estados.",
-  "start_url": "/?v=oneshot-v6.0.4-turn-taking-mascot-01",
+  "description": "ONE SHOT 6.0.5 · Sesión de clasificación pausable, modo Foto grande y asistente ONE flotante por turnos.",
+  "start_url": "/?v=oneshot-v6.0.5-one-focus-session-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "theme_color": "#030711",
   "background_color": "#030711",
   "icons": [
-    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
