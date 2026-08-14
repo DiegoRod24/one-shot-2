@@ -1,9 +1,9 @@
 {
-  "id": "oneshot-v6.1.1-one-context-fix",
-  "name": "ONE SHOT v6.1.1",
+  "id": "oneshot-v6.1.2-update-loop-fix",
+  "name": "ONE SHOT v6.1.2",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.1.1 · Voz contextual restaurada, ayuda de historial cercano y Reportes corregido.",
-  "start_url": "/?v=oneshot-v6.1.1-one-context-fix-01",
+  "description": "ONE SHOT 6.1.2 · Corrección del bucle de actualización y sincronización del build publicado.",
+  "start_url": "/?v=oneshot-v6.1.2-update-loop-fix-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
