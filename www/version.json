@@ -1,8 +1,8 @@
 {
-  "version": "v6.0.3 · ONE AUTO FLOW MASCOT",
-  "build": "oneshot-v6.0.3-one-auto-flow-mascot-01",
+  "version": "v6.0.4 · ONE TURN TAKING MASCOT",
+  "build": "oneshot-v6.0.4-turn-taking-mascot-01",
   "released": "2026-08-14",
-  "notes": "Validación automática cuando ONE reconoce una respuesta correcta, confirmación solo para casos ambiguos, micrófono persistente con toque único para escuchar/silenciar, mascota más animada y pregunta de mayor contraste.",
+  "notes": "Turnos reales de voz: ONE pausa el micrófono mientras habla, lo reactiva al terminar y filtra eco de su propia voz. Mascota con estados visibles de hablar, esperar, escuchar, pensar y validar.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_0_3_ONE_AUTO_FLOW_MASCOT.apk"
+  "apkFilename": "ONE_SHOT_v6_0_4_ONE_TURN_TAKING_MASCOT.apk"
 }

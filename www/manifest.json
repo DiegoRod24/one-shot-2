@@ -1,26 +1,16 @@
 {
-  "id": "oneshot-v6.0.3-auto-flow-mascot",
-  "name": "ONE SHOT v6.0.3",
+  "id": "oneshot-v6.0.4-turn-taking-mascot",
+  "name": "ONE SHOT v6.0.4",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.0.3 · Validación automática por voz, micrófono persistente y mascota ONE más viva para clasificar evidencias.",
-  "start_url": "/?v=oneshot-v6.0.3-one-auto-flow-mascot-01",
+  "description": "ONE SHOT 6.0.4 · Turnos de conversación reales: ONE deja de escucharse a sí mismo, micrófono persistente y mascota animada por estados.",
+  "start_url": "/?v=oneshot-v6.0.4-turn-taking-mascot-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "theme_color": "#030711",
   "background_color": "#030711",
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }
