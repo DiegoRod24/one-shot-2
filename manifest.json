@@ -1,9 +1,9 @@
 {
-  "id": "oneshot-v6.1.2-update-loop-fix",
-  "name": "ONE SHOT v6.1.2",
+  "id": "oneshot-v6.2-install-update-core",
+  "name": "ONE SHOT v6.2",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.1.2 · Corrección del bucle de actualización y sincronización del build publicado.",
-  "start_url": "/?v=oneshot-v6.1.2-update-loop-fix-01",
+  "description": "ONE SHOT 6.2 · Instalación y actualización separadas por plataforma, con comportamiento correcto en iPhone/iPad, Android, PWA y APK.",
+  "start_url": "/?v=oneshot-v6.2-install-update-core-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
