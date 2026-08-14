@@ -1,8 +1,8 @@
 {
-  "version": "v6.1.1 · ONE CONTEXT FIX",
-  "build": "oneshot-v6.1.1-one-context-fix-01",
+  "version": "v6.1.2 · UPDATE LOOP FIX",
+  "build": "oneshot-v6.1.2-update-loop-fix-01",
   "released": "2026-08-14",
-  "notes": "Corrige exportación candidato is not defined, restaura voz en Cámara/captura, agrega ayuda contextual al Historial cercano, evita doble asistente en Reportes y mejora layout móvil.",
+  "notes": "Corrige el bucle de actualización: ONE SHOT deja de consultar el repositorio antiguo, alinea el build instalado con el publicado y evita volver a ofrecer la misma versión.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_1_1_ONE_CONTEXT_FIX.apk"
+  "apkFilename": "ONE_SHOT_v6_1_2_UPDATE_LOOP_FIX.apk"
 }
