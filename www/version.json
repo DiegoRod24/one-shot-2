@@ -1,8 +1,8 @@
 {
-  "version": "v6.1.2 · UPDATE LOOP FIX",
-  "build": "oneshot-v6.1.2-update-loop-fix-01",
+  "version": "v6.2 · INSTALL & UPDATE CORE",
+  "build": "oneshot-v6.2-install-update-core-01",
   "released": "2026-08-14",
-  "notes": "Corrige el bucle de actualización: ONE SHOT deja de consultar el repositorio antiguo, alinea el build instalado con el publicado y evita volver a ofrecer la misma versión.",
+  "notes": "Reordena por completo la cadena de instalación y actualización. En iPhone/iPad la instalación nunca se abre automáticamente; una PWA instalada se detecta como instalada y solo recibe actualizaciones. Android/PWA separa instalación de actualización y evita volver a ofrecer el mismo build.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_1_2_UPDATE_LOOP_FIX.apk"
+  "apkFilename": "ONE_SHOT_v6_2_INSTALL_UPDATE_CORE.apk"
 }
