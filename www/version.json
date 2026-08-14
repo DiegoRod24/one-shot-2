@@ -1,8 +1,8 @@
 {
-  "version": "v6.0.5 · ONE FOCUS SESSION",
-  "build": "oneshot-v6.0.5-one-focus-session-01",
+  "version": "v6.1.1 · ONE CONTEXT FIX",
+  "build": "oneshot-v6.1.1-one-context-fix-01",
   "released": "2026-08-14",
-  "notes": "Cerrar Editar corta voz y micrófono; la sesión queda pausada y puede retomarse. Nuevo modo Foto grande para clasificar mirando solo la evidencia con ONE flotante. Corrección visible solo cuando el reconocimiento es dudoso.",
+  "notes": "Corrige exportación candidato is not defined, restaura voz en Cámara/captura, agrega ayuda contextual al Historial cercano, evita doble asistente en Reportes y mejora layout móvil.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_0_5_ONE_FOCUS_SESSION.apk"
+  "apkFilename": "ONE_SHOT_v6_1_1_ONE_CONTEXT_FIX.apk"
 }

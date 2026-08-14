@@ -1,8 +1,8 @@
 {
-  "version": "v6.1 · ONE REPORTS",
-  "build": "oneshot-v6.1-one-reports-01",
+  "version": "v6.1.1 · ONE CONTEXT FIX",
+  "build": "oneshot-v6.1.1-one-context-fix-01",
   "released": "2026-08-14",
-  "notes": "ONE llega al ambiente Reportes: selección conversacional por hoy, semana, listas o partido; diagnóstico de observadas; revisión guiada y retorno automático desde Editar; vista previa, Excel, voz y mascota contextual.",
+  "notes": "Corrige exportación candidato is not defined, restaura voz en Cámara/captura, agrega ayuda contextual al Historial cercano, evita doble asistente en Reportes y mejora layout móvil.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_1_ONE_REPORTS.apk"
+  "apkFilename": "ONE_SHOT_v6_1_1_ONE_CONTEXT_FIX.apk"
 }

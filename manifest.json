@@ -1,26 +1,16 @@
 {
-  "id": "oneshot-v6.1-one-reports",
-  "name": "ONE SHOT v6.1",
+  "id": "oneshot-v6.1.1-one-context-fix",
+  "name": "ONE SHOT v6.1.1",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.1 · ONE Reports: selección conversacional, revisión de observadas, filtros por periodo/partido y puente Reportes → Editar → Reportes.",
-  "start_url": "/?v=oneshot-v6.1-one-reports-01",
+  "description": "ONE SHOT 6.1.1 · Voz contextual restaurada, ayuda de historial cercano y Reportes corregido.",
+  "start_url": "/?v=oneshot-v6.1.1-one-context-fix-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "theme_color": "#030711",
   "background_color": "#030711",
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }
