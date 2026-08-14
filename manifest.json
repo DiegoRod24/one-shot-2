@@ -1,9 +1,9 @@
 {
-  "id": "oneshot-v6.0.5-one-focus-session",
-  "name": "ONE SHOT v6.0.5",
+  "id": "oneshot-v6.1-one-reports",
+  "name": "ONE SHOT v6.1",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.0.5 · Sesión de clasificación pausable, modo Foto grande y asistente ONE flotante por turnos.",
-  "start_url": "/?v=oneshot-v6.0.5-one-focus-session-01",
+  "description": "ONE SHOT 6.1 · ONE Reports: selección conversacional, revisión de observadas, filtros por periodo/partido y puente Reportes → Editar → Reportes.",
+  "start_url": "/?v=oneshot-v6.1-one-reports-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
