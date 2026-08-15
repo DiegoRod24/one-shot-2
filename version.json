@@ -1,8 +1,8 @@
 {
-  "version": "v6.3 · EDIT ESSENTIAL + MUNICIPAL MATCH",
-  "build": "oneshot-v6.3-edit-municipal-match-01",
+  "version": "v6.3.1 · PARTY LOGOS + CLEAN REPORT",
+  "build": "oneshot-v6.3.1-party-logos-clean-report-01",
   "released": "2026-08-14",
-  "notes": "Editar se reduce a Partido + Tipo (Panel/Mural/Banner), incorpora estados Falta revisar/Revisada/Revisar ubicación, destino municipal con Alcalde y revisión manual por posible límite distrital. Fer queda como nombre del asistente y Cámara permanece silenciosa durante la captura.",
+  "notes": "Selector visual y búsqueda de organizaciones políticas desde LOGOS_2.xlsx; exportación Excel depurada con Estado de revisión, Municipalidad y Alcalde/encargado. Corrige valores basura, Provincia y evita usar candidato como alcalde. Fer permanece contextual y Cámara sigue tranquila.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_3_EDIT_MUNICIPAL_MATCH.apk"
+  "apkFilename": "ONE_SHOT_v6_3_1_PARTY_LOGOS_CLEAN_REPORT.apk"
 }
