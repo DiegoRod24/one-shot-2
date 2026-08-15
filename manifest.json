@@ -1,9 +1,9 @@
 {
-  "id": "oneshot-v6.3.1-party-logos-clean-report",
-  "name": "ONE SHOT v6.3.1",
+  "id": "oneshot-v6.4-fer-humanized-assistant",
+  "name": "ONE SHOT v6.4",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.3.1 · Selector visual de partidos con logos y reporte Excel depurado con revisión, Municipalidad y Alcalde/encargado.",
-  "start_url": "/?v=oneshot-v6.3.1-party-logos-clean-report-01",
+  "description": "ONE SHOT 6.4 · Fer humanizado y animado acompaña Editar, Reportes, ayuda de antecedentes y soporte contextual, manteniendo la Cámara limpia durante la captura.",
+  "start_url": "/?v=oneshot-v6.4-fer-humanized-assistant-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
