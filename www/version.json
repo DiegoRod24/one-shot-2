@@ -1,8 +1,8 @@
 {
-  "version": "v6.2 · INSTALL & UPDATE CORE",
-  "build": "oneshot-v6.2-install-update-core-01",
+  "version": "v6.3 · EDIT ESSENTIAL + MUNICIPAL MATCH",
+  "build": "oneshot-v6.3-edit-municipal-match-01",
   "released": "2026-08-14",
-  "notes": "Reordena por completo la cadena de instalación y actualización. En iPhone/iPad la instalación nunca se abre automáticamente; una PWA instalada se detecta como instalada y solo recibe actualizaciones. Android/PWA separa instalación de actualización y evita volver a ofrecer el mismo build.",
+  "notes": "Editar se reduce a Partido + Tipo (Panel/Mural/Banner), incorpora estados Falta revisar/Revisada/Revisar ubicación, destino municipal con Alcalde y revisión manual por posible límite distrital. Fer queda como nombre del asistente y Cámara permanece silenciosa durante la captura.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_2_INSTALL_UPDATE_CORE.apk"
+  "apkFilename": "ONE_SHOT_v6_3_EDIT_MUNICIPAL_MATCH.apk"
 }
