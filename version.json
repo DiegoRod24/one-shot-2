@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.1 · FER VISUAL IN-APP FIX",
-  "build": "oneshot-v6.4.1-fer-visual-in-app-fix-01",
+  "version": "v6.4.2 · FER BOOT LOOP FIX",
+  "build": "oneshot-v6.4.2-fer-boot-loop-fix-01",
   "released": "2026-08-15",
-  "notes": "Fer se integra dentro de la app con una representación SVG humanizada y estados visuales para saludo, habla, escucha, pensamiento, revisión, éxito, alerta, error y ayuda. Corrige el avatar geométrico de v6.4 y el botón flotante. Cámara permanece silenciosa y sin Fer durante la captura normal.",
+  "notes": "Corrige el bloqueo de arranque causado por un bucle del observador visual de Fer en v6.4.1. Fer mantiene su integración humanizada en Editar, Reportes y Ayuda, pero ahora las actualizaciones visuales están controladas y no bloquean el hilo principal. Cámara permanece sin Fer durante la captura normal.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_1_FER_VISUAL_IN_APP_FIX.apk"
+  "apkFilename": "ONE_SHOT_v6_4_2_FER_BOOT_LOOP_FIX.apk"
 }
