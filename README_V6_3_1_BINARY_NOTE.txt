@@ -1,1 +1,0 @@
-The v6.3.1 party logo sprite is stored as party-logos-v631.webp (640x512 WEBP, 10 columns x 8 rows, 64px tiles).
