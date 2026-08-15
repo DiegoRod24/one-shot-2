@@ -1,8 +1,8 @@
 {
-  "version": "v6.3.1 · PARTY LOGOS + CLEAN REPORT",
-  "build": "oneshot-v6.3.1-party-logos-clean-report-01",
-  "released": "2026-08-14",
-  "notes": "Selector visual y búsqueda de organizaciones políticas desde LOGOS_2.xlsx; exportación Excel depurada con Estado de revisión, Municipalidad y Alcalde/encargado. Corrige valores basura, Provincia y evita usar candidato como alcalde. Fer permanece contextual y Cámara sigue tranquila.",
+  "version": "v6.4 · FER HUMANIZED ASSISTANT",
+  "build": "oneshot-v6.4-fer-humanized-assistant-01",
+  "released": "2026-08-15",
+  "notes": "Fer reemplaza al robot genérico con un personaje humano animado y contextual en Editar, Reportes, ayuda de antecedentes/duplicados y asistente general. Mantiene la Cámara tranquila y conserva la lógica v6.3.1 de partidos/logos, revisión, municipalidad/alcalde y Excel limpio.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_3_1_PARTY_LOGOS_CLEAN_REPORT.apk"
+  "apkFilename": "ONE_SHOT_v6_4_FER_HUMANIZED_ASSISTANT.apk"
 }
