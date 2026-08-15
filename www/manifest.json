@@ -1,9 +1,9 @@
 {
-  "id": "oneshot-v6.3-edit-municipal-match",
-  "name": "ONE SHOT v6.3",
+  "id": "oneshot-v6.3.1-party-logos-clean-report",
+  "name": "ONE SHOT v6.3.1",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.3 · Edición esencial por Partido y Tipo, estado de revisión y destino municipal con alcalde, manteniendo la Cámara sin interrupciones del asistente.",
-  "start_url": "/?v=oneshot-v6.3-edit-municipal-match-01",
+  "description": "ONE SHOT 6.3.1 · Selector visual de partidos con logos y reporte Excel depurado con revisión, Municipalidad y Alcalde/encargado.",
+  "start_url": "/?v=oneshot-v6.3.1-party-logos-clean-report-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
