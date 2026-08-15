@@ -1,8 +1,8 @@
 {
-  "version": "v6.4 · FER HUMANIZED ASSISTANT",
-  "build": "oneshot-v6.4-fer-humanized-assistant-01",
+  "version": "v6.4.1 · FER VISUAL IN-APP FIX",
+  "build": "oneshot-v6.4.1-fer-visual-in-app-fix-01",
   "released": "2026-08-15",
-  "notes": "Fer reemplaza al robot genérico con un personaje humano animado y contextual en Editar, Reportes, ayuda de antecedentes/duplicados y asistente general. Mantiene la Cámara tranquila y conserva la lógica v6.3.1 de partidos/logos, revisión, municipalidad/alcalde y Excel limpio.",
+  "notes": "Fer se integra dentro de la app con una representación SVG humanizada y estados visuales para saludo, habla, escucha, pensamiento, revisión, éxito, alerta, error y ayuda. Corrige el avatar geométrico de v6.4 y el botón flotante. Cámara permanece silenciosa y sin Fer durante la captura normal.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_FER_HUMANIZED_ASSISTANT.apk"
+  "apkFilename": "ONE_SHOT_v6_4_1_FER_VISUAL_IN_APP_FIX.apk"
 }
