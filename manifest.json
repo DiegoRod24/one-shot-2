@@ -1,9 +1,9 @@
 {
-  "id": "oneshot-v6.4-fer-humanized-assistant",
-  "name": "ONE SHOT v6.4",
+  "id": "oneshot-v6.4.1-fer-visual-in-app-fix",
+  "name": "ONE SHOT v6.4.1",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.4 · Fer humanizado y animado acompaña Editar, Reportes, ayuda de antecedentes y soporte contextual, manteniendo la Cámara limpia durante la captura.",
-  "start_url": "/?v=oneshot-v6.4-fer-humanized-assistant-01",
+  "description": "ONE SHOT 6.4.1 · Fer humanizado integrado dentro de Editar, Reportes y Ayuda; Cámara permanece limpia.",
+  "start_url": "/?v=oneshot-v6.4.1-fer-visual-in-app-fix-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
