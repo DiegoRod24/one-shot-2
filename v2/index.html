@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#06101f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>ONE SHOT 2 · Stability Core</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="os2-logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+</head>
+<body>
+  <div id="splash" class="splash">
+    <div class="splashGlow"></div>
+    <img src="os2-logo.svg" alt="ONE SHOT 2" class="splashLogo">
+    <div class="splashCopy"><b>NUEVA GENERACIÓN</b><span>Evidencia real · flujo limpio · OS2</span></div>
+  </div>
+
+  <div class="appShell">
+    <header class="topbar">
+      <div class="brand"><img src="os2-logo.svg" alt="OS2"><div><b>ONE SHOT <em>2</em></b><small id="buildLabel">STABILITY CORE</small></div></div>
+      <div class="topStatus"><button id="syncBtn" class="chip">↻</button><span id="gpsStatus" class="chip warn">GPS…</span><span id="platformStatus" class="chip">WEB</span></div>
+    </header>
+
+    <main>
+      <section id="view-camera" class="view active" data-view="camera">
+        <div class="cameraStage" id="cameraStage">
+          <video id="video" playsinline autoplay muted></video>
+          <canvas id="captureCanvas" hidden></canvas>
+          <div id="cameraFallback" class="cameraFallback">
+            <img src="os2-logo.svg" alt="OS2">
+            <h2>Cámara preparada</h2>
+            <p>OS2 abrirá la cámara y conservará tu evidencia en el mismo almacén de ONE SHOT.</p>
+            <button id="startCameraBtn" class="primaryBtn">Abrir cámara</button>
+            <small id="cameraError"></small>
+          </div>
+          <div class="cameraHud">
+            <div class="hudBrand"><img src="os2-logo.svg" alt=""><div><b>ONE SHOT 2</b><span>EVIDENCIA DE CAMPO</span></div></div>
+            <div class="hudInfo"><strong id="hudTime">--:--:--</strong><span id="hudDate">--</span><small id="hudCoords">GPS pendiente</small><small id="hudCode">OS2-…</small></div>
+          </div>
+          <div class="cameraTools">
+            <button id="switchCameraBtn" title="Cambiar cámara">⇄</button>
+            <button id="refreshGpsBtn" title="Actualizar GPS">⌖</button>
+          </div>
+          <div class="captureDock"><button id="lastShotBtn" class="miniRound" title="Última evidencia">▧</button><button id="shootBtn" class="shootBtn" aria-label="Capturar"><i></i></button><button id="cameraInfoBtn" class="miniRound" title="Ayuda">?</button></div>
+          <div id="captureToast" class="captureToast"><b>✓ Evidencia capturada</b><span id="captureToastCode"></span><button id="captureEditBtn">Clasificar</button></div>
+        </div>
+      </section>
+
+      <section id="view-evidence" class="view" data-view="evidence">
+        <div class="pageHead"><div><span class="eyebrow">REGISTRO</span><h1>Evidencias</h1><p id="evidenceSubtitle">Cargando evidencias…</p></div><button id="selectLatestBtn" class="secondaryBtn">Ver última</button></div>
+        <div class="filterBar"><button data-filter="today" class="active">Hoy</button><button data-filter="week">7 días</button><button data-filter="all">Todo</button><input id="searchInput" placeholder="Buscar partido, distrito, código…"></div>
+        <div id="evidenceList" class="evidenceGrid"></div>
+        <div id="emptyEvidence" class="emptyState"><img src="os2-logo.svg" alt=""><b>Aún no hay evidencias</b><span>Captura la primera desde Cámara.</span></div>
+      </section>
+
+      <section id="view-territory" class="view" data-view="territory">
+        <div class="pageHead"><div><span class="eyebrow">LECTURA TERRITORIAL</span><h1>Territorio</h1><p>OS2 resume dónde existe evidencia real.</p></div></div>
+        <div class="metricGrid"><article><span>Puntos</span><b id="territoryPoints">0</b></article><article><span>Distritos</span><b id="territoryDistricts">0</b></article><article><span>Hoy</span><b id="territoryToday">0</b></article></div>
+        <div class="sectionTitle"><div><b>Zonas registradas</b><small>Sin inventar cobertura: solo registros reales.</small></div></div>
+        <div id="territoryList" class="territoryList"></div>
+      </section>
+
+      <section id="view-reports" class="view" data-view="reports">
+        <div class="pageHead"><div><span class="eyebrow">SALIDA OPERATIVA</span><h1>Reportes</h1><p>Una salida limpia para auditoría y una copia técnica completa.</p></div></div>
+        <div class="reportHero"><div><span>EVIDENCIAS DISPONIBLES</span><b id="reportCount">0</b><small id="reportPeriod">Todos los registros guardados</small></div><img src="os2-logo.svg" alt="OS2"></div>
+        <div class="reportActions"><button id="exportExcelBtn" class="primaryBtn">⬇ Generar Excel OS2</button><button id="exportBackupBtn" class="secondaryBtn">Exportar respaldo JSON</button></div>
+        <div class="reportInfo"><b>Excel canónico OS2</b><p>Hoja principal con Foto, Fecha, Hora, Ubicación, Lat/Long, Partido, Tipo, Estado de revisión, Municipalidad/Alcalde cuando existan, Distrito y observación. Los datos técnicos quedan separados.</p></div>
+      </section>
+    </main>
+
+    <nav class="bottomNav" aria-label="Navegación principal">
+      <button class="active" data-target="camera"><span>◉</span><b>Cámara</b></button>
+      <button data-target="evidence"><span>▤</span><b>Evidencias</b></button>
+      <button data-target="territory"><span>⌖</span><b>Territorio</b></button>
+      <button data-target="reports"><span>⇩</span><b>Reportes</b></button>
+    </nav>
+  </div>
+
+  <button id="ferFab" class="ferFab" aria-label="Abrir a Fer"><span class="ferMini"><i class="hair"></i><i class="face"><u></u><u></u><em></em></i></span><b>Fer</b><small id="ferFabState">listo</small></button>
+  <aside id="ferPanel" class="ferPanel" aria-hidden="true">
+    <div class="ferHead"><div class="ferAvatar" data-state="idle"><i class="hair"></i><i class="ear left"></i><i class="ear right"></i><i class="face"><u class="eye left"></u><u class="eye right"></u><em class="mouth"></em><strong class="beard"></strong></i><i class="body"></i><i class="arm left"></i><i class="arm right"></i></div><div><b>Fer</b><span>Asistente de ONE SHOT 2</span></div><button id="ferClose">×</button></div>
+    <div id="ferConversation" class="ferConversation"><div class="ferMessage">Estoy listo. Te acompaño según la pantalla en la que estés.</div></div>
+    <div id="ferActions" class="ferActions"></div>
+    <div class="ferCommand"><button id="ferSpeakBtn" title="Leer respuesta">🔊</button><input id="ferInput" placeholder="Ej. ¿qué sigue?"><button id="ferSendBtn">Enviar</button></div>
+  </aside>
+
+  <div id="viewerModal" class="modal" aria-hidden="true"><div class="modalSheet viewerSheet"><button class="closeBtn" data-close="viewerModal">×</button><img id="viewerImage" alt="Evidencia"><div id="viewerMeta" class="viewerMeta"></div><div class="viewerActions"><button id="viewerEditBtn" class="primaryBtn">Editar / clasificar</button><button id="viewerMapBtn" class="secondaryBtn">Abrir mapa</button></div></div></div>
+
+  <div id="editModal" class="modal" aria-hidden="true"><form id="editForm" class="modalSheet editSheet"><div class="sheetTitle"><div><span>CLASIFICACIÓN OS2</span><h2 id="editCode">Evidencia</h2></div><button type="button" class="closeBtn" data-close="editModal">×</button></div><img id="editImage" class="editImage" alt="Evidencia"><label>Partido / organización<input id="editParty" autocomplete="off" placeholder="Buscar o escribir partido"></label><label>Tipo<select id="editType"><option value="PENDIENTE">Pendiente</option><option value="PANEL">Panel</option><option value="MURAL">Mural</option><option value="BANNER">Banner</option></select></label><label>Estado<select id="editStatus"><option value="Activo">Activo</option><option value="Retirada">Retirada</option><option value="Modificada">Modificada</option><option value="Pendiente">Pendiente</option></select></label><label>Observación<textarea id="editObservation" rows="3" placeholder="Observación operativa"></textarea></label><div class="editActions"><button type="button" id="deleteEvidenceBtn" class="dangerBtn">Eliminar</button><button type="submit" class="primaryBtn">Guardar cambios</button></div></form></div>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
