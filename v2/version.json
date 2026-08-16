@@ -1,0 +1,8 @@
+{
+  "name": "ONE SHOT 2",
+  "version": "2.0.0-alpha.1",
+  "build": "os2-stability-core-01",
+  "released": "2026-08-16",
+  "channel": "alpha",
+  "notes": "Nueva base limpia de ONE SHOT 2: runtime independiente, cámara, evidencias compatibles, territorio, reportes y Fer contextual sin parches del Service Worker."
+}
