@@ -4,15 +4,17 @@ on:
   push:
     branches:
       - main
-      - 'agent/oneshot-safe-*'
+      - 'agent/oneshot-*'
     paths:
       - 'one-v644-core.js'
+      - 'one-v645-core.js'
       - 'service-worker.js'
       - 'version.json'
       - '.github/workflows/oneshot-root-check.yml'
   pull_request:
     paths:
       - 'one-v644-core.js'
+      - 'one-v645-core.js'
       - 'service-worker.js'
       - 'version.json'
 
@@ -24,10 +26,14 @@ jobs:
       - name: Syntax
         run: |
           node --check one-v644-core.js
+          node --check one-v645-core.js
           node --check service-worker.js
       - name: Continuity rules
         run: |
           grep -q "PANEL','BANNER','PINTA" one-v644-core.js
-          grep -q 'one-v644-core.js' service-worker.js
-          grep -q 'CONTINUIDAD' version.json
+          grep -q 'one-v645-core.js' service-worker.js
+          grep -q 'RESCATE DE VIDEO' version.json
+          grep -q "window.candidato=''" one-v645-core.js
+          grep -q 'AUTO_ORIENTATION_V645' one-v645-core.js
+          grep -q 'v645PartySprite' one-v645-core.js
           ! grep -q "const TYPES=new Set(\['PANEL','MURAL','BANNER'\])" one-v644-core.js
