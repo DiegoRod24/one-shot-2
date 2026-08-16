@@ -3,96 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#06101f">
+  <meta name="theme-color" content="#06142f">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>ONE SHOT 2 · Stability Core</title>
+  <title>ONE SHOT 2 · Field Intelligence</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="os2-logo.svg" type="image/svg+xml">
+  <link rel="icon" href="os2-logo.svg">
+  <link rel="apple-touch-icon" href="../icon-192.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 </head>
-<body>
-  <div id="splash" class="splash">
-    <div class="splashGlow"></div>
-    <img src="os2-logo.svg" alt="ONE SHOT 2" class="splashLogo">
-    <div class="splashCopy"><b>NUEVA GENERACIÓN</b><span>Evidencia real · flujo limpio · OS2</span></div>
-  </div>
-
+<body data-view="camera">
+  <div id="splash" class="splash"><img src="os2-logo.svg" alt="ONE SHOT 2"><h1>ONE SHOT <b>2</b></h1><p>FIELD INTELLIGENCE</p><small>Captura · cobertura · destino · entrega</small></div>
   <div class="appShell">
-    <header class="topbar">
-      <div class="brand"><img src="os2-logo.svg" alt="OS2"><div><b>ONE SHOT <em>2</em></b><small id="buildLabel">STABILITY CORE</small></div></div>
-      <div class="topStatus"><button id="syncBtn" class="chip">↻</button><span id="gpsStatus" class="chip warn">GPS…</span><span id="platformStatus" class="chip">WEB</span></div>
-    </header>
-
-    <main>
-      <section id="view-camera" class="view active" data-view="camera">
-        <div class="cameraStage" id="cameraStage">
-          <video id="video" playsinline autoplay muted></video>
-          <canvas id="captureCanvas" hidden></canvas>
-          <div id="cameraFallback" class="cameraFallback">
-            <img src="os2-logo.svg" alt="OS2">
-            <h2>Cámara preparada</h2>
-            <p>OS2 abrirá la cámara y conservará tu evidencia en el mismo almacén de ONE SHOT.</p>
-            <button id="startCameraBtn" class="primaryBtn">Abrir cámara</button>
-            <small id="cameraError"></small>
-          </div>
-          <div class="cameraHud">
-            <div class="hudBrand"><img src="os2-logo.svg" alt=""><div><b>ONE SHOT 2</b><span>EVIDENCIA DE CAMPO</span></div></div>
-            <div class="hudInfo"><strong id="hudTime">--:--:--</strong><span id="hudDate">--</span><small id="hudCoords">GPS pendiente</small><small id="hudCode">OS2-…</small></div>
-          </div>
-          <div class="cameraTools">
-            <button id="switchCameraBtn" title="Cambiar cámara">⇄</button>
-            <button id="refreshGpsBtn" title="Actualizar GPS">⌖</button>
-          </div>
-          <div class="captureDock"><button id="lastShotBtn" class="miniRound" title="Última evidencia">▧</button><button id="shootBtn" class="shootBtn" aria-label="Capturar"><i></i></button><button id="cameraInfoBtn" class="miniRound" title="Ayuda">?</button></div>
-          <div id="captureToast" class="captureToast"><b>✓ Evidencia capturada</b><span id="captureToastCode"></span><button id="captureEditBtn">Clasificar</button></div>
-        </div>
-      </section>
-
-      <section id="view-evidence" class="view" data-view="evidence">
-        <div class="pageHead"><div><span class="eyebrow">REGISTRO</span><h1>Evidencias</h1><p id="evidenceSubtitle">Cargando evidencias…</p></div><button id="selectLatestBtn" class="secondaryBtn">Ver última</button></div>
-        <div class="filterBar"><button data-filter="today" class="active">Hoy</button><button data-filter="week">7 días</button><button data-filter="all">Todo</button><input id="searchInput" placeholder="Buscar partido, distrito, código…"></div>
-        <div id="evidenceList" class="evidenceGrid"></div>
-        <div id="emptyEvidence" class="emptyState"><img src="os2-logo.svg" alt=""><b>Aún no hay evidencias</b><span>Captura la primera desde Cámara.</span></div>
-      </section>
-
-      <section id="view-territory" class="view" data-view="territory">
-        <div class="pageHead"><div><span class="eyebrow">LECTURA TERRITORIAL</span><h1>Territorio</h1><p>OS2 resume dónde existe evidencia real.</p></div></div>
-        <div class="metricGrid"><article><span>Puntos</span><b id="territoryPoints">0</b></article><article><span>Distritos</span><b id="territoryDistricts">0</b></article><article><span>Hoy</span><b id="territoryToday">0</b></article></div>
-        <div class="sectionTitle"><div><b>Zonas registradas</b><small>Sin inventar cobertura: solo registros reales.</small></div></div>
-        <div id="territoryList" class="territoryList"></div>
-      </section>
-
-      <section id="view-reports" class="view" data-view="reports">
-        <div class="pageHead"><div><span class="eyebrow">SALIDA OPERATIVA</span><h1>Reportes</h1><p>Una salida limpia para auditoría y una copia técnica completa.</p></div></div>
-        <div class="reportHero"><div><span>EVIDENCIAS DISPONIBLES</span><b id="reportCount">0</b><small id="reportPeriod">Todos los registros guardados</small></div><img src="os2-logo.svg" alt="OS2"></div>
-        <div class="reportActions"><button id="exportExcelBtn" class="primaryBtn">⬇ Generar Excel OS2</button><button id="exportBackupBtn" class="secondaryBtn">Exportar respaldo JSON</button></div>
-        <div class="reportInfo"><b>Excel canónico OS2</b><p>Hoja principal con Foto, Fecha, Hora, Ubicación, Lat/Long, Partido, Tipo, Estado de revisión, Municipalidad/Alcalde cuando existan, Distrito y observación. Los datos técnicos quedan separados.</p></div>
-      </section>
-    </main>
-
-    <nav class="bottomNav" aria-label="Navegación principal">
-      <button class="active" data-target="camera"><span>◉</span><b>Cámara</b></button>
-      <button data-target="evidence"><span>▤</span><b>Evidencias</b></button>
-      <button data-target="territory"><span>⌖</span><b>Territorio</b></button>
-      <button data-target="reports"><span>⇩</span><b>Reportes</b></button>
-    </nav>
+    <header class="topbar"><div class="brand"><img src="os2-logo.svg" alt=""><div><b>ONE SHOT <em>2</em></b><small>Una toma. Evidencia real.</small></div></div><div class="statusRow"><button id="syncBtn" class="roundBtn" title="Actualizar">↻</button><span id="gpsStatus" class="chip warn">GPS…</span></div></header>
+    <main class="view active" data-view="camera"><section class="cameraStage"><video id="video" autoplay muted playsinline></video><canvas id="captureCanvas" hidden></canvas><div id="cameraFallback" class="cameraFallback"><img src="os2-logo.svg" alt=""><b>Cámara lista para trabajar</b><span>ONE SHOT 2 guardará la foto antes de cualquier otro proceso.</span><button id="startCameraBtn">Abrir cámara</button><small id="cameraError"></small></div><div class="cameraHud"><div><b id="hudTime">--:--:--</b><span id="hudDate">--</span></div><div class="hudRight"><span id="hudCoords">GPS pendiente</span><span id="routeHud">Sin recorrido</span></div></div><div class="cameraActionsTop"><button id="switchCameraBtn" title="Cambiar cámara">⇄</button><button id="refreshGpsBtn" title="Actualizar GPS">⌖</button><button id="cameraInfoBtn" title="Ayuda de Fer">?</button></div><div class="captureDock"><button id="lastShotBtn" class="lastShot">▧</button><button id="shootBtn" class="shoot"><i></i></button><button id="routeQuickBtn" class="routeQuick">⌁</button></div><div id="captureToast" class="captureToast"><div><b>✓ Evidencia guardada</b><small id="captureToastCode">—</small></div><button id="captureEditBtn">Clasificar</button></div></section></main>
+    <main class="view" data-view="evidence"><section class="page"><div class="pageHead"><div><h2>📸 Evidencias</h2><p id="evidenceSubtitle">0 registradas</p></div><button id="selectLatestBtn" class="softBtn">Última</button></div><section id="evidenceCarousel" class="evidenceCarousel"><button id="carouselPrev" class="carouselArrow left">‹</button><div class="carouselMedia"><img id="carouselImage" alt="Evidencia"><div class="carouselOverlay"><div id="carouselChips" class="chipRow"></div><b id="carouselTitle">Sin evidencias</b><span id="carouselMeta">Toma una foto para comenzar.</span></div></div><button id="carouselNext" class="carouselArrow right">›</button><div class="carouselActions"><button id="carouselViewBtn">Ver ficha</button><button id="carouselEditBtn" class="primary">Editar</button><button id="carouselFerBtn">✨ Editar con Fer</button></div></section><div class="reviewStats"><button data-review-filter="pending"><b id="pendingCount">0</b><span>Faltan revisar</span></button><button data-review-filter="location"><b id="locationCount">0</b><span>Ubicación</span></button><button data-review-filter="ready"><b id="readyCount">0</b><span>Listas</span></button><button data-review-filter="all" class="active"><b id="allCount">0</b><span>Todas</span></button></div><div class="filters"><button data-filter="today" class="active">Hoy</button><button data-filter="week">Semana</button><button data-filter="all">Todo</button></div><input id="searchInput" class="search" placeholder="Buscar partido, distrito, tipo o código"><div id="evidenceList" class="evidenceList"></div><div id="emptyEvidence" class="emptyState"><b>Aún no hay evidencias</b><span>Ve a Cámara y registra la primera.</span></div></section></main>
+    <main class="view" data-view="coverage"><section class="page"><div class="pageHead"><div><h2>🗺️ Cobertura</h2><p>Cobertura ≠ hallazgos. Son dos datos distintos.</p></div><span id="routeStatusChip" class="chip">INACTIVO</span></div><section class="routeControl card"><div class="routeIntro"><div><b>Recorrido de campo</b><span>Registra por dónde pasó la brigada, incluso si una calle no tiene propaganda.</span></div><strong id="routeDistance">0.00 km</strong></div><input id="routeName" placeholder="Ej. Jesús María · Sector 01"><div class="routeButtons"><button id="startRouteBtn" class="primary">▶ Iniciar recorrido</button><button id="finishRouteBtn">■ Finalizar</button></div><div class="routeMetrics"><span><b id="routePointCount">0</b> puntos de ruta</span><span><b id="routeEvidenceCount">0</b> hallazgos</span></div></section><div id="coverageMap" class="coverageMap"></div><div class="mapLegend"><span><i class="dot route"></i> recorrido</span><span><i class="dot evidence"></i> evidencia</span><span><i class="dot me"></i> tú</span></div><section class="card"><div class="sectionTitle"><b>Historial de recorridos</b><small id="routeHistoryCount">0 recorridos</small></div><div id="routeHistory" class="routeHistory"></div></section></section></main>
+    <main class="view" data-view="deliveries"><section class="page"><div class="pageHead"><div><h2>📨 Destinos</h2><p>Una evidencia puede tener dos destinatarios: municipalidad y organización política.</p></div></div><div class="deliveryStats"><div><b id="municipalReadyCount">0</b><span>listas para municipalidad</span></div><div><b id="partyReadyCount">0</b><span>listas para partido</span></div><div><b id="deliveryBlockedCount">0</b><span>requieren revisión</span></div></div><section class="card"><div class="sectionTitle"><b>🏛 Por municipalidad</b><small>Destino para verificación/permisos</small></div><div id="municipalGroups" class="deliveryGroups"></div></section><section class="card"><div class="sectionTitle"><b>🏳️ Por organización política</b><small>Destino para sustento de gasto</small></div><div id="partyGroups" class="deliveryGroups"></div></section></section></main>
+    <main class="view" data-view="reports"><section class="page"><div class="pageHead"><div><h2>📊 Reportes</h2><p>Entrega compatible con el consolidado ERM y trazabilidad OS2.</p></div></div><div class="reportHero card"><img src="os2-logo.svg" alt=""><div><b id="reportCount">0 evidencias</b><span>Excel con fotos embebidas + seguimiento de destinos + datos técnicos.</span></div></div><button id="exportExcelBtn" class="bigAction primary">⬇ Generar Excel de entrega</button><button id="exportBackupBtn" class="bigAction">⤓ Respaldo JSON</button><div class="reportRules card"><b>Reglas de esta entrega</b><span>• Ubicación = lugar donde se tomó la foto.</span><span>• Dirección municipal = sede del municipio destinatario.</span><span>• Partido = segundo destinatario para sustento de gasto.</span><span>• Tipos válidos: PANEL · BANNER · PINTA.</span></div></section></main>
   </div>
-
-  <button id="ferFab" class="ferFab" aria-label="Abrir a Fer"><span class="ferMini"><i class="hair"></i><i class="face"><u></u><u></u><em></em></i></span><b>Fer</b><small id="ferFabState">listo</small></button>
-  <aside id="ferPanel" class="ferPanel" aria-hidden="true">
-    <div class="ferHead"><div class="ferAvatar" data-state="idle"><i class="hair"></i><i class="ear left"></i><i class="ear right"></i><i class="face"><u class="eye left"></u><u class="eye right"></u><em class="mouth"></em><strong class="beard"></strong></i><i class="body"></i><i class="arm left"></i><i class="arm right"></i></div><div><b>Fer</b><span>Asistente de ONE SHOT 2</span></div><button id="ferClose">×</button></div>
-    <div id="ferConversation" class="ferConversation"><div class="ferMessage">Estoy listo. Te acompaño según la pantalla en la que estés.</div></div>
-    <div id="ferActions" class="ferActions"></div>
-    <div class="ferCommand"><button id="ferSpeakBtn" title="Leer respuesta">🔊</button><input id="ferInput" placeholder="Ej. ¿qué sigue?"><button id="ferSendBtn">Enviar</button></div>
-  </aside>
-
-  <div id="viewerModal" class="modal" aria-hidden="true"><div class="modalSheet viewerSheet"><button class="closeBtn" data-close="viewerModal">×</button><img id="viewerImage" alt="Evidencia"><div id="viewerMeta" class="viewerMeta"></div><div class="viewerActions"><button id="viewerEditBtn" class="primaryBtn">Editar / clasificar</button><button id="viewerMapBtn" class="secondaryBtn">Abrir mapa</button></div></div></div>
-
-  <div id="editModal" class="modal" aria-hidden="true"><form id="editForm" class="modalSheet editSheet"><div class="sheetTitle"><div><span>CLASIFICACIÓN OS2</span><h2 id="editCode">Evidencia</h2></div><button type="button" class="closeBtn" data-close="editModal">×</button></div><img id="editImage" class="editImage" alt="Evidencia"><label>Partido / organización<input id="editParty" autocomplete="off" placeholder="Buscar o escribir partido"></label><label>Tipo<select id="editType"><option value="PENDIENTE">Pendiente</option><option value="PANEL">Panel</option><option value="MURAL">Mural</option><option value="BANNER">Banner</option></select></label><label>Estado<select id="editStatus"><option value="Activo">Activo</option><option value="Retirada">Retirada</option><option value="Modificada">Modificada</option><option value="Pendiente">Pendiente</option></select></label><label>Observación<textarea id="editObservation" rows="3" placeholder="Observación operativa"></textarea></label><div class="editActions"><button type="button" id="deleteEvidenceBtn" class="dangerBtn">Eliminar</button><button type="submit" class="primaryBtn">Guardar cambios</button></div></form></div>
-
+  <nav class="bottomNav"><button data-target="camera" class="active"><span>◉</span><b>Cámara</b></button><button data-target="evidence"><span>▧</span><b>Evidencias</b></button><button data-target="coverage"><span>⌁</span><b>Cobertura</b></button><button data-target="deliveries"><span>✉</span><b>Destinos</b></button><button data-target="reports"><span>▤</span><b>Reportes</b></button></nav>
+  <button id="ferFab" class="ferFab" aria-label="Abrir Fer"><span class="ferAvatar" data-fer-state="idle"></span><span><b>Fer</b><small id="ferFabState">listo</small></span></button>
+  <aside id="ferPanel" class="ferPanel" aria-hidden="true"><header><div class="ferIdentity"><span class="ferAvatar" data-fer-state="idle"></span><div><b>Fer</b><small>Asistente de campo · ONE SHOT 2</small></div></div><button id="ferClose">×</button></header><div id="ferConversation" class="ferConversation"><div class="ferMessage">Estoy aquí para ayudarte a cubrir territorio, revisar evidencias y preparar entregas.</div></div><div id="ferActions" class="ferActions"></div><div class="ferComposer"><button id="ferMicBtn" title="Conversación por voz">🎙</button><input id="ferInput" placeholder="Dime qué necesitas…"><button id="ferSendBtn">Enviar</button></div><small id="ferVoiceState" class="ferVoiceState">Voz continua apagada</small></aside>
+  <div id="viewerModal" class="modal" aria-hidden="true"><div class="sheet viewerSheet"><header><div><b id="viewerTitle">Evidencia</b><small id="viewerSubtitle"></small></div><button data-close="viewerModal">×</button></header><img id="viewerImage" class="viewerImage" alt=""><div id="viewerBody" class="viewerBody"></div><div class="sheetActions"><button id="viewerMapBtn">📍 Ver captura en mapa</button><button id="viewerEditBtn" class="primary">Editar</button></div></div></div>
+  <div id="editModal" class="modal" aria-hidden="true"><form id="editForm" class="sheet editSheet"><header><div><b>Editar evidencia</b><small id="editCode">—</small></div><button type="button" data-close="editModal">×</button></header><div class="editLayout"><img id="editImage" class="editImage" alt=""><div class="editFields"><section class="fieldGroup"><div class="groupTitle"><b>1 · Clasificación</b><small>Lo que encontraste en la calle</small></div><label>Organización política<input id="editParty" list="partyList" placeholder="Buscar partido o movimiento"><datalist id="partyList"></datalist></label><label>Tipo<select id="editType"><option>PENDIENTE</option><option>PANEL</option><option>BANNER</option><option>PINTA</option></select></label><label>Estado<select id="editStatus"><option>Activo</option><option>Retirada</option><option>Modificada</option><option>Pendiente</option></select></label></section><section class="fieldGroup"><div class="groupTitle"><b>2 · Territorio de captura</b><small>Sirve para determinar a qué municipalidad enviar.</small></div><label>Departamento<input id="editDepartment" list="departmentList"></label><label>Provincia<input id="editProvince" list="provinceList"></label><label>Distrito<input id="editDistrict" list="districtList"></label><datalist id="departmentList"></datalist><datalist id="provinceList"></datalist><datalist id="districtList"></datalist><button type="button" id="recalcMunicipalBtn" class="softBtn">↻ Recalcular destino municipal</button></section><section class="destinationPreview"><div><span>📍 Ubicación de la foto</span><b id="captureAddressPreview">Pendiente</b></div><div><span>🏛 Destino municipal</span><b id="municipalityPreview">Pendiente</b><small id="mayorPreview"></small><small id="municipalAddressPreview"></small></div><div><span>🏳️ Destino político</span><b id="partyDestinationPreview">Pendiente</b></div></section><label>Observación<textarea id="editObservation" rows="3"></textarea></label></div></div><div class="sheetActions"><button type="button" id="editWithFerBtn">✨ Revisar con Fer</button><button type="button" id="deleteEvidenceBtn" class="danger">Eliminar</button><button type="submit" class="primary">Guardar</button></div></form></div>
   <div id="toast" class="toast"></div>
-  <script src="app.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="../party-catalog-v631.js"></script><script src="../municipal-data-v630-01.js"></script><script src="../municipal-data-v630-02.js"></script><script src="../municipal-data-v630-03.js"></script><script src="../municipal-data-v630-04.js"></script><script src="../municipal-data-v630-05.js"></script><script src="../municipal-data-v630-metro.js"></script><script src="../fer-v641.js"></script>
+  <script src="core.js"></script><script src="field.js"></script><script src="evidence.js"></script><script src="fer.js"></script><script src="reports.js"></script><script src="app.js"></script>
 </body>
 </html>
