@@ -1,9 +1,9 @@
 {
-  "id": "oneshot-v6.4.2-fer-boot-loop-fix",
-  "name": "ONE SHOT v6.4.2",
+  "id": "oneshot-v6.4.3-data-edit-flow-fix",
+  "name": "ONE SHOT v6.4.3",
   "short_name": "ONE SHOT",
-  "description": "ONE SHOT 6.4.2 · Fer humanizado estable en Editar, Reportes y Ayuda, con arranque protegido contra bucles visuales y Cámara limpia durante la captura.",
-  "start_url": "/?v=oneshot-v6.4.2-fer-boot-loop-fix-01",
+  "description": "ONE SHOT 6.4.3 · Editar con partidos/logos, Fer contextual sin duplicados y reporte saneado con Municipalidad + Alcalde/encargado; Cámara permanece limpia durante la captura.",
+  "start_url": "/?v=oneshot-v6.4.3-data-edit-flow-fix-01",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
