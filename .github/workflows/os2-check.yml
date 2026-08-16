@@ -3,7 +3,11 @@ name: OS2 check
 on:
   push:
     branches:
+      - main
       - agent/os2-stability-core
+    paths:
+      - 'v2/**'
+      - '.github/workflows/os2-check.yml'
   pull_request:
     paths:
       - 'v2/**'
