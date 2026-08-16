@@ -1,0 +1,14 @@
+{
+  "name": "ONE SHOT 2",
+  "short_name": "OS2",
+  "description": "Captura y gestión de evidencia de campo",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#030711",
+  "theme_color": "#06101f",
+  "orientation": "any",
+  "icons": [
+    {"src":"os2-logo.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
