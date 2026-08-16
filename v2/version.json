@@ -1,8 +1,8 @@
 {
   "name": "ONE SHOT 2",
-  "version": "2.0.0-alpha.1",
-  "build": "os2-stability-core-01",
+  "version": "2.0.0-alpha.2",
+  "build": "os2-field-intelligence-02",
   "released": "2026-08-16",
   "channel": "alpha",
-  "notes": "Nueva base limpia de ONE SHOT 2: runtime independiente, cámara, evidencias compatibles, territorio, reportes y Fer contextual sin parches del Service Worker."
+  "notes": "Corrige runtime y alinea el flujo real: PANEL/BANNER/PINTA, ubicación de captura separada de destino municipal, match por territorio, doble destino municipal/partido, cobertura con recorrido, carrusel de evidencias, Fer con conversación continua y Excel de entrega compatible ERM."
 }
