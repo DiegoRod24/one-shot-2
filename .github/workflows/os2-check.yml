@@ -1,0 +1,27 @@
+name: OS2 check
+
+on:
+  push:
+    branches:
+      - agent/os2-stability-core
+  pull_request:
+    paths:
+      - 'v2/**'
+      - '.github/workflows/os2-check.yml'
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          node --check v2/app.js
+          node --check v2/service-worker.js
+      - name: Check required OS2 files
+        run: |
+          test -f v2/index.html
+          test -f v2/styles.css
+          test -f v2/manifest.json
+          test -f v2/version.json
+          test -f v2/os2-logo.svg
