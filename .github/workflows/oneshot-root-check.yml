@@ -1,0 +1,33 @@
+name: ONE SHOT continuity check
+
+on:
+  push:
+    branches:
+      - main
+      - 'agent/oneshot-safe-*'
+    paths:
+      - 'one-v644-core.js'
+      - 'service-worker.js'
+      - 'version.json'
+      - '.github/workflows/oneshot-root-check.yml'
+  pull_request:
+    paths:
+      - 'one-v644-core.js'
+      - 'service-worker.js'
+      - 'version.json'
+
+jobs:
+  continuity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax
+        run: |
+          node --check one-v644-core.js
+          node --check service-worker.js
+      - name: Continuity rules
+        run: |
+          grep -q "PANEL','BANNER','PINTA" one-v644-core.js
+          grep -q 'one-v644-core.js' service-worker.js
+          grep -q 'CONTINUIDAD' version.json
+          ! grep -q "const TYPES=new Set(\['PANEL','MURAL','BANNER'\])" one-v644-core.js
