@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - agent/os2-stability-core
+      - 'agent/os2-*'
     paths:
       - 'v2/**'
       - '.github/workflows/os2-check.yml'
@@ -20,6 +20,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check JavaScript syntax
         run: |
+          node --check v2/core.js
+          node --check v2/field.js
+          node --check v2/evidence.js
+          node --check v2/fer.js
+          node --check v2/reports.js
           node --check v2/app.js
           node --check v2/service-worker.js
       - name: Check required OS2 files
@@ -29,3 +34,5 @@ jobs:
           test -f v2/manifest.json
           test -f v2/version.json
           test -f v2/os2-logo.svg
+          grep -q "PINTA" v2/core.js
+          grep -q "SEGUIMIENTO_ENTREGAS" v2/reports.js
