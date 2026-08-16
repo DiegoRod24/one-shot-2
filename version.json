@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.5 · RESCATE DE VIDEO",
-  "build": "oneshot-v6.4.5-video-regression-rescue-02",
+  "version": "v6.4.6 · STABILITY + UX REPAIR",
+  "build": "oneshot-v6.4.6-stability-ux-repair-01",
   "released": "2026-08-16",
-  "notes": "Corrige los fallos observados en el video sin cambiar Cámara, navegación ni ubicación de controles: resuelve el crash 'candidato is not defined' y la preparación del Excel; corrige orientación automática cuando no existen sensores y recupera como derivadas las capturas landscape afectadas conservando el original; deja un solo motor visual de Fer; fuerza la visualización de logos del catálogo y evita que la barra de selección tape la navegación.",
+  "notes": "Sprint de estabilización sin rediseñar la app: unifica reglas PANEL/BANNER/PINTA; separa ubicación de captura y dirección municipal; refuerza match por UBIGEO o Departamento+Provincia+Distrito; reemplaza la cadena legacy del Excel por un exportador ERM canónico con fotos embebidas; retira el workaround global candidato; unifica Fer humanizado y añade antieco; estabiliza selección y revisión rápida opcional; filtra saltos GPS y simplifica cobertura. Conserva Cámara, navegación, IndexedDB y flujo aprendido.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_5_RESCATE_VIDEO.apk"
+  "apkFilename": "ONE_SHOT_v6_4_6_STABILITY_UX_REPAIR.apk"
 }
