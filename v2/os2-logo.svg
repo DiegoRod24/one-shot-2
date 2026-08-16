@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ONE SHOT 2">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07162b"/><stop offset="1" stop-color="#02060d"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#39d5ff"/><stop offset="1" stop-color="#2672ff"/></linearGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".48" stop-color="#b8c6d9"/><stop offset="1" stop-color="#63748a"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <path d="M256 28 444 104v142c0 121-73 199-188 238C141 445 68 367 68 246V104z" fill="url(#bg)" stroke="url(#silver)" stroke-width="12"/>
+  <path d="M256 49 423 116v129c0 106-61 174-167 213C150 419 89 351 89 245V116z" fill="none" stroke="#1989ff" stroke-width="5" opacity=".82"/>
+  <circle cx="256" cy="204" r="109" fill="#020811" stroke="#24364f" stroke-width="10"/>
+  <circle cx="256" cy="204" r="77" fill="none" stroke="url(#blue)" stroke-width="8" opacity=".9"/>
+  <circle cx="256" cy="204" r="35" fill="none" stroke="#56e0ff" stroke-width="7" filter="url(#glow)"/>
+  <path d="M256 76v91M256 241v91M128 204h91M293 204h91" stroke="#34cfff" stroke-width="5" stroke-linecap="round" filter="url(#glow)"/>
+  <circle cx="256" cy="204" r="6" fill="#75edff"/>
+  <path d="M130 115h35v8h-27v27h-8zm217 0h35v35h-8v-27h-27zm-217 143h8v27h27v8h-35zm244 0h8v35h-35v-8h27z" fill="#d6efff" opacity=".95"/>
+  <text x="118" y="366" font-family="Arial Black,Arial,sans-serif" font-size="106" font-weight="900" fill="url(#silver)" letter-spacing="-8">OS</text>
+  <text x="340" y="367" font-family="Arial Black,Arial,sans-serif" font-size="118" font-weight="900" fill="url(#blue)" filter="url(#glow)">2</text>
+  <text x="256" y="411" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" letter-spacing="9" fill="#e8f2ff">ONE SHOT</text>
+</svg>
