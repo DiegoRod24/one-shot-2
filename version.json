@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.4 · CONTINUIDAD",
-  "build": "oneshot-v6.4.4-continuity-safe-fix-01",
+  "version": "v6.4.5 · RESCATE DE VIDEO",
+  "build": "oneshot-v6.4.5-video-regression-rescue-01",
   "released": "2026-08-16",
-  "notes": "Mejora la base existente sin cambiar Cámara, navegación ni ubicación de controles. Restaura PINTA como tipo operativo junto con PANEL/BANNER, recupera registros afectados por v6.4.3, mantiene el match municipal ya conocido, mejora la expresividad de Fer en las mismas pantallas y corrige el Excel para respetar PANEL/BANNER/PINTA.",
+  "notes": "Corrige los fallos observados en video sin cambiar Cámara ni navegación: evita el crash 'candidato is not defined' y recupera la generación de Excel, corrige orientación automática en pantallas sin sensores y repara de forma derivada las capturas landscape afectadas, unifica Fer para evitar duplicados/estilos mezclados, fuerza logos visibles en el selector de partidos y eleva la barra de selección para no tapar la navegación.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_4_CONTINUIDAD.apk"
+  "apkFilename": "ONE_SHOT_v6_4_5_RESCATE_VIDEO.apk"
 }
