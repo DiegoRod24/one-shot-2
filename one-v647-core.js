@@ -15,6 +15,7 @@ const email=v=>{const s=text(v);return s&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)?s
 const ubigeo=v=>{const s=String(v??'').replace(/\D/g,'');return s.length===6?s:'';};
 const idValue=(v,prefix)=>{const s=text(v);return s&&(!semanticBad(s))&&(!prefix||s.toLowerCase().startsWith(prefix))?s:'';};
 const SEMANTIC_FIELDS=['party','candidate','candidateType','observation','reviewer','reviewedBy','electionType','province','department','region','district','municipality','municipalMayor','municipalMayorRole','municipalAddress','municipalMatchSource','municipalMatchConfidence','company','empresa','zone','zona','weather','clima','status','city'];
+const priorRuntime=window.RuntimeVersion||{};window.RuntimeVersion={...priorRuntime,BUILD,currentBuild:()=>BUILD};
 
 function sanitizeRecord(r,{audit=true}={}){
   if(!r)return false;let changed=false;const removed={};
@@ -33,54 +34,26 @@ function sanitizeRecord(r,{audit=true}={}){
 function patchReverse(){
   if(typeof GPS==='undefined'||!GPS.reverse||GPS.__v647Reverse)return;GPS.__v647Reverse=true;
   const previous=GPS.reverse.bind(GPS);
-  GPS.reverse=async g=>{
-    const loc=await previous(g);if(!loc)return loc;
-    loc.department=semantic(loc.department);loc.province=semantic(loc.province);loc.district=semantic(loc.district);loc.city=semantic(loc.city);loc.ubigeo=ubigeo(loc.ubigeo);
-    return loc;
-  };
+  GPS.reverse=async g=>{const loc=await previous(g);if(!loc)return loc;loc.department=semantic(loc.department);loc.province=semantic(loc.province);loc.district=semantic(loc.district);loc.city=semantic(loc.city);loc.ubigeo=ubigeo(loc.ubigeo);return loc;};
 }
-
 function patchGuided(){
   if(typeof GuidedEditor==='undefined'||GuidedEditor.__v647Semantic)return;GuidedEditor.__v647Semantic=true;
-  const choose=GuidedEditor.choose?.bind(GuidedEditor);if(choose)GuidedEditor.choose=(v,o={})=>{
-    const step=GuidedEditor.current?.();if(step?.key==='party'&&semanticBad(v)){GuidedEditor.say?.('Ese valor no corresponde a una organización política. Elige el partido o déjalo pendiente.');return;}
-    return choose(v,o);
-  };
+  const choose=GuidedEditor.choose?.bind(GuidedEditor);if(choose)GuidedEditor.choose=(v,o={})=>{const step=GuidedEditor.current?.();if(step?.key==='party'&&semanticBad(v)){GuidedEditor.say?.('Ese valor no corresponde a una organización política. Elige el partido o déjalo pendiente.');return;}return choose(v,o);};
 }
-
 function patchEditor(){
   if(typeof Editor==='undefined'||Editor.__v647Semantic)return;Editor.__v647Semantic=true;
-  const persist=Editor.persist?.bind(Editor);if(persist)Editor.persist=async options=>{
-    const out=await persist(options||{}),r=out||Editor.current;if(r&&sanitizeRecord(r)){try{window.ONE_V646_CORE?.Municipal?.apply(r,{touch:true});await Store.save(r);Reports.invalidate?.();}catch(_){}}
-    return out||r;
-  };
+  const persist=Editor.persist?.bind(Editor);if(persist)Editor.persist=async options=>{const out=await persist(options||{}),r=out||Editor.current;if(r&&sanitizeRecord(r)){try{window.ONE_V646_CORE?.Municipal?.apply(r,{touch:true});await Store.save(r);Reports.invalidate?.();}catch(_){}}return out||r;};
   const open=Editor.open?.bind(Editor);if(open)Editor.open=id=>{const r=State.records.find(x=>x.id===id);if(r&&sanitizeRecord(r)){Store.save(r).catch?.(()=>{});}return open(id);};
 }
-
 function patchReports(){
   if(typeof Reports==='undefined'||!Reports.makeExcel||Reports.__v647Semantic)return;Reports.__v647Semantic=true;
-  const previous=Reports.makeExcel.bind(Reports);
-  Reports.makeExcel=async(...args)=>{
-    let changed=false;for(const r of Evidence.selectedForReport?.()||[]){if(sanitizeRecord(r))changed=true;try{window.ONE_V646_CORE?.Municipal?.apply(r,{touch:false});}catch(_){}}
-    if(changed){try{await Store.saveBatch?.(State.records);}catch(_){}}
-    return previous(...args);
-  };
+  const previous=Reports.makeExcel.bind(Reports);Reports.makeExcel=async(...args)=>{let changed=false;for(const r of Evidence.selectedForReport?.()||[]){if(sanitizeRecord(r))changed=true;try{window.ONE_V646_CORE?.Municipal?.apply(r,{touch:false});}catch(_){}}if(changed){try{await Store.saveBatch?.(State.records);}catch(_){}}return previous(...args);};
 }
-
-async function migrateAll(){
-  let changed=false;
-  for(const r of State.records||[]){if(r.v647Migrated)continue;const did=sanitizeRecord(r);try{window.ONE_V646_CORE?.Municipal?.apply(r,{touch:false});}catch(_){}r.v647Migrated=now();if(did)changed=true;}
-  if(changed){try{await Store.saveBatch?.(State.records);}catch(_){}try{Reports.invalidate?.();Gallery.render?.();}catch(_){}}
-}
-
+async function migrateAll(){let changed=false;for(const r of State.records||[]){if(r.v647Migrated)continue;const did=sanitizeRecord(r);try{window.ONE_V646_CORE?.Municipal?.apply(r,{touch:false});}catch(_){}r.v647Migrated=now();if(did)changed=true;}if(changed){try{await Store.saveBatch?.(State.records);}catch(_){}try{Reports.invalidate?.();Gallery.render?.();}catch(_){}}}
 let tries=0;
 async function start(){
-  if(window.__ONE_V647_CORE_STARTED)return;
-  if(typeof State==='undefined'||typeof Store==='undefined'||typeof GPS==='undefined'||typeof Reports==='undefined'||typeof Evidence==='undefined'||typeof Editor==='undefined'||typeof GuidedEditor==='undefined'){if(tries++<90)setTimeout(start,120);return;}
-  window.__ONE_V647_CORE_STARTED=true;patchReverse();patchGuided();patchEditor();patchReports();await migrateAll();
-  try{localStorage.setItem('oneshotRuntimeBuild',BUILD);localStorage.setItem('oneshotAppliedBuild',BUILD);}catch(_){}
-  document.title='ONE SHOT v6.4.7 · DATA + FER VISUAL FIX';
+  if(window.__ONE_V647_CORE_STARTED)return;if(typeof State==='undefined'||typeof Store==='undefined'||typeof GPS==='undefined'||typeof Reports==='undefined'||typeof Evidence==='undefined'||typeof Editor==='undefined'||typeof GuidedEditor==='undefined'){if(tries++<90)setTimeout(start,120);return;}
+  window.__ONE_V647_CORE_STARTED=true;patchReverse();patchGuided();patchEditor();patchReports();await migrateAll();try{localStorage.setItem('oneshotRuntimeBuild',BUILD);localStorage.setItem('oneshotAppliedBuild',BUILD);}catch(_){}document.title='ONE SHOT v6.4.7 · DATA + FER VISUAL FIX';
 }
-window.ONE_V647_CORE={BUILD,semanticBad,semantic,sanitizeRecord,start};
-window.addEventListener('load',()=>setTimeout(start,720),{once:true});if(document.readyState==='complete')setTimeout(start,720);
+window.ONE_V647_CORE={BUILD,semanticBad,semantic,sanitizeRecord,start};window.addEventListener('load',()=>setTimeout(start,720),{once:true});if(document.readyState==='complete')setTimeout(start,720);
 })();
