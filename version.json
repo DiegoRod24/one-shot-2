@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.9 · FER SESSION + LOGOS REAL FIX",
-  "build": "oneshot-v6.4.9-fer-session-logos-real-fix-01",
+  "version": "v6.4.10 · CATÁLOGO NORMALIZADO",
+  "build": "oneshot-v6.4.10-normalized-logo-catalog-01",
   "released": "2026-08-16",
-  "notes": "Sin cambiar Cámara ni navegación, sincroniza el ciclo real de Fer en Editar: habla, termina, recién escucha, procesa la respuesta y continúa con la pregunta vigente. Al cerrar el editor cancela TTS, reconocimiento, reinicios y animación. El botón Hablar queda accionable y muestra estados reales. Refuerza la animación por speaking/listening/thinking/success y vuelve a enlazar cada organización al sprite publicado party-logos-v631.webp con índice 64 px y fallback legible.",
+  "notes": "Usa ENTREGA_LOGOS_NORMALIZADOS como fuente maestra para validar el selector político: 98 archivos normalizados consolidan 75 organizaciones únicas. Corrige el faltante PROGRESISTA DE APURIMAC, conserva los índices de los 74 logos ya publicados para no desalinearlos y usa el logo normalizado individual del nuevo registro. El paso Partido mantiene búsqueda, 75 opciones y fallback legible. No cambia Cámara, navegación, evidencias ni datos territoriales.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_9_FER_SESSION_LOGOS_REAL_FIX.apk"
+  "apkFilename": "ONE_SHOT_v6_4_10_CATALOGO_NORMALIZADO.apk"
 }
