@@ -15,6 +15,7 @@ on:
       - 'one-v646-*.js'
       - 'one-v647-*.js'
       - 'one-v648-*.js'
+      - 'one-v649-*.js'
       - 'party-catalog-v631.js'
       - 'party-logos-v631.webp'
       - 'service-worker.js'
@@ -31,6 +32,7 @@ on:
       - 'one-v646-*.js'
       - 'one-v647-*.js'
       - 'one-v648-*.js'
+      - 'one-v649-*.js'
       - 'party-catalog-v631.js'
       - 'party-logos-v631.webp'
       - 'service-worker.js'
@@ -59,6 +61,8 @@ jobs:
           node --check one-v647-logos.js
           node --check one-v648-guided.js
           node --check one-v648-logo-source.js
+          node --check one-v649-fer-session.js
+          node --check one-v649-logos.js
           node --check service-worker.js
       - name: Business rules
         run: |
@@ -70,7 +74,7 @@ jobs:
           grep -q "SEMANTIC_FIELDS_REJECT_BARE_NUMERIC_OR_UI_COMMAND" one-v647-core.js
           grep -q "SAVE-NEXT" one-v647-core.js
           grep -q "patchReverse" one-v647-core.js
-          ! grep -q "indexedDB.deleteDatabase" one-v646-core.js one-v646-reports.js one-v647-core.js one-v647-fer.js one-v647-logos.js one-v648-guided.js one-v648-logo-source.js
+          ! grep -q "indexedDB.deleteDatabase" one-v646-core.js one-v646-reports.js one-v647-core.js one-v647-fer.js one-v647-logos.js one-v648-guided.js one-v648-logo-source.js one-v649-fer-session.js one-v649-logos.js
       - name: Guided party flow guards
         run: |
           grep -q "{key:'party'" one-v648-guided.js
@@ -90,6 +94,17 @@ jobs:
           if(new Set(names).size!==74) throw new Error('party catalog contains duplicates');
           if(!names.includes('PARTIDO DEMOCRATICO SOMOS PERU')) throw new Error('Somos Peru missing');
           NODE
+      - name: Fer voice lifecycle guards
+        run: |
+          grep -q "speechSynthesis.speaking" one-v649-fer-session.js
+          grep -q "S.cancelRecognition" one-v649-fer-session.js
+          grep -q "S.cancelSpeech" one-v649-fer-session.js
+          grep -q "Editor.close=(...a)=>{S.stopAll()" one-v649-fer-session.js
+          grep -q "editClose.*S.stopAll" one-v649-fer-session.js
+          grep -q "GuidedEditor.toggleListening=()=>S.toggle()" one-v649-fer-session.js
+          grep -q "GuidedEditor.say=text=>S.speak(text)" one-v649-fer-session.js
+          grep -q "r.abort" one-v649-fer-session.js
+          grep -q "Cuando termine de hablar, te escucharé automáticamente" one-v649-fer-session.js
       - name: Excel guards
         run: |
           grep -q "addImage" one-v646-reports.js
@@ -106,16 +121,19 @@ jobs:
           ! grep -q 'fer-v641.js' service-worker.js
           grep -q 'width:76px!important;height:84px!important' one-v647-fer.js
           grep -q 'scale:1.13' one-v647-fer.js
-          grep -q 'drawImage(sprite' one-v647-logos.js
-          grep -q 'v647PartyFallback' one-v647-logos.js
+          grep -q "party-logos-v631.webp?v=6491" one-v649-logos.js
+          grep -q "backgroundSize='640px 512px'" one-v649-logos.js
+          grep -q "c\*64" one-v649-logos.js
+          grep -q "paintFallback" one-v649-logos.js
           grep -q 'Ninguna' one-v646-evidence.js
       - name: Version and updater guards
         run: |
-          grep -q 'oneshot-v6.4.8-guided-party-logos-fix-01' version.json
-          grep -q 'oneshot-v6.4.8-guided-party-logos-fix-01' one-bootstrap-v643.js
-          grep -q 'ONE_V648_GUIDED' one-bootstrap-v643.js
+          grep -q 'oneshot-v6.4.9-fer-session-logos-real-fix-01' version.json
+          grep -q 'oneshot-v6.4.9-fer-session-logos-real-fix-01' one-bootstrap-v643.js
+          grep -q 'ONE_V649_FER_SESSION' one-bootstrap-v643.js
+          grep -q 'ONE_V649_LOGOS' one-bootstrap-v643.js
           grep -q 'DiegoRod24/one-shot-2/main/version.json' one-bootstrap-v643.js
           grep -q 'oneshotDismissedBuild' one-bootstrap-v643.js
           ! grep -q "removeItem('oneshotDismissedBuild')" one-bootstrap-v643.js
-          grep -q 'one-v648-guided.js' service-worker.js
-          grep -q 'one-v648-logo-source.js' service-worker.js
+          grep -q 'one-v649-fer-session.js' service-worker.js
+          grep -q 'one-v649-logos.js' service-worker.js
