@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.7 · DATA + FER VISUAL FIX",
-  "build": "oneshot-v6.4.7-data-fer-visual-fix-01",
+  "version": "v6.4.8 · GUIDED PARTY + LOGOS FIX",
+  "build": "oneshot-v6.4.8-guided-party-logos-fix-01",
   "released": "2026-08-16",
-  "notes": "Corrige regresiones comprobadas con capturas y Excel real sin cambiar Cámara ni navegación: Fer conserva su geometría original y se escala como una sola pieza; el catálogo de partidos dibuja el sprite por canvas con fallback legible; la limpieza de datos pasa a ser semántica y rechaza números técnicos o comandos UI filtrados a Partido, Provincia, Municipalidad, Alcalde, Revisor y otros campos textuales sin borrar altitud, rumbo o precisión válidos; sanea reverse geocoding territorial y vuelve a validar antes de exportar.",
+  "notes": "Corrige la regresión donde el Paso 1 preguntaba por el partido pero mostraba botones de confirmación. El flujo guiado queda determinista en Partido → Tipo → Confirmación, reinicia borradores antiguos incompatibles al abrir evidencia y vuelve a montar el catálogo completo de 74 organizaciones. Los logos se enlazan directamente al sprite validado contra LOGOS_2, evitando la pelea entre renderizadores legacy. No cambia Cámara, navegación, datos territoriales ni IndexedDB.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_7_DATA_FER_VISUAL_FIX.apk"
+  "apkFilename": "ONE_SHOT_v6_4_8_GUIDED_PARTY_LOGOS_FIX.apk"
 }
