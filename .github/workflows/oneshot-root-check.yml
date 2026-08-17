@@ -13,6 +13,7 @@ on:
       - 'one-v644-core.js'
       - 'one-v645-core.js'
       - 'one-v646-*.js'
+      - 'one-v647-*.js'
       - 'service-worker.js'
       - 'version.json'
       - '.github/workflows/oneshot-root-check.yml'
@@ -25,6 +26,7 @@ on:
       - 'one-v644-core.js'
       - 'one-v645-core.js'
       - 'one-v646-*.js'
+      - 'one-v647-*.js'
       - 'service-worker.js'
       - 'version.json'
 
@@ -46,38 +48,48 @@ jobs:
           node --check one-v646-evidence.js
           node --check one-v646-map.js
           node --check one-v646-reports.js
+          node --check one-v647-core.js
+          node --check one-v647-fer.js
+          node --check one-v647-logos.js
           node --check service-worker.js
       - name: Business rules
         run: |
           grep -q "new Set(\['PANEL','BANNER','PINTA'\])" one-v646-core.js
-          grep -q "legacyTypeV646" one-v646-core.js
           grep -q "captureAddress" one-v646-core.js
           grep -q "municipalAddress" one-v646-core.js
           grep -q "DEPARTAMENTO + PROVINCIA + DISTRITO" one-v646-core.js
-          grep -q "UBIGEO" one-v646-core.js
-          ! grep -q "indexedDB.deleteDatabase" one-v646-core.js one-v646-reports.js one-v646-fer.js one-v646-evidence.js one-v646-map.js
+          grep -q "PURE_NUMBER" one-v647-core.js
+          grep -q "SEMANTIC_FIELDS_REJECT_BARE_NUMERIC_OR_UI_COMMAND" one-v647-core.js
+          grep -q "SAVE-NEXT" one-v647-core.js
+          grep -q "patchReverse" one-v647-core.js
+          ! grep -q "indexedDB.deleteDatabase" one-v646-core.js one-v646-reports.js one-v647-core.js one-v647-fer.js one-v647-logos.js
       - name: Excel guards
         run: |
           grep -q "addImage" one-v646-reports.js
           grep -q "SEGUIMIENTO_ENTREGAS" one-v646-reports.js
           grep -q "DATOS_TECNICOS" one-v646-reports.js
           grep -q "Dirección.*municipalidad destinataria" one-v646-reports.js
-          ! grep -q "window.candidato" one-v645-core.js one-v646-reports.js
+          grep -q "Reports.__v647Semantic" one-v647-core.js
+          grep -q "sanitizeRecord" one-v647-core.js
+          ! grep -q "window.candidato" one-v645-core.js one-v646-reports.js one-v647-core.js
           ! grep -q "candidate:r.candidate" one-v646-reports.js
-      - name: Fer and selection guards
+      - name: Fer and logo guards
         run: |
           test "$(grep -o 'fer-v640.js' service-worker.js | wc -l)" -eq 1
           ! grep -q 'fer-v641.js' service-worker.js
-          grep -q 'ANTI-ECHO' one-v646-fer.js
+          grep -q 'width:76px!important;height:84px!important' one-v647-fer.js
+          grep -q 'scale:1.13' one-v647-fer.js
+          grep -q 'drawImage(sprite' one-v647-logos.js
+          grep -q 'v647PartyFallback' one-v647-logos.js
           grep -q 'Ninguna' one-v646-evidence.js
-          grep -q 'Revisión rápida' one-v646-evidence.js
       - name: Version and updater guards
         run: |
-          grep -q 'oneshot-v6.4.6-stability-ux-repair-01' version.json
-          grep -q 'oneshot-v6.4.6-stability-ux-repair-01' one-bootstrap-v643.js
-          grep -q 'oneshot-v6.4.6-stability-ux-repair-01' one-v646-core.js
+          grep -q 'oneshot-v6.4.7-data-fer-visual-fix-01' version.json
+          grep -q 'oneshot-v6.4.7-data-fer-visual-fix-01' one-bootstrap-v643.js
+          grep -q 'oneshot-v6.4.7-data-fer-visual-fix-01' one-v647-core.js
           grep -q 'DiegoRod24/one-shot-2/main/version.json' one-bootstrap-v643.js
           grep -q 'oneshotDismissedBuild' one-bootstrap-v643.js
           ! grep -q "removeItem('oneshotDismissedBuild')" one-bootstrap-v643.js
-          grep -q 'one-v646-core.js' service-worker.js
-          grep -q 'one-v646-reports.js' service-worker.js
+          grep -q 'one-v647-core.js' service-worker.js
+          grep -q 'one-v647-fer.js' service-worker.js
+          grep -q 'one-v647-logos.js' service-worker.js
