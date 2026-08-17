@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.10 · CATÁLOGO NORMALIZADO",
-  "build": "oneshot-v6.4.10-normalized-logo-catalog-01",
+  "version": "v6.4.11 · CRITICAL UI + MUNICIPAL MATCH REPAIR",
+  "build": "oneshot-v6.4.11-critical-ui-municipal-repair-01",
   "released": "2026-08-16",
-  "notes": "Usa ENTREGA_LOGOS_NORMALIZADOS como fuente maestra para validar el selector político: 98 archivos normalizados consolidan 75 organizaciones únicas. Corrige el faltante PROGRESISTA DE APURIMAC, conserva los índices de los 74 logos ya publicados para no desalinearlos y usa el logo normalizado individual del nuevo registro. El paso Partido mantiene búsqueda, 75 opciones y fallback legible. No cambia Cámara, navegación, evidencias ni datos territoriales.",
+  "notes": "Sin rediseñar Cámara ni navegación: elimina el combobox municipal nacional, propone destino solo con UBIGEO o Departamento+Provincia+Distrito exactos, exige confirmación antes de exportar municipalidad/alcalde/dirección, añade corrección manual dependiente Departamento→Provincia→Distrito, garantiza logo visible o fallback de iniciales para las 75 organizaciones y amplía el rescate idempotente de orientación sin modificar la foto original.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_10_CATALOGO_NORMALIZADO.apk"
+  "apkFilename": "ONE_SHOT_v6_4_11_CRITICAL_UI_MUNICIPAL_MATCH_REPAIR.apk"
 }
