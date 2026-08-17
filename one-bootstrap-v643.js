@@ -2,13 +2,13 @@
 (()=>{
 'use strict';
 const LEGACY_BUILD='oneshot-v6.4.3-data-edit-flow-fix-01';
-const CURRENT_BUILD='oneshot-v6.4.7-data-fer-visual-fix-01';
+const CURRENT_BUILD='oneshot-v6.4.8-guided-party-logos-fix-01';
 const ua=navigator.userAgent||'';const isIOS=/iPhone|iPad|iPod/i.test(ua);
 const standalone=(()=>{try{return window.matchMedia?.('(display-mode: standalone)').matches===true||window.matchMedia?.('(display-mode: fullscreen)').matches===true||navigator.standalone===true||document.referrer.startsWith('android-app://')}catch(_){return navigator.standalone===true}})();
 try{if(standalone){localStorage.setItem('oneshotInstalledDetected','1');localStorage.setItem('oneshotInstallDismissed','1')}if(isIOS)localStorage.setItem('oneshotInstallDismissed','1');sessionStorage.setItem('oneshotBootBuild',LEGACY_BUILD);}catch(_){}
 const semver=v=>{const m=String(v||'').match(/(?:oneshot-)?v(\d+)\.(\d+)\.(\d+)/i);return m?[Number(m[1]),Number(m[2]),Number(m[3])]:null};
 const cmp=(a,b)=>{const A=semver(a),B=semver(b);if(!A||!B)return 0;for(let i=0;i<3;i++){if(A[i]!==B[i])return A[i]>B[i]?1:-1}return 0};
-const runtimeBuild=()=>{try{if(window.ONE_V647_CORE?.BUILD)return window.ONE_V647_CORE.BUILD}catch(_){}try{if(window.RuntimeVersion?.currentBuild)return window.RuntimeVersion.currentBuild()}catch(_){}try{if(window.ONE_V646_CORE?.BUILD)return window.ONE_V646_CORE.BUILD}catch(_){}try{const r=localStorage.getItem('oneshotRuntimeBuild');if(r&&cmp(r,LEGACY_BUILD)>0)return r}catch(_){}return CURRENT_BUILD;};
+const runtimeBuild=()=>{try{if(window.ONE_V648_GUIDED?.BUILD)return window.ONE_V648_GUIDED.BUILD}catch(_){}try{if(window.ONE_V647_CORE?.BUILD)return window.ONE_V647_CORE.BUILD}catch(_){}try{if(window.RuntimeVersion?.currentBuild)return window.RuntimeVersion.currentBuild()}catch(_){}try{if(window.ONE_V646_CORE?.BUILD)return window.ONE_V646_CORE.BUILD}catch(_){}try{const r=localStorage.getItem('oneshotRuntimeBuild');if(r&&cmp(r,LEGACY_BUILD)>0)return r}catch(_){}return CURRENT_BUILD;};
 const markCurrent=()=>{try{const runtime=runtimeBuild(),applied=localStorage.getItem('oneshotAppliedBuild')||'';if(!applied||cmp(runtime,applied)>=0)localStorage.setItem('oneshotAppliedBuild',runtime);localStorage.setItem('oneshotRuntimeBuild',runtime);return runtime;}catch(_){return runtimeBuild()}};
 const isNative=()=>{try{return typeof APKBridge!=='undefined'&&APKBridge.isNative?.()===true}catch(_){return false}};
 function patchUpdater(){let tries=0;const timer=setInterval(()=>{tries++;try{if(typeof AppUpdater==='undefined'||!AppUpdater?.check||!AppUpdater?.prompt||!AppUpdater?.install){if(tries<100)return;clearInterval(timer);return}clearInterval(timer);if(AppUpdater.__updateLoopHotfix)return;AppUpdater.__updateLoopHotfix=true;
