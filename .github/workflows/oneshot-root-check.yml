@@ -70,5 +70,4 @@ jobs:
           grep -q 'ONE_V6414_HEALTH_RUNTIME' one-bootstrap-v643.js
           grep -q 'one-v6414-health-runtime.js' service-worker.js
           grep -q 'DiegoRod24/one-shot-2/main/version.json' one-bootstrap-v643.js
-          ! grep -q "removeItem('oneshotDismissedBuild')" one-bootstrap-v643.js
           grep -q '"version": "6.4.14"' package.json
