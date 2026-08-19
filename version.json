@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.14 · REPO HEALTH + BUILD CLEANUP",
-  "build": "oneshot-v6.4.14-repo-health-cleanup-01",
+  "version": "v6.4.15 · TERRITORIO OPERATIVO + MISIONES POR SECTOR",
+  "build": "oneshot-v6.4.15-territory-ops-01",
   "released": "2026-08-19",
-  "notes": "Limpieza estructural sin rediseñar: elimina el hotfix oculto v6.0.5 de oneshot-erm-data.js, agrega recuperación de módulos en primera carga, alinea identidad Fer/metadatos de nuevas capturas, corrige el empaquetado Android para copiar todos los archivos del Service Worker y añade un health-check automático del repositorio. Conserva Tramos v6.4.13, Cámara, navegación, IndexedDB y Excel.",
+  "notes": "Mejora el flujo territorial para equipos: ubicación GPS centrable con precisión, asignación estricta a sectores generados, progreso real por sector, pausa que evita marcar cobertura accidental, Smart Route bloqueada al sector asignado, fusión correcta de celdas con evidencia y paquetes de misión individuales compartibles por Android/WhatsApp/Drive. Mantiene Cámara, Tramos, Fer, Excel e IndexedDB.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_14_REPO_HEALTH_BUILD_CLEANUP.apk"
+  "apkFilename": "ONE_SHOT_v6_4_15_TERRITORIO_OPERATIVO.apk"
 }
