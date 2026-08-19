@@ -1,0 +1,18 @@
+const fs=require('fs'),path=require('path');
+const root=process.cwd(),fail=[],warn=[];
+const read=f=>{const p=path.join(root,f);if(!fs.existsSync(p)){fail.push(`Falta ${f}`);return'';}return fs.readFileSync(p,'utf8');};
+const version=JSON.parse(read('version.json')||'{}'),pkg=JSON.parse(read('package.json')||'{}'),sw=read('service-worker.js'),boot=read('one-bootstrap-v643.js'),data=read('oneshot-erm-data.js'),app=read('app.js'),prepare=read('APK/scripts/prepare-webdir.js');
+const check=(ok,msg)=>{if(!ok)fail.push(msg)};const note=(ok,msg)=>{if(!ok)warn.push(msg)};
+const cache=(sw.match(/const\s+CACHE\s*=\s*"([^"]+)"/)||[])[1]||'';const current=(boot.match(/const\s+CURRENT_BUILD\s*=\s*'([^']+)'/)||[])[1]||'';
+check(!!version.build,'version.json no tiene build');check(cache===version.build,`CACHE (${cache}) != version.build (${version.build})`);check(current===version.build,`CURRENT_BUILD (${current}) != version.build (${version.build})`);
+const vm=String(version.version||'').match(/v(\d+)\.(\d+)\.(\d+)/i);if(vm)check(pkg.version===`${vm[1]}.${vm[2]}.${vm[3]}`,`package.json ${pkg.version} != ${vm[1]}.${vm[2]}.${vm[3]}`);
+const dm=sw.match(/const\s+DYNAMIC\s*=\s*(\[[\s\S]*?\]);/);check(!!dm,'No pude leer DYNAMIC');let dynamic=[];if(dm){try{dynamic=JSON.parse(dm[1])}catch(e){fail.push(`DYNAMIC no es JSON: ${e.message}`)}}
+for(const f of dynamic)check(fs.existsSync(path.join(root,f)),`DYNAMIC referencia archivo inexistente: ${f}`);
+check(dynamic.filter(x=>x==='fer-v640.js').length===1,'Debe existir exactamente un fer-v640.js activo');check(!dynamic.includes('fer-v641.js'),'fer-v641.js no debe volver al runtime');
+check(!/indexedDB\.deleteDatabase/.test(dynamic.map(f=>read(f)).join('\n')),'Un módulo activo intenta borrar IndexedDB');
+check(!/v6\.0\.5 · ONE FOCUS SESSION|oneshot-v6\.0\.5-one-focus-session/.test(data),'oneshot-erm-data.js volvió a incluir el hotfix v6.0.5');check(/runtime-recovery/.test(data),'oneshot-erm-data.js no tiene recuperación de primera carga');
+check(/dynamicFiles\(\)/.test(prepare)&&/assetFiles\(\)/.test(prepare),'prepare-webdir no sincroniza el manifiesto del Service Worker');
+check(/DiegoRod24\/one-shot-2\/main\/version\.json/.test(boot),'Updater nativo no apunta al repo actual');check(!/removeItem\('oneshotDismissedBuild'\)/.test(boot),'Bootstrap vuelve a borrar Ahora no');
+check(dynamic.includes('one-v6413-corridor.js')&&dynamic.includes('one-v6413-corridor-reports.js'),'Modo Tramo no está completo en runtime');check(dynamic.includes('one-v6412-fer-voice.js')&&dynamic.includes('one-v6412-party-logos.js'),'Fer/voz/logos 6.4.12 no están completos');
+note(!/evidencia-calle-pro/.test(app),'app.js conserva UPDATE_FEED_URL legacy; bootstrap lo reemplaza en runtime');note(!/oneshot-v6\.0\.3/.test(app),'app.js conserva VERSION legacy; el runtime actual debe sobrescribir metadatos de captura');
+console.log(`[ONE SHOT HEALTH] build=${version.build||'?'}`);console.log(`[ONE SHOT HEALTH] módulos dinámicos=${dynamic.length}`);warn.forEach(x=>console.warn(`[WARN] ${x}`));if(fail.length){fail.forEach(x=>console.error(`[FAIL] ${x}`));process.exit(1);}console.log(`[ONE SHOT HEALTH] OK · ${warn.length} advertencia(s) no bloqueante(s)`);
