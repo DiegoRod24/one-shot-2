@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.11 · CRITICAL UI + MUNICIPAL MATCH REPAIR",
-  "build": "oneshot-v6.4.11-critical-ui-municipal-repair-01",
-  "released": "2026-08-16",
-  "notes": "Sin rediseñar Cámara ni navegación: elimina el combobox municipal nacional, propone destino solo con UBIGEO o Departamento+Provincia+Distrito exactos, exige confirmación antes de exportar municipalidad/alcalde/dirección, añade corrección manual dependiente Departamento→Provincia→Distrito, garantiza logo visible o fallback de iniciales para las 75 organizaciones y amplía el rescate idempotente de orientación sin modificar la foto original.",
+  "version": "v6.4.12 · FER + VOICE + LOGOS + GUIDED UX POLISH",
+  "build": "oneshot-v6.4.12-fer-voice-logos-guided-ux-01",
+  "released": "2026-08-18",
+  "notes": "Mantiene Cámara y navegación. Fer usa una identidad visual única basada en la referencia aprobada, prioriza voz masculina española disponible con selector y antieco, el catálogo de 75 organizaciones usa logos normalizados con fallback de iniciales y la edición guiada reduce ruido visual en Partido → Tipo → Confirmación. Conserva el match municipal seguro de v6.4.11.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_11_CRITICAL_UI_MUNICIPAL_MATCH_REPAIR.apk"
+  "apkFilename": "ONE_SHOT_v6_4_12_FER_VOICE_LOGOS_GUIDED_UX.apk"
 }
