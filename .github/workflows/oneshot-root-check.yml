@@ -92,7 +92,8 @@ jobs:
           grep -q "imageOriginal" one-v6416-evidence-recovery.js
           grep -q "photoData" one-v6416-evidence-recovery.js
           grep -q "navigator.storage" one-v6416-evidence-recovery.js
-          grep -q "Object.defineProperty(record,'image'" one-v6416-media-legacy-bridge.js
+          grep -q "bridge(record,'image'" one-v6416-media-legacy-bridge.js
+          grep -q "Object.defineProperty(record,key" one-v6416-media-legacy-bridge.js
           grep -q "enumerable:false" one-v6416-media-legacy-bridge.js
           grep -q "storageSchema='oneshotEvidenceDB_v2'" one-v6416-runtime-meta.js
           grep -q 'indexedDB.open("oneshotEvidenceDB_v2"' app.js
