@@ -101,7 +101,7 @@ jobs:
           grep -q "municipalConfirmed" one-v6411-reports.js
       - name: Corridor field guards
         run: |
-          grep -q "TRAMO REPETITIVO" one-v6413-corridor.js
+          grep -q "Tramo de propaganda repetitiva" one-v6413-corridor.js
           grep -q "EXACTO_MANUAL" one-v6413-corridor.js
           grep -q "ESTIMADO" one-v6413-corridor.js
           grep -q "corridorSample=true" one-v6413-corridor.js
