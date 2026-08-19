@@ -1,14 +1,15 @@
 {
-  "name": "oneshot-v3-3-evidence-ux",
-  "version": "3.3.0",
+  "name": "one-shot-field-evidence",
+  "version": "6.4.14",
   "private": true,
   "scripts": {
+    "health:check": "node APK/scripts/oneshot-health-check.js",
     "web:prepare": "node APK/scripts/prepare-webdir.js",
     "android:prepare-permissions": "node APK/scripts/install-android-permissions.js",
     "android:prepare-branding": "node APK/scripts/install-android-branding.js",
     "android:prepare-native": "node APK/scripts/install-whatsapp-native.js && node APK/scripts/install-android-permissions.js && node APK/scripts/install-android-branding.js",
     "android:verify-native": "node APK/scripts/verify-native.js",
-    "android:sync": "npm run web:prepare && npx cap sync android",
+    "android:sync": "npm run health:check && npm run web:prepare && npx cap sync android",
     "android:open": "npx cap open android",
     "android:debug:win": "cd android && ./gradlew.bat assembleDebug"
   },
