@@ -29,6 +29,7 @@ jobs:
           node --check one-v6413-corridor.js
           node --check one-v6413-corridor-reports.js
           node --check one-v6414-health-runtime.js
+          node --check one-v6415-territory-ops.js
           node --check oneshot-erm-data.js
           node --check APK/scripts/prepare-webdir.js
           node --check APK/scripts/oneshot-health-check.js
@@ -38,6 +39,7 @@ jobs:
       - name: Android WebDir dry run
         run: |
           node APK/scripts/prepare-webdir.js
+          test -f www/one-v6415-territory-ops.js
           test -f www/one-v6414-health-runtime.js
           test -f www/one-v6413-corridor.js
           test -f www/one-v6412-fer-voice.js
@@ -55,7 +57,17 @@ jobs:
           grep -q "v6412LogoFallback" one-v6412-party-logos.js
           grep -q "Tramo de propaganda repetitiva" one-v6413-corridor.js
           grep -q "TRAMOS_PROPAGANDA" one-v6413-corridor-reports.js
-          ! grep -q "indexedDB.deleteDatabase" one-v646-core.js one-v647-core.js one-v6411-municipal.js one-v6413-corridor.js one-v6414-health-runtime.js
+          ! grep -q "indexedDB.deleteDatabase" one-v646-core.js one-v647-core.js one-v6411-municipal.js one-v6413-corridor.js one-v6414-health-runtime.js one-v6415-territory-ops.js
+      - name: Territory operations guards
+        run: |
+          grep -q "team-assignment-package" one-v6415-territory-ops.js
+          grep -q "navigator.share" one-v6415-territory-ops.js
+          grep -q "sectorStats" one-v6415-territory-ops.js
+          grep -q "evidence:2" one-v6415-territory-ops.js
+          grep -q "team-pause" one-v6415-territory-ops.js
+          grep -q "No hay zonas pendientes válidas" one-v6415-territory-ops.js
+          grep -q "Mi ubicación" one-v6415-territory-ops.js
+          grep -q "6.4.15 TERRITORIO OPERATIVO" one-v6415-territory-ops.js
       - name: Legacy runtime removal guards
         run: |
           ! grep -q 'oneshot-v6.0.5-one-focus-session' oneshot-erm-data.js
@@ -64,10 +76,10 @@ jobs:
           grep -q "assistantName='Fer'" one-v6414-health-runtime.js
       - name: Version and updater guards
         run: |
-          grep -q 'oneshot-v6.4.14-repo-health-cleanup-01' version.json
-          grep -q 'oneshot-v6.4.14-repo-health-cleanup-01' one-bootstrap-v643.js
-          grep -q 'oneshot-v6.4.14-repo-health-cleanup-01' service-worker.js
-          grep -q 'ONE_V6414_HEALTH_RUNTIME' one-bootstrap-v643.js
-          grep -q 'one-v6414-health-runtime.js' service-worker.js
+          grep -q 'oneshot-v6.4.15-territory-ops-01' version.json
+          grep -q 'oneshot-v6.4.15-territory-ops-01' one-bootstrap-v643.js
+          grep -q 'oneshot-v6.4.15-territory-ops-01' service-worker.js
+          grep -q 'ONE_V6415_TERRITORY_OPS' one-bootstrap-v643.js
+          grep -q 'one-v6415-territory-ops.js' service-worker.js
           grep -q 'DiegoRod24/one-shot-2/main/version.json' one-bootstrap-v643.js
-          grep -q '"version": "6.4.14"' package.json
+          grep -q '"version": "6.4.15"' package.json
