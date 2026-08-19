@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.12 · FER + VOICE + LOGOS + GUIDED UX POLISH",
-  "build": "oneshot-v6.4.12-fer-voice-logos-guided-ux-01",
-  "released": "2026-08-18",
-  "notes": "Mantiene Cámara y navegación. Fer usa una identidad visual única basada en la referencia aprobada, prioriza voz masculina española disponible con selector y antieco, el catálogo de 75 organizaciones usa logos normalizados con fallback de iniciales y la edición guiada reduce ruido visual en Partido → Tipo → Confirmación. Conserva el match municipal seguro de v6.4.11.",
+  "version": "v6.4.13 · TRAMOS + FIELD CORRIDOR",
+  "build": "oneshot-v6.4.13-propaganda-corridor-01",
+  "released": "2026-08-19",
+  "notes": "Añade en Lugares el modo opcional Tramo de propaganda repetitiva: recorrido GPS, inicio/fin, conteo manual exacto o estimado, fotos representativas, detección de segmentos territoriales y hojas TRAMOS_PROPAGANDA/TRAMOS_DESTINOS/TRAMO_EVIDENCIAS en el Excel. No cambia Cámara ni navegación y conserva todas las mejoras de Fer, voz, logos y match municipal de v6.4.12.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_12_FER_VOICE_LOGOS_GUIDED_UX.apk"
+  "apkFilename": "ONE_SHOT_v6_4_13_TRAMOS_FIELD_CORRIDOR.apk"
 }
