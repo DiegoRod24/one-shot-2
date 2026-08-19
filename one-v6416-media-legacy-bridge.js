@@ -8,16 +8,17 @@ const LEGACY_ORIGINAL=['imageOriginal','originalImage','original','photoData','d
 const LEGACY_STAMPED=['evidenceImage','watermarkedImage','markedImage','imageMarked'];
 const src=v=>{if(!v)return'';if(typeof v==='string')return v.trim();if(typeof Blob!=='undefined'&&v instanceof Blob)return v;if(typeof v==='object'){for(const k of ['dataUrl','image','src','url','base64'])if(v[k])return v[k];}return''};
 function first(r,keys){for(const k of keys){const v=src(r?.[k]);if(v)return v;}return''}
+function bridge(record,key,fallback){
+  if(!fallback)return;
+  const own=Object.prototype.hasOwnProperty.call(record,key),desc=own?Object.getOwnPropertyDescriptor(record,key):null;
+  if(own&&src(record[key]))return;
+  if(own&&desc?.configurable!==false){try{delete record[key];}catch(_){}}
+  if(!Object.prototype.hasOwnProperty.call(record,key))Object.defineProperty(record,key,{configurable:true,enumerable:false,get(){return fallback},set(v){Object.defineProperty(this,key,{value:v,writable:true,configurable:true,enumerable:true})}});
+}
 function compat(record){
   if(!record||typeof record!=='object')return record;
-  if(!Object.prototype.hasOwnProperty.call(record,'image')||!src(record.image)){
-    const fallback=first(record,LEGACY_ORIGINAL);
-    if(fallback&&!Object.prototype.hasOwnProperty.call(record,'image'))Object.defineProperty(record,'image',{configurable:true,enumerable:false,get(){return fallback},set(v){Object.defineProperty(this,'image',{value:v,writable:true,configurable:true,enumerable:true})}});
-  }
-  if(!Object.prototype.hasOwnProperty.call(record,'stampedImage')||!src(record.stampedImage)){
-    const fallback=first(record,LEGACY_STAMPED)||src(record.rescuedImage)||src(record.image);
-    if(fallback&&!Object.prototype.hasOwnProperty.call(record,'stampedImage'))Object.defineProperty(record,'stampedImage',{configurable:true,enumerable:false,get(){return fallback},set(v){Object.defineProperty(this,'stampedImage',{value:v,writable:true,configurable:true,enumerable:true})}});
-  }
+  bridge(record,'image',first(record,LEGACY_ORIGINAL));
+  bridge(record,'stampedImage',first(record,LEGACY_STAMPED)||src(record.rescuedImage)||src(record.image));
   return record;
 }
 function applyAll(){(State.records||[]).forEach(compat);window.ONE_V6416_EVIDENCE_RECOVERY?.repairDom?.();}
