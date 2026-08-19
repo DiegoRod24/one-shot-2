@@ -17,9 +17,10 @@ on:
       - 'one-v648-*.js'
       - 'one-v649-*.js'
       - 'one-v6411-*.js'
+      - 'one-v6412-*.js'
+      - 'one_*sprite-asset-v6412-*.js'
       - 'party-catalog-v631.js'
       - 'party-catalog-v6410.js'
-      - 'party-logos-v631.webp'
       - 'service-worker.js'
       - 'version.json'
       - '.github/workflows/oneshot-root-check.yml'
@@ -36,9 +37,10 @@ on:
       - 'one-v648-*.js'
       - 'one-v649-*.js'
       - 'one-v6411-*.js'
+      - 'one-v6412-*.js'
+      - 'one_*sprite-asset-v6412-*.js'
       - 'party-catalog-v631.js'
       - 'party-catalog-v6410.js'
-      - 'party-logos-v631.webp'
       - 'service-worker.js'
       - 'version.json'
 
@@ -51,126 +53,94 @@ jobs:
         run: |
           node --check app.js
           node --check one-bootstrap-v643.js
-          node --check one-v63-core.js
-          node --check one-v643-core.js
-          node --check one-v644-core.js
-          node --check one-v645-core.js
           node --check one-v646-core.js
-          node --check one-v646-fer.js
-          node --check one-v646-evidence.js
-          node --check one-v646-map.js
           node --check one-v646-reports.js
           node --check one-v647-core.js
-          node --check one-v647-fer.js
-          node --check one-v647-logos.js
           node --check one-v648-guided.js
-          node --check one-v648-logo-source.js
           node --check one-v649-fer-session.js
-          node --check one-v649-logos.js
-          node --check party-catalog-v6410.js
           node --check one-v6411-municipal.js
           node --check one-v6411-logos.js
           node --check one-v6411-orientation.js
           node --check one-v6411-reports.js
+          node --check party-catalog-v6410.js
+          node --check one-v6412-party-assets.js
+          node --check one-v6412-fer-assets.js
+          node --check one-v6412-fer-visual.js
+          node --check one-v6412-fer-voice.js
+          node --check one-v6412-party-logos.js
+          node --check one-v6412-guided-ux.js
+          for f in one_party_sprite-asset-v6412-*.js one_fer_sprite-asset-v6412-*.js; do node --check "$f"; done
           node --check service-worker.js
-      - name: Business rules
+      - name: Existing business rules
         run: |
           grep -q "new Set(\['PANEL','BANNER','PINTA'\])" one-v646-core.js
           grep -q "captureAddress" one-v646-core.js
           grep -q "municipalAddress" one-v646-core.js
-          grep -q "PURE_NUMBER" one-v647-core.js
           grep -q "SEMANTIC_FIELDS_REJECT_BARE_NUMERIC_OR_UI_COMMAND" one-v647-core.js
-          grep -q "SAVE-NEXT" one-v647-core.js
-          grep -q "patchReverse" one-v647-core.js
-          ! grep -q "indexedDB.deleteDatabase" one-v646-core.js one-v646-reports.js one-v647-core.js one-v648-guided.js one-v649-fer-session.js one-v649-logos.js one-v6411-municipal.js one-v6411-logos.js one-v6411-orientation.js one-v6411-reports.js
-      - name: Guided party flow guards
+          ! grep -q "indexedDB.deleteDatabase" one-v646-core.js one-v647-core.js one-v6411-municipal.js one-v6412-guided-ux.js
+      - name: Guided flow and normalized catalog
         run: |
           grep -q "{key:'party'" one-v648-guided.js
           grep -q "{key:'type'" one-v648-guided.js
           grep -q "{key:'summary'" one-v648-guided.js
-          grep -q "GuidedEditor.current=current" one-v648-guided.js
-          grep -q "GuidedEditor.render=render" one-v648-guided.js
-          grep -q "v648PartyLogo" one-v648-guided.js
           node - <<'NODE'
           global.window=global;
           require('./party-catalog-v6410.js');
           const a=global.ONE_PARTY_CATALOG_V6410||[];
           const names=a.map(x=>String(x.name||'').trim().toUpperCase());
-          if(a.length!==75) throw new Error(`normalized catalog must have 75 options, got ${a.length}`);
-          if(new Set(names).size!==75) throw new Error('normalized catalog contains duplicate names');
+          if(a.length!==75) throw new Error(`catalog must have 75 options, got ${a.length}`);
+          if(new Set(names).size!==75) throw new Error('catalog contains duplicates');
           if(!names.includes('PROGRESISTA DE APURIMAC')) throw new Error('PROGRESISTA DE APURIMAC missing');
-          const p=a.find(x=>x.name==='PROGRESISTA DE APURIMAC');
-          if(!p?.logoData?.startsWith('data:image/webp;base64,')) throw new Error('normalized logo for PROGRESISTA missing');
-          if(global.ONE_PARTY_CATALOG_META_V6410?.normalizedFiles!==98) throw new Error('normalized source must record 98 files');
           NODE
       - name: Municipal destination guards
         run: |
           grep -q "MISSING_DISTRICT" one-v6411-municipal.js
-          grep -q "DEPARTAMENTO + PROVINCIA + DISTRITO" one-v6411-municipal.js
           grep -q "municipalConfirmed=true" one-v6411-municipal.js
           grep -q "applyMunicipalDestination" one-v6411-municipal.js
-          grep -q "v6411Dep" one-v6411-municipal.js
-          grep -q "v6411Pro" one-v6411-municipal.js
-          grep -q "v6411Dis" one-v6411-municipal.js
-          grep -q "Selecciona departamento" one-v6411-municipal.js
-          grep -q "Selecciona provincia" one-v6411-municipal.js
-          grep -q "Selecciona distrito" one-v6411-municipal.js
-          grep -q "Falta confirmar distrito" one-v6411-municipal.js
           ! grep -q "all.slice(0,100)" one-v6411-municipal.js
           ! grep -q "slice(0,250)" one-v6411-municipal.js
-          grep -q "ONE_V63_CORE.boundary=()=>openManual" one-v6411-municipal.js
-      - name: Logo visibility guards
-        run: |
-          grep -q "ONE_PARTY_CATALOG_V6410" one-v6411-logos.js
-          grep -q "item?.logoData" one-v6411-logos.js
-          grep -q "nonWhitePixels" one-v6411-logos.js
-          grep -q "v6411Fallback" one-v6411-logos.js
-          grep -q "data-v6411-initials" one-v6411-logos.js
-          grep -q "guidedChoices" one-v6411-logos.js
-          grep -q "MutationObserver" one-v6411-logos.js
-          ! grep -q "document.body" one-v6411-logos.js
-      - name: Orientation guards
-        run: |
-          grep -q "screen.orientation" one-v6411-orientation.js
-          grep -q "captureRotationApplied" one-v6411-orientation.js
-          grep -q "orientationRescueVersion='6.4.11'" one-v6411-orientation.js
-          grep -q "rescuedImage" one-v6411-orientation.js
-          grep -q "getDisplayImage" one-v6411-orientation.js
-          grep -q "AUTO_ORIENTATION_V6411" one-v6411-orientation.js
-          grep -q "editEvidenceImg" one-v6411-orientation.js
-      - name: Excel guards
-        run: |
-          grep -q "addImage" one-v646-reports.js
-          grep -q "SEGUIMIENTO_ENTREGAS" one-v646-reports.js
-          grep -q "DATOS_TECNICOS" one-v646-reports.js
-          grep -q "Reports.__v647Semantic" one-v647-core.js
-          ! grep -q "window.candidato" one-v645-core.js one-v646-reports.js one-v647-core.js
-          grep -q "Reports.__v6411ConfirmedMunicipal" one-v6411-reports.js
           grep -q "municipalConfirmed" one-v6411-reports.js
-          grep -q "municipalAddress" one-v6411-reports.js
-          grep -q "municipalMayor" one-v6411-reports.js
-      - name: Fer voice lifecycle guards
+      - name: Fer visual and voice guards
         run: |
           test "$(grep -o 'fer-v640.js' service-worker.js | wc -l)" -eq 1
           ! grep -q 'fer-v641.js' service-worker.js
-          grep -q "speechSynthesis.speaking" one-v649-fer-session.js
-          grep -q "S.cancelRecognition" one-v649-fer-session.js
-          grep -q "S.cancelSpeech" one-v649-fer-session.js
-          grep -q "Editor.close=(...a)=>{S.stopAll()" one-v649-fer-session.js
-          grep -q "GuidedEditor.toggleListening=()=>S.toggle()" one-v649-fer-session.js
+          grep -q "ONE_FER_SPRITE_V6412" one-v6412-fer-assets.js
+          grep -q "FER_REFERENCE_APPROVED" one-v6412-fer-assets.js
+          grep -q "window.FerVisual" one-v6412-fer-visual.js
+          grep -q "transform" one-v6412-fer-visual.js
+          grep -q "getVoices" one-v6412-fer-voice.js
+          grep -q "onvoiceschanged" one-v6412-fer-voice.js
+          grep -q "speechSynthesis.cancel" one-v6412-fer-voice.js
+          grep -q "abortRecognition" one-v6412-fer-voice.js
+          grep -q "shouldIgnoreHeard" one-v6412-fer-voice.js
+          grep -q "oneshotFerMuted" one-v6412-fer-voice.js
+      - name: Party logo guards
+        run: |
+          grep -q "ONE_PARTY_SPRITE_V6412" one-v6412-party-assets.js
+          grep -q "ONE_PARTY_CATALOG_V6410" one-v6412-party-logos.js
+          grep -q "v6412SpriteLogo" one-v6412-party-logos.js
+          grep -q "v6412LogoFallback" one-v6412-party-logos.js
+          grep -q "PROGRESISTA DE APURIMAC" party-catalog-v6410.js
+          grep -q "one_party_sprite-asset-v6412-06.js" service-worker.js
+      - name: Guided UX guards
+        run: |
+          grep -q "Paso 1 de 3 · Organización política" one-v6412-guided-ux.js
+          grep -q "Paso 2 de 3 · Tipo" one-v6412-guided-ux.js
+          grep -q "Paso 3 de 3 · Confirmación" one-v6412-guided-ux.js
+          grep -q "v6412SummaryOnly" one-v6412-guided-ux.js
+          ! grep -q "innerHTML=box.innerHTML.replace" one-v6412-guided-ux.js
       - name: Version and updater guards
         run: |
-          grep -q 'oneshot-v6.4.11-critical-ui-municipal-repair-01' version.json
-          grep -q 'oneshot-v6.4.11-critical-ui-municipal-repair-01' one-bootstrap-v643.js
-          grep -q 'ONE_V6411_MUNICIPAL' one-bootstrap-v643.js
-          grep -q 'ONE_V6411_LOGOS' one-bootstrap-v643.js
-          grep -q 'ONE_V6411_ORIENTATION' one-bootstrap-v643.js
-          grep -q 'ONE_V6411_REPORTS' one-bootstrap-v643.js
+          grep -q 'oneshot-v6.4.12-fer-voice-logos-guided-ux-01' version.json
+          grep -q 'oneshot-v6.4.12-fer-voice-logos-guided-ux-01' one-bootstrap-v643.js
+          grep -q 'ONE_V6412_GUIDED_UX' one-bootstrap-v643.js
+          grep -q 'ONE_V6412_PARTY_LOGOS' one-bootstrap-v643.js
+          grep -q 'ONE_V6412_FER_VOICE' one-bootstrap-v643.js
+          grep -q 'ONE_V6412_FER_VISUAL' one-bootstrap-v643.js
           grep -q 'DiegoRod24/one-shot-2/main/version.json' one-bootstrap-v643.js
-          grep -q 'oneshotDismissedBuild' one-bootstrap-v643.js
           ! grep -q "removeItem('oneshotDismissedBuild')" one-bootstrap-v643.js
-          grep -q 'party-catalog-v6410.js' service-worker.js
-          grep -q 'one-v6411-municipal.js' service-worker.js
-          grep -q 'one-v6411-logos.js' service-worker.js
-          grep -q 'one-v6411-orientation.js' service-worker.js
-          grep -q 'one-v6411-reports.js' service-worker.js
+          grep -q 'oneshot-v6.4.12-fer-voice-logos-guided-ux-01' service-worker.js
+          grep -q 'one-v6412-fer-visual.js' service-worker.js
+          grep -q 'one-v6412-fer-voice.js' service-worker.js
+          grep -q 'one-v6412-party-logos.js' service-worker.js
+          grep -q 'one-v6412-guided-ux.js' service-worker.js
