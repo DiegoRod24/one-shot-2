@@ -21,7 +21,7 @@ function currentFieldValue(k=key()){
   return'';
 }
 function validForStep(k,v){if(k==='party')return true;if(k==='type')return VALID_TYPES.has(String(v||'').toUpperCase());return false;}
-async function persistStep(nextIndex){const r=Editor.current,d=draft();if(!r||!d)return;d.currentStep=nextIndex;d.updatedAt=new Date().toISOString();try{await Store.save(r);}catch(e){console.error('guided step persist',e);throw e;}}
+async function persistStep(nextIndex){const r=Editor.current,d=draft();if(!r||!d)throw new Error('No hay evidencia activa');d.currentStep=nextIndex;d.updatedAt=new Date().toISOString();const saved=await Store.save(r);if(!saved)throw new Error('No se pudo confirmar el guardado de este paso');return saved;}
 async function advance(label=''){
   const i=Math.max(0,Math.min(Number(GuidedEditor.index)||0,2));if(i>=2)return;
   const next=i+1;const d=draft();if(d)d.currentStep=next;
@@ -57,12 +57,12 @@ async function choose(value,{source='tap',label='',raw='',showAutoRecognition=fa
 function skip(){
   const k=key();if(k==='summary')return GuidedEditor.back?.();
   const d=draft();if(d){d.skippedSteps=Array.isArray(d.skippedSteps)?d.skippedSteps:[];if(!d.skippedSteps.includes(k))d.skippedSteps.push(k);d.updatedAt=new Date().toISOString();}
-  GuidedEditor.clearRecognition?.();GuidedEditor.robot?.('idle');advance('Pendiente').catch(()=>{});
+  GuidedEditor.clearRecognition?.();GuidedEditor.robot?.('idle');advance('Pendiente').catch(e=>{console.error('guided skip persist',e);UI?.toast?.('No pude guardar el paso pendiente. La evidencia sigue abierta.',3400);});
 }
 function next(){
   const k=key();if(k==='summary')return;
   const v=currentFieldValue(k);if(k==='party'||k==='type'){
-    if((k==='party'&&v!=='')||(k==='type'&&VALID_TYPES.has(v)))return advance(v);
+    if((k==='party'&&v!=='')||(k==='type'&&VALID_TYPES.has(v)))return advance(v).catch(e=>{console.error('guided next persist',e);UI?.toast?.('No pude confirmar el guardado. Intenta otra vez.',3200);});
     GuidedEditor.robot?.('help');return GuidedEditor.say?.('Elige una opción. Si quieres dejar este dato pendiente, usa “Dejar pendiente”.');
   }
 }
@@ -103,7 +103,7 @@ function repairFer(){
 function polish(){
   const ed=document.getElementById('guidedEditor');if(!ed)return;const k=key();ed.dataset.v6416Step=k;
   const skipBtn=document.getElementById('guidedSkipBtn');if(skipBtn){skipBtn.textContent=k==='summary'?'← Corregir':'Dejar pendiente';skipBtn.title=k==='summary'?'Volver al paso anterior':'Continuar sin completar este dato';}
-  const nextBtn=document.getElementById('guidedNextBtn');if(nextBtn)nextBtn.style.display=(k==='summary'?'none':'none');
+  const nextBtn=document.getElementById('guidedNextBtn');if(nextBtn)nextBtn.style.display='none';
   const heard=document.getElementById('guidedHeard');if(heard&&!GuidedEditor.listenRequested)heard.textContent=k==='summary'?'Revisa el resumen y guarda.':'Toca una opción o habla. Al reconocerla, Fer guardará y avanzará automáticamente.';
   repairFer();
 }
