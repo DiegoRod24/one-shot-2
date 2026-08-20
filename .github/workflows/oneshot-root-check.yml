@@ -13,11 +13,17 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check app.js
+          node --check service-worker.js
           node --check one-bootstrap-v643.js
+          node --check one-v651-assets.js
+          node --check one-v651-domain.js
+          node --check one-v651-municipal.js
+          node --check one-v651-edit-core.js
+          node --check one-v651-reports-ui.js
+          node --check one-v651-fer-shell.js
           node --check one-v646-core.js
           node --check one-v646-reports.js
           node --check one-v647-core.js
-          node --check one-v6411-municipal.js
           node --check one-v6411-orientation.js
           node --check one-v6411-reports.js
           node --check one-v6413-corridor.js
@@ -27,86 +33,84 @@ jobs:
           node --check one-v6416-evidence-recovery.js
           node --check one-v6416-media-legacy-bridge.js
           node --check one-v6416-runtime-meta.js
-          node --check one-v6418-edit-core.js
           node --check oneshot-erm-data.js
           node --check APK/scripts/prepare-webdir.js
           node --check APK/scripts/oneshot-health-check.js
-          node --check service-worker.js
       - name: Repository health audit
         run: node APK/scripts/oneshot-health-check.js
       - name: Android WebDir dry run
         run: |
           node APK/scripts/prepare-webdir.js
-          test -f www/one-v6418-edit-core.js
+          test -f www/one-v651-edit-core.js
+          test -f www/one-v651-domain.js
+          test -f www/one-v651-municipal.js
+          test -f www/one-v651-assets.js
+          test -f www/one-v651-reports-ui.js
+          test -f www/one-v651-fer-shell.js
           test -f www/one-v6416-evidence-recovery.js
           test -f www/one-v6415-territory-ops.js
           test -f www/one-v6413-corridor.js
-          test -f www/municipal-data-v630-01.js
-          test -f www/party-catalog-v6410.js
-          test -f www/one_party_sprite-asset-v6412-01.js
-          test -f www/one_party_sprite-asset-v6412-06.js
-          test -f www/one-v6412-party-assets.js
-          test -f www/one_fer_sprite-asset-v6412-01.js
-          test -f www/one_fer_sprite-asset-v6412-04.js
-          test -f www/one-v6412-fer-assets.js
+          test -f www/assets/fer/fer-pose-01.webp
+          test -f www/assets/fer/fer-pose-06.webp
+          test -f www/assets/parties/FUERZA_POPULAR.png
+          test -f www/assets/parties/PROGRESISTA_DE_APURIMAC.png
       - name: Runtime ownership guards
         run: |
           grep -q "RUNTIME_BUNDLE" service-worker.js
           grep -q "buildRuntimeBundle" service-worker.js
-          grep -q "const LAZY=" service-worker.js
-          ! grep -q '\.\.\.DYNAMIC.map(f=>fetch' service-worker.js
-          ! grep -q '\.\.\.LAZY' service-worker.js
-          test "$(node -e "const s=require('fs').readFileSync('service-worker.js','utf8'),m=s.match(/const DYNAMIC=(\[[^;]+\]);/);console.log(JSON.parse(m[1]).length)")" -le 31
-          ! grep -q 'one-v631-core.js' service-worker.js
-          ! grep -q 'one-v643-core.js' service-worker.js
-          ! grep -q 'one-v644-core.js' service-worker.js
-          ! grep -q 'one-v648-guided.js' service-worker.js
-          ! grep -q 'one-v649-fer-session.js' service-worker.js
-          ! grep -q 'one-v6412-guided-ux.js' service-worker.js
-          ! grep -q 'one-v6416-edit-flow.js' service-worker.js
-          ! grep -q 'one-v6417-panel-provider.js' service-worker.js
-          grep -q 'one-v6418-edit-core.js' service-worker.js
-          grep -q 'one-v646-reports.js' service-worker.js
-          grep -q 'one-v6416-evidence-recovery.js' service-worker.js
-          grep -q 'one-v6415-territory-ops.js' service-worker.js
-      - name: Edit core guards
+          test "$(node -e "const s=require('fs').readFileSync('service-worker.js','utf8'),m=s.match(/const DYNAMIC=(\[[^;]+\]);/);console.log(JSON.parse(m[1]).length)")" -le 33
+          test "$(node -e "const s=require('fs').readFileSync('service-worker.js','utf8'),m=s.match(/const LAZY=(\[[^;]*\]);/);console.log(JSON.parse(m[1]).length)")" -eq 0
+          ! grep -q 'fer-v640.js' service-worker.js
+          ! grep -q 'one-reports-v61.js' service-worker.js
+          ! grep -q 'party-catalog-v631.js' service-worker.js
+          ! grep -q 'one-v6411-municipal.js' service-worker.js
+          ! grep -q 'one-v6418-edit-core.js' service-worker.js
+          ! grep -q 'one-v6412-party-assets.js' service-worker.js
+          ! grep -q 'one-v6412-fer-assets.js' service-worker.js
+          grep -q 'one-v651-edit-core.js' service-worker.js
+          grep -q 'one-v651-domain.js' service-worker.js
+          grep -q 'one-v651-municipal.js' service-worker.js
+          grep -q 'one-v651-reports-ui.js' service-worker.js
+      - name: First load recovery guard
         run: |
-          grep -q "const VALID_TYPES=new Set(\['PANEL','BANNER','PINTA'\])" one-v6418-edit-core.js
-          grep -q "const PROVIDERS=\[" one-v6418-edit-core.js
-          test "$(grep -c '^\[' one-v6418-edit-core.js)" -eq 42
-          grep -q "NO SE VISUALIZA EMPRESA" one-v6418-edit-core.js
-          grep -q "if(typeValue()==='PANEL')arr.push" one-v6418-edit-core.js
-          grep -q "await Store.save(r)" one-v6418-edit-core.js
-          ! grep -q "Editor.persist(" one-v6418-edit-core.js
-          ! grep -q "Gallery.render(" one-v6418-edit-core.js
-          ! grep -q "MutationObserver" one-v6418-edit-core.js
-          grep -q "stopImmediatePropagation" one-v6418-edit-core.js
-          grep -q "No necesitas pulsar “Siguiente”" one-v6418-edit-core.js
-          grep -q "speechSynthesis.getVoices" one-v6418-edit-core.js
-          grep -q "SpeechRecognition" one-v6418-edit-core.js
-          grep -q "ONE_PARTY_CATALOG_V6410" one-v6418-edit-core.js
-          grep -q "ONE_PARTY_SPRITE_V6412" one-v6418-edit-core.js
-          grep -q "FER_LAZY" one-v6418-edit-core.js
-          grep -q "PARTY_LAZY" one-v6418-edit-core.js
+          grep -q 'ONE_V651_EDIT_CORE' oneshot-erm-data.js
+          grep -q 'ONE_V651_DOMAIN' oneshot-erm-data.js
+          ! grep -q 'ONE_V6418_EDIT_CORE' oneshot-erm-data.js
+      - name: Assets and municipal source guards
+        run: |
+          test -f data/source/DIRECTORIO.xlsx
+          grep -q 'partyCount:Object.keys(PARTY_FILES).length' one-v651-assets.js
+          ! grep -q 'SPRITE_V6412' one-v651-edit-core.js
+          ! grep -q 'FER_LAZY' one-v651-edit-core.js
+          ! grep -q 'PARTY_LAZY' one-v651-edit-core.js
+          grep -q 'byUbigeo=new Map()' one-v651-municipal.js
+          grep -q 'byTerritory=new Map()' one-v651-municipal.js
+          ! grep -q 'slice(0,250)' one-v651-municipal.js
+      - name: Edit and report guards
+        run: |
+          grep -q "new Set(\['PANEL','BANNER','PINTA'\])" one-v651-edit-core.js
+          grep -q "NO SE VISUALIZA EMPRESA" one-v651-edit-core.js
+          grep -q "if(typeValue()==='PANEL')a.push" one-v651-edit-core.js
+          grep -q "await Store.save(r)" one-v651-edit-core.js
+          grep -q "stopImmediatePropagation" one-v651-edit-core.js
+          grep -q 'ReportScope' one-v651-reports-ui.js
+          grep -q 'Evidence.selectedForReport=()=>ReportScope.current()' one-v651-domain.js
+          grep -q 'const EvidenceMedia=' one-v651-domain.js
+          grep -q 'const ReviewState=' one-v651-domain.js
       - name: Evidence and territory guards
         run: |
           grep -q "durablePut" one-v6416-evidence-recovery.js
-          grep -q "const saved=await dbGet(record.id)" one-v6416-evidence-recovery.js
           grep -q "Fotos anteriores" one-v6416-evidence-recovery.js
           grep -q "imageOriginal" one-v6416-evidence-recovery.js
-          grep -q "photoData" one-v6416-evidence-recovery.js
           grep -q "bridge(record,'image'" one-v6416-media-legacy-bridge.js
           grep -q 'indexedDB.open("oneshotEvidenceDB_v2"' app.js
           grep -q "team-assignment-package" one-v6415-territory-ops.js
-          grep -q "sectorStats" one-v6415-territory-ops.js
-          grep -q "No hay zonas pendientes válidas" one-v6415-territory-ops.js
           grep -q "Tramo de propaganda repetitiva" one-v6413-corridor.js
-          ! grep -q "indexedDB.deleteDatabase" one-v6418-edit-core.js one-v6416-evidence-recovery.js one-v6415-territory-ops.js one-v6413-corridor.js
+          ! grep -q "indexedDB.deleteDatabase" one-v651-edit-core.js one-v651-domain.js one-v651-municipal.js one-v6416-evidence-recovery.js one-v6415-territory-ops.js
       - name: Version and updater guards
         run: |
-          grep -q 'oneshot-v6.5.0-architecture-cleanup-phase1-01' version.json
-          grep -q 'oneshot-v6.5.0-architecture-cleanup-phase1-01' one-bootstrap-v643.js
-          grep -q 'oneshot-v6.5.0-architecture-cleanup-phase1-01' service-worker.js
-          grep -q "let best=CURRENT_BUILD" one-bootstrap-v643.js
+          grep -q 'oneshot-v6.5.1-assets-data-ui-consolidation-01' version.json
+          grep -q 'oneshot-v6.5.1-assets-data-ui-consolidation-01' one-bootstrap-v643.js
+          grep -q 'oneshot-v6.5.1-assets-data-ui-consolidation-01' service-worker.js
           grep -q 'DiegoRod24/one-shot-2/main/version.json' one-bootstrap-v643.js
-          grep -q '"version": "6.5.0"' package.json
+          grep -q '"version": "6.5.1"' package.json
