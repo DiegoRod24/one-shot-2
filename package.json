@@ -1,6 +1,6 @@
 {
   "name": "one-shot-field-evidence",
-  "version": "6.4.18",
+  "version": "6.5.0",
   "private": true,
   "scripts": {
     "health:check": "node APK/scripts/oneshot-health-check.js",
