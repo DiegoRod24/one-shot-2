@@ -49,19 +49,26 @@ jobs:
           test -f www/one_fer_sprite-asset-v6412-01.js
           test -f www/one_fer_sprite-asset-v6412-04.js
           test -f www/one-v6412-fer-assets.js
-      - name: Runtime consolidation guards
+      - name: Runtime ownership guards
         run: |
           grep -q "RUNTIME_BUNDLE" service-worker.js
           grep -q "buildRuntimeBundle" service-worker.js
           grep -q "const LAZY=" service-worker.js
           ! grep -q '\.\.\.DYNAMIC.map(f=>fetch' service-worker.js
-          test "$(node -e "const s=require('fs').readFileSync('service-worker.js','utf8'),m=s.match(/const DYNAMIC=(\[[^;]+\]);/);console.log(JSON.parse(m[1]).length)")" -le 36
+          ! grep -q '\.\.\.LAZY' service-worker.js
+          test "$(node -e "const s=require('fs').readFileSync('service-worker.js','utf8'),m=s.match(/const DYNAMIC=(\[[^;]+\]);/);console.log(JSON.parse(m[1]).length)")" -le 31
+          ! grep -q 'one-v631-core.js' service-worker.js
+          ! grep -q 'one-v643-core.js' service-worker.js
+          ! grep -q 'one-v644-core.js' service-worker.js
           ! grep -q 'one-v648-guided.js' service-worker.js
           ! grep -q 'one-v649-fer-session.js' service-worker.js
           ! grep -q 'one-v6412-guided-ux.js' service-worker.js
           ! grep -q 'one-v6416-edit-flow.js' service-worker.js
           ! grep -q 'one-v6417-panel-provider.js' service-worker.js
           grep -q 'one-v6418-edit-core.js' service-worker.js
+          grep -q 'one-v646-reports.js' service-worker.js
+          grep -q 'one-v6416-evidence-recovery.js' service-worker.js
+          grep -q 'one-v6415-territory-ops.js' service-worker.js
       - name: Edit core guards
         run: |
           grep -q "const VALID_TYPES=new Set(\['PANEL','BANNER','PINTA'\])" one-v6418-edit-core.js
@@ -97,9 +104,9 @@ jobs:
           ! grep -q "indexedDB.deleteDatabase" one-v6418-edit-core.js one-v6416-evidence-recovery.js one-v6415-territory-ops.js one-v6413-corridor.js
       - name: Version and updater guards
         run: |
-          grep -q 'oneshot-v6.4.18-core-performance-edit-consolidation-01' version.json
-          grep -q 'oneshot-v6.4.18-core-performance-edit-consolidation-01' one-bootstrap-v643.js
-          grep -q 'oneshot-v6.4.18-core-performance-edit-consolidation-01' service-worker.js
-          grep -q 'ONE_V6418_EDIT_CORE' one-bootstrap-v643.js
+          grep -q 'oneshot-v6.5.0-architecture-cleanup-phase1-01' version.json
+          grep -q 'oneshot-v6.5.0-architecture-cleanup-phase1-01' one-bootstrap-v643.js
+          grep -q 'oneshot-v6.5.0-architecture-cleanup-phase1-01' service-worker.js
+          grep -q "let best=CURRENT_BUILD" one-bootstrap-v643.js
           grep -q 'DiegoRod24/one-shot-2/main/version.json' one-bootstrap-v643.js
-          grep -q '"version": "6.4.18"' package.json
+          grep -q '"version": "6.5.0"' package.json
