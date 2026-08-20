@@ -1,8 +1,8 @@
 {
-  "version": "v6.5.2 · INTERACTION + VOICE + MUNICIPAL STABILITY",
-  "build": "oneshot-v6.5.2-interaction-voice-municipal-stability-01",
+  "version": "v6.5.3 · MOBILE UX + FER CONVERSATION STABILITY",
+  "build": "oneshot-v6.5.3-mobile-ux-fer-field-stability-01",
   "released": "2026-08-20",
-  "notes": "Estabiliza Editar con Fer: una sola sesión de voz que se destruye al cerrar, bloqueo contra doble ejecución y Guardar y siguiente determinístico. Retira del runtime one-ux-v611, one-v63-core y one-v645-core. Municipio distingue match exacto, distrito faltante y ambigüedad con máximo tres candidatos y nunca selecciona la primera opción. Evidencias unifica media, estado y filtros; Historial usa Fer real. Mantiene Cámara, navegación, oneshotEvidenceDB_v2, recuperación de fotos, Territorio y Tramos.",
+  "notes": "Repara el visor móvil para mantener foto, información y acciones dentro de 100dvh; compacta Editar con Fer y elimina la superposición del asistente sobre la foto. La conversación pasa a half-duplex con sessionId + turnId, espera silenciosa y anti-eco de 8 s. El guardado es persistence-first antes de avanzar. Mantiene 75 organizaciones, 42 proveedores y PANEL/BANNER/PINTA. Añade salida Excel solo de locales partidarios, tramos de pancartas dibujados o recorridos y GeoJSON preparado para ONE SHOT Operaciones. Mantiene Cámara, bottom navigation, oneshotEvidenceDB_v2, originales, Territorio y ReportScope.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_5_2_INTERACTION_VOICE_MUNICIPAL_STABILITY.apk"
+  "apkFilename": "ONE_SHOT_v6_5_3_MOBILE_UX_FER_FIELD_STABILITY.apk"
 }
