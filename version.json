@@ -1,8 +1,8 @@
 {
-  "version": "v6.4.17 · PANEL PROVIDER FLOW",
-  "build": "oneshot-v6.4.17-panel-provider-flow-01",
+  "version": "v6.4.18 · CORE PERFORMANCE + EDIT CONSOLIDATION",
+  "build": "oneshot-v6.4.18-core-performance-edit-consolidation-01",
   "released": "2026-08-19",
-  "notes": "Añade una pregunta condicional de proveedor solo para evidencias PANEL. El flujo queda Organización → Tipo → Proveedor → Confirmación cuando se elige PANEL; BANNER y PINTA continúan directo a Confirmación. Incluye 42 proveedores normalizados, búsqueda y reconocimiento por voz con alias, opción NO SE VISUALIZA EMPRESA, edición manual del proveedor y salida en la columna Empresa del Excel. Conserva recuperación de fotos, almacenamiento verificado, Fer, Cámara, Territorio, Tramos e IndexedDB.",
+  "notes": "Estabiliza ONE SHOT eliminando capas históricas duplicadas de Editar con Fer, voz y logos. Consolida Organización → Tipo → Proveedor solo para PANEL → Confirmación en un único núcleo sin esperas artificiales ni repintado completo de Galería por cada respuesta. Reduce el runtime activo, carga sprites pesados solo al abrir Editar y cambia el Service Worker para reutilizar un bundle cacheado en lugar de volver a descargar decenas de módulos en cada arranque. Mantiene Cámara, IndexedDB, recuperación de fotos, Territorio, Tramos, municipalidades y Excel.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_4_17_PANEL_PROVIDER_FLOW.apk"
+  "apkFilename": "ONE_SHOT_v6_4_18_CORE_PERFORMANCE_EDIT_CONSOLIDATION.apk"
 }
