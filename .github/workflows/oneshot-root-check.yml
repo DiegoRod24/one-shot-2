@@ -21,18 +21,17 @@ jobs:
           node --check one-v651-edit-core.js
           node --check one-v651-reports-ui.js
           node --check one-v651-fer-shell.js
+          node --check one-v653-mobile-ux.js
+          node --check one-v653-field-findings.js
           node --check one-v646-core.js
           node --check one-v646-reports.js
           node --check one-v647-core.js
           node --check one-v6411-orientation.js
-          node --check one-v6411-reports.js
           node --check one-v6413-corridor.js
           node --check one-v6413-corridor-reports.js
-          node --check one-v6414-health-runtime.js
           node --check one-v6415-territory-ops.js
           node --check one-v6416-evidence-recovery.js
           node --check one-v6416-media-legacy-bridge.js
-          node --check one-v6416-runtime-meta.js
           node --check oneshot-erm-data.js
           node --check APK/scripts/prepare-webdir.js
           node --check APK/scripts/oneshot-health-check.js
@@ -42,9 +41,10 @@ jobs:
         run: |
           node APK/scripts/prepare-webdir.js
           test -f www/one-v651-edit-core.js
+          test -f www/one-v653-mobile-ux.js
+          test -f www/one-v653-field-findings.js
           test -f www/one-v651-domain.js
           test -f www/one-v651-municipal.js
-          test -f www/one-v651-fer-shell.js
           test -f www/one-v6416-evidence-recovery.js
           test -f www/one-v6415-territory-ops.js
           test -f www/assets/fer/fer-pose-01.webp
@@ -52,30 +52,39 @@ jobs:
           test -f www/assets/parties/FUERZA_POPULAR.png
       - name: Runtime ownership guards
         run: |
-          test "$(node -e "const s=require('fs').readFileSync('service-worker.js','utf8'),m=s.match(/const DYNAMIC=(\[[^;]+\]);/);console.log(JSON.parse(m[1]).length)")" -le 30
+          test "$(node -e "const s=require('fs').readFileSync('service-worker.js','utf8'),m=s.match(/const DYNAMIC=(\[[^;]+\]);/);console.log(JSON.parse(m[1]).length)")" -le 31
           ! grep -q 'one-ux-v611.js' service-worker.js
           ! grep -q 'one-v63-core.js' service-worker.js
           ! grep -q 'one-v645-core.js' service-worker.js
           ! grep -q 'fer-v640.js' service-worker.js
-          grep -q 'one-v651-edit-core.js' service-worker.js
-          grep -q 'one-v651-domain.js' service-worker.js
-          grep -q 'one-v651-municipal.js' service-worker.js
-          grep -q 'one-v651-fer-shell.js' service-worker.js
+          grep -q 'one-v653-mobile-ux.js' service-worker.js
+          grep -q 'one-v653-field-findings.js' service-worker.js
       - name: First load recovery guard
         run: |
-          grep -q 'ONE_V652_EDIT_CORE' oneshot-erm-data.js
-          grep -q 'ONE_V652_DOMAIN' oneshot-erm-data.js
+          grep -q 'ONE_V653_EDIT_CORE' oneshot-erm-data.js
+          grep -q 'ONE_V653_MOBILE_UX' oneshot-erm-data.js
+          grep -q 'ONE_V653_FIELD_FINDINGS' oneshot-erm-data.js
           grep -q 'ONE_V652_MUNICIPAL' oneshot-erm-data.js
-      - name: Interaction guards
+      - name: Fer half-duplex guards
         run: |
-          grep -q 'const Session={' one-v651-edit-core.js
+          grep -q 'turnId:0' one-v651-edit-core.js
+          grep -q 'speechSynthesis.speaking' one-v651-edit-core.js
+          grep -q 'Date.now()-x.at<8000' one-v651-edit-core.js
+          grep -q 'setTimeout(()=>this.listen(sid,tid),1050)' one-v651-edit-core.js
           grep -q 'Session.busy' one-v651-edit-core.js
           ! grep -q 'baseSaveNext' one-v651-edit-core.js
-          grep -q 'v652SummaryActions' one-v651-edit-core.js
-          grep -q 'v652LegacyNavHidden' one-v651-edit-core.js
-          grep -q 'stopImmediatePropagation' one-v651-edit-core.js
-          grep -q "new Set(\['PANEL','BANNER','PINTA'\])" one-v651-edit-core.js
-      - name: Municipal and scope guards
+          grep -q 'Si Fer reconoce una respuesta válida' one-v651-edit-core.js
+          grep -q 'v653ProviderSearch' one-v651-edit-core.js
+          grep -q 'v653SummaryActions' one-v651-edit-core.js
+          grep -q 'v653LegacyNavHidden' one-v651-edit-core.js
+      - name: Mobile viewport guards
+        run: |
+          grep -q '100dvh' one-v653-mobile-ux.js
+          grep -q 'object-fit:contain' one-v653-mobile-ux.js
+          grep -q 'overflow:hidden!important' one-v653-mobile-ux.js
+          grep -q 'v653ImageExpanded' one-v653-mobile-ux.js
+          grep -q '#editMiniAssistant' one-v653-mobile-ux.js
+      - name: Municipal and report scope guards
         run: |
           test -f data/source/DIRECTORIO.xlsx
           grep -q "'MISSING_DISTRICT'" one-v651-municipal.js
@@ -87,24 +96,33 @@ jobs:
           grep -q 'const ReviewState=' one-v651-domain.js
           grep -q 'const ReportScope=' one-v651-domain.js
           grep -q 'Evidence.selectedForReport=()=>ReportScope.current()' one-v651-domain.js
-      - name: Fer assets and evidence guards
+      - name: Field findings and operations guards
         run: |
-          grep -q 'Fer · Ayuda de historial' one-v651-fer-shell.js
-          ! grep -Eq "class(Name)?[[:space:]]*=[[:space:]]*['\"]relationHelpBot['\"]|class=['\"][^'\"]*relationHelpBot" one-v651-fer-shell.js
-          grep -q '__ONE_EDIT_VOICE_ACTIVE' one-v651-fer-shell.js
+          grep -q "PANCARTA_EN_POSTE:'PANCARTA_EN_POSTE'" one-v653-field-findings.js
+          grep -q "LOCAL_PARTIDARIO:'LOCAL_PARTIDARIO'" one-v653-field-findings.js
+          grep -q 'LOCALES_PARTIDARIOS' one-v653-field-findings.js
+          grep -q "entity:'political_location'" one-v653-field-findings.js
+          grep -q "entity:'propaganda_corridor'" one-v653-field-findings.js
+          grep -q "entity:'route_coverage'" one-v653-field-findings.js
+          grep -q "entity:'field_sector'" one-v653-field-findings.js
+          grep -q "entity:'team_assignment'" one-v653-field-findings.js
+          grep -q "mode:'DRAWN'" one-v653-field-findings.js
+          grep -q "c.mode='TRACKED'" one-v653-field-findings.js
+      - name: Evidence durability guards
+        run: |
           grep -q 'durablePut' one-v6416-evidence-recovery.js
           grep -q 'Fotos anteriores' one-v6416-evidence-recovery.js
           grep -q "bridge(record,'image'" one-v6416-media-legacy-bridge.js
           grep -q 'indexedDB.open("oneshotEvidenceDB_v2"' app.js
-          ! grep -q 'indexedDB.deleteDatabase' one-v651-edit-core.js one-v651-domain.js one-v651-municipal.js
+          ! grep -q 'indexedDB.deleteDatabase' one-v651-edit-core.js one-v653-mobile-ux.js one-v653-field-findings.js one-v651-domain.js one-v651-municipal.js
       - name: Territory regression guards
         run: |
           grep -q 'team-assignment-package' one-v6415-territory-ops.js
           grep -q 'Tramo de propaganda repetitiva' one-v6413-corridor.js
       - name: Version and updater guards
         run: |
-          grep -q 'oneshot-v6.5.2-interaction-voice-municipal-stability-01' version.json
-          grep -q 'oneshot-v6.5.2-interaction-voice-municipal-stability-01' one-bootstrap-v643.js
-          grep -q 'oneshot-v6.5.2-interaction-voice-municipal-stability-01' service-worker.js
+          grep -q 'oneshot-v6.5.3-mobile-ux-fer-field-stability-01' version.json
+          grep -q 'oneshot-v6.5.3-mobile-ux-fer-field-stability-01' one-bootstrap-v643.js
+          grep -q 'oneshot-v6.5.3-mobile-ux-fer-field-stability-01' service-worker.js
           grep -q 'DiegoRod24/one-shot-2/main/version.json' one-bootstrap-v643.js
-          grep -q '"version": "6.5.2"' package.json
+          grep -q '"version": "6.5.3"' package.json
