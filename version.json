@@ -1,8 +1,8 @@
 {
-  "version": "v6.5.1 · ASSETS + DATA + UI CONSOLIDATION",
-  "build": "oneshot-v6.5.1-assets-data-ui-consolidation-01",
+  "version": "v6.5.2 · INTERACTION + VOICE + MUNICIPAL STABILITY",
+  "build": "oneshot-v6.5.2-interaction-voice-municipal-stability-01",
   "released": "2026-08-20",
-  "notes": "Consolida fuentes reales sin rediseñar ONE SHOT: los 75 logos se sirven desde assets/parties y Fer usa las 6 poses de assets/fer. data/source/DIRECTORIO.xlsx queda como fuente municipal y el runtime indexa sus 1,892 territorios mediante el transporte de datos existente, sin usar listas nacionales ni seleccionar destinos por orden. Editar usa un solo flujo organización→tipo→proveedor PANEL→confirmación, Reportes comparte ReportScope y Evidencias unifica estado/media. Mantiene Cámara, navegación, IndexedDB, recuperación de fotos, Territorio y Tramos.",
+  "notes": "Estabiliza Editar con Fer: una sola sesión de voz que se destruye al cerrar, bloqueo contra doble ejecución y Guardar y siguiente determinístico. Retira del runtime one-ux-v611, one-v63-core y one-v645-core. Municipio distingue match exacto, distrito faltante y ambigüedad con máximo tres candidatos y nunca selecciona la primera opción. Evidencias unifica media, estado y filtros; Historial usa Fer real. Mantiene Cámara, navegación, oneshotEvidenceDB_v2, recuperación de fotos, Territorio y Tramos.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_5_1_ASSETS_DATA_UI_CONSOLIDATION.apk"
+  "apkFilename": "ONE_SHOT_v6_5_2_INTERACTION_VOICE_MUNICIPAL_STABILITY.apk"
 }
