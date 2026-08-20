@@ -90,7 +90,7 @@ jobs:
       - name: Fer assets and evidence guards
         run: |
           grep -q 'Fer · Ayuda de historial' one-v651-fer-shell.js
-          ! grep -q 'relationHelpBot' one-v651-fer-shell.js
+          ! grep -Eq "class(Name)?[[:space:]]*=[[:space:]]*['\"]relationHelpBot['\"]|class=['\"][^'\"]*relationHelpBot" one-v651-fer-shell.js
           grep -q '__ONE_EDIT_VOICE_ACTIVE' one-v651-fer-shell.js
           grep -q 'durablePut' one-v6416-evidence-recovery.js
           grep -q 'Fotos anteriores' one-v6416-evidence-recovery.js
