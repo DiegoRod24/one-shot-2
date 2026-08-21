@@ -1,14 +1,12 @@
-import { accessToken, cors, json, preflight, requireSyncKey } from "../../_shared/dropbox.js";
+import { accessToken, cors, json, requireSyncKey } from "../../_shared/dropbox.js";
 
 const DROPBOX_CONTENT = "https://content.dropboxapi.com/2/files/upload";
 const TEST_PATH = "/diagnostico/one-shot-write-test.txt";
 
-export async function onRequestOptions(context) {
-  return preflight(context.request);
-}
-
-export async function onRequestPost(context) {
+export async function onRequest(context) {
   const headers = cors(context.request);
+  if (context.request.method === "OPTIONS") return new Response(null, { status: 204, headers });
+
   const authError = requireSyncKey(context);
   if (authError) return authError;
 
@@ -18,6 +16,7 @@ export async function onRequestPost(context) {
     oauth: false,
     write: false,
     testPath: TEST_PATH,
+    requestMethod: context.request.method,
     stage: "start",
   };
 
