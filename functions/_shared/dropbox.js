@@ -85,13 +85,13 @@ export async function uploadFile(env, path, bytes, contentType = "application/oc
     method: "POST",
     headers: {
       authorization: `Bearer ${token}`,
-      "content-type": contentType,
+      "content-type": "application/octet-stream",
       "dropbox-api-arg": JSON.stringify({ path, mode: "overwrite", autorename: false, mute: true, strict_conflict: false }),
     },
     body: bytes,
   });
   const payload = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(payload?.error_summary || `Dropbox upload HTTP ${response.status}`);
+  if (!response.ok) throw new Error(payload?.error_summary || payload?.error?.[".tag"] || (typeof payload?.error === "string" ? payload.error : "") || `Dropbox upload HTTP ${response.status}`);
   return payload;
 }
 
