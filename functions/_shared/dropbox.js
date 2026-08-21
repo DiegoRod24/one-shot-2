@@ -13,9 +13,9 @@ export function cors(request) {
   const origin = request.headers.get("origin") || "";
   const allowed =
     origin === "https://one-shot-2.pages.dev" ||
-    origin === "https://one-shot.pages.dev" ||
+    origin === "https://one-shop.pages.dev" ||
     /^https:\/\/[a-z0-9-]+\.one-shot-2\.pages\.dev$/i.test(origin) ||
-    /^https:\/\/[a-z0-9-]+\.one-shot\.pages\.dev$/i.test(origin) ||
+    /^https:\/\/[a-z0-9-]+\.one-shop\.pages\.dev$/i.test(origin) ||
     /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin) ||
     origin === "capacitor://localhost" ||
     origin === "ionic://localhost" ||
