@@ -27,6 +27,8 @@ Un comportamiento operativo debe tener **un solo propietario activo**. Los archi
 | Territorio / asignaciones | `one-v6415-territory-ops.js` |
 | Recorrido de tramo GPS | `one-v6413-corridor.js` |
 | Reportes de tramo existentes | `one-v6413-corridor-reports.js` |
+| Sincronización de medios Dropbox | `one-dropbox-sync.js` + `functions/api/dropbox/*` |
+| Versionado editorial no destructivo | `one-phase2-edit-center.js` + `functions/api/dropbox/version.js` |
 
 ## Reglas de interacción v6.5.3
 
@@ -94,6 +96,18 @@ Entidades GeoJSON preparadas:
 - `team_assignment`
 
 **No existe todavía `/operaciones/` en v6.5.3.** Esa interfaz será una fase independiente y consumirá este contrato de datos.
+
+## Fase 2 · Contrato de medios y edición
+
+Cada evidencia puede conservar varias representaciones sin destruir la fuente:
+
+- `ORIGINAL`: captura o mejor fuente histórica disponible; nunca se sobrescribe por una edición.
+- `STAMPED`: versión con marca/sello de evidencia.
+- `CORRECTED`: versión derivada por edición en ONE SHOT 2.
+
+`mediaVersions[]` registra la secuencia y `currentImagePath` señala la versión vigente en nube. Dropbox conserva los binarios y `metadata.json` conserva trazabilidad. Las correcciones se guardan en `/correcciones/<timestamp>.<ext>`.
+
+Una evidencia importada desde Dropbox debe decodificar como imagen antes de entrar a IndexedDB. Si la original no es utilizable pero existe una marcada válida, se conserva como `ONLY_MARKED` y se declara `originalMediaUnavailable=true`.
 
 ## Fuentes canónicas
 
