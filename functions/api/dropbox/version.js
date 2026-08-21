@@ -1,4 +1,5 @@
 import { cors, evidenceRoot, json, preflight, requireSyncKey, uploadFile } from "../../_shared/dropbox.js";
+import { upsertEvidence } from "../../_shared/geo-index.js";
 
 const MAX_IMAGE_BYTES = 20 * 1024 * 1024;
 
@@ -42,7 +43,8 @@ export async function onRequestPost(context) {
       cloud:{...(metadata.cloud||{}),provider:"dropbox",root,metadataPath,correctedPath,currentImagePath:correctedPath,syncedAt:new Date().toISOString()},
     };
     await uploadFile(context.env, metadataPath, new TextEncoder().encode(JSON.stringify(serverMetadata,null,2)), "application/json");
-    return json({ok:true,root,correctedPath,metadataPath,mediaVersions:next,syncedAt:serverMetadata.cloud.syncedAt},200,headers);
+    const geo = await upsertEvidence(context, serverMetadata).catch(error => ({ indexed:false, reason:error.message || String(error) }));
+    return json({ok:true,root,correctedPath,metadataPath,mediaVersions:next,syncedAt:serverMetadata.cloud.syncedAt,geo},200,headers);
   } catch (error) {
     return json({ok:false,message:error.message||String(error)},500,headers);
   }
