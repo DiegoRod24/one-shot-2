@@ -13,6 +13,7 @@ export async function onRequest(context) {
     .on("body", {
       element(el) {
         el.append('<script src="/one-dropbox-sync.js"></script>', { html: true });
+        el.append('<script src="/one-sync-worker-mode.js"></script>', { html: true });
         el.append('<script src="/one-phase2-edit-center.js"></script>', { html: true });
       },
     })
