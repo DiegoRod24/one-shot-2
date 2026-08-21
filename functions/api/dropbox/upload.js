@@ -1,13 +1,15 @@
-import { cors, evidenceRoot, json, preflight, requireSyncKey, uploadFile } from "../../_shared/dropbox.js";
+import { cors, evidenceRoot, json, requireSyncKey, uploadFile } from "../../_shared/dropbox.js";
 
 const MAX_IMAGE_BYTES = 20 * 1024 * 1024;
 
-export async function onRequestOptions(context) {
-  return preflight(context.request);
-}
-
-export async function onRequestPost(context) {
+export async function onRequest(context) {
   const headers = cors(context.request);
+  const method = context.request.method.toUpperCase();
+  if (method === "OPTIONS") return new Response(null, { status: 204, headers });
+  if (method !== "POST") {
+    return json({ ok: false, message: `Método no permitido: ${method}` }, 405, { ...headers, allow: "POST, OPTIONS" });
+  }
+
   const authError = requireSyncKey(context);
   if (authError) return authError;
 
