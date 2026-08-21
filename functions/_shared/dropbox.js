@@ -15,7 +15,11 @@ export function cors(request) {
     origin === "https://one-shot-2.pages.dev" ||
     origin === "https://one-shot.pages.dev" ||
     /^https:\/\/[a-z0-9-]+\.one-shot-2\.pages\.dev$/i.test(origin) ||
-    /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+    /^https:\/\/[a-z0-9-]+\.one-shot\.pages\.dev$/i.test(origin) ||
+    /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin) ||
+    origin === "capacitor://localhost" ||
+    origin === "ionic://localhost" ||
+    origin === "null";
   return allowed
     ? {
         "access-control-allow-origin": origin,
