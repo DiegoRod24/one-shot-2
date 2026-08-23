@@ -4,6 +4,10 @@ export async function onRequest(context) {
   if (!contentType.includes("text/html")) return response;
 
   return new HTMLRewriter()
+    // OCR está temporalmente OFF en v6.6: no descargar Tesseract (~carga pesada) al abrir cámara.
+    .on('script[src*="tesseract"]', {
+      element(el) { el.remove(); },
+    })
     .on("head", {
       element(el) {
         el.append('<link rel="stylesheet" href="/one-dropbox-sync.css">', { html: true });
@@ -13,9 +17,8 @@ export async function onRequest(context) {
     })
     .on("body", {
       element(el) {
-        el.append('<script src="/one-dropbox-sync.js"></script>', { html: true });
-        el.append('<script src="/one-sync-worker-mode.js"></script>', { html: true });
-        el.append('<script src="/one-phase2-edit-center.js"></script>', { html: true });
+        // Performance: primero cámara. Sync/Phase2/reportes/territorio cargan en idle o por intención.
+        el.append('<script src="/one-v661-idle-loader.js"></script>', { html: true });
         el.append('<script src="/one-v660-political-activity.js"></script>', { html: true });
       },
     })
