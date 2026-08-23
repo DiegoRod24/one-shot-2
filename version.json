@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.2 · FER OFF + UPDATE LOOP FIX",
-  "build": "oneshot-v6.6.2-fer-off-update-loop-fix-01",
+  "version": "v6.6.3 · FIELD FLOW CLEANUP",
+  "build": "oneshot-v6.6.3-field-flow-cleanup-01",
   "released": "2026-08-23",
-  "notes": "Desactiva temporalmente el asistente virtual Fer y elimina sus módulos/poses del runtime crítico para evitar conflictos y reducir carga en Android/iPhone. Corrige el bucle de actualización: el runtime ahora reconoce correctamente la build instalada y no vuelve a ofrecer la misma versión. Conserva evidencias, configuración, captura libre, edición, partidos, PANEL/BANNER/PINTA, proveedor, actividad política y sincronización.",
+  "notes": "Simplifica ONE SHOT para trabajo de campo. Fer, voz, OCR y sugerencias quedan ocultos mientras están OFF. El editor pasa a clasificación manual táctil con buscador del catálogo completo, PANEL/BANNER/PINTA y proveedor solo para panel. Territorio se reduce a Recorrido libre, Tramo repetitivo y Zona planificada opcional; planificación avanzada queda plegada. Mejora jerarquía móvil y evita controles innecesarios sobre la información. Conserva evidencias y base local.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_2_FER_OFF_UPDATE_FIX.apk"
+  "apkFilename": "ONE_SHOT_v6_6_3_FIELD_FLOW_CLEANUP.apk"
 }
