@@ -3,7 +3,6 @@
 'use strict';
 if(window.ONE_V6611_CAMERA_FAST)return;
 const BUILD='oneshot-v6.6.11-camera-rear-fast-01';
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const rearRx=/(back|rear|environment|trasera|posterior|world|camera 0)/i;
 const frontRx=/(front|frontal|selfie|user facing|camera 1)/i;
 let patched=false;
@@ -40,6 +39,7 @@ function patchCamera(){
   Camera.start=async function({silent=false,force=false}={}){
     State.cameraWanted=true;
     if(State.startPromise)return State.startPromise;
+    if(!force&&State.cameraStatus==='active'&&State.currentTrack?.readyState==='live')return true;
     if(State.__oneRearStartupDone)return baseStart({silent,force});
 
     State.cameraFacing='back';
@@ -135,6 +135,7 @@ function patchCamera(){
 
     try{return await State.startPromise;}
     catch(err){
+      try{await Camera.stop({keepWanted:true})}catch(_){}
       State.cameraErrorKind=classify(err);State.cameraErrorName=err?.name||'Error';
       Camera.setStatus('error',err?.message||'No se pudo iniciar la cámara');
       if(!silent)toast(err?.message||'No se pudo iniciar la cámara',3200);
