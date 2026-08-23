@@ -1,8 +1,8 @@
-/* ONE SHOT · COMPATIBILITY BOOTSTRAP · FIELD FLOW CLEANUP v6.6.12 */
+/* ONE SHOT · COMPATIBILITY BOOTSTRAP · UPDATE + CAMERA STABILITY v6.6.13 */
 (()=>{
 'use strict';
 const LEGACY_BUILD='oneshot-v6.4.3-data-edit-flow-fix-01';
-const CURRENT_BUILD='oneshot-v6.6.12-field-flow-cleanup-01';
+const CURRENT_BUILD='oneshot-v6.6.13-update-camera-stability-01';
 const ua=navigator.userAgent||'';
 const isIOS=/iPhone|iPad|iPod/i.test(ua);
 const standalone=(()=>{try{return window.matchMedia?.('(display-mode: standalone)').matches===true||window.matchMedia?.('(display-mode: fullscreen)').matches===true||navigator.standalone===true||document.referrer.startsWith('android-app://')}catch(_){return navigator.standalone===true}})();
@@ -17,6 +17,7 @@ const maxBuild=(...vals)=>vals.filter(Boolean).reduce((best,v)=>!best||cmp(v,bes
 const runtimeBuild=()=>{
   let best=CURRENT_BUILD;
   for(const get of [
+    ()=>window.ONE_V6613_UPDATE_CAMERA_STABILITY?.BUILD,
     ()=>window.ONE_V6612_FIELD_FLOW_CLEANUP?.BUILD,
     ()=>window.ONE_V6611_CAMERA_FAST?.BUILD,
     ()=>window.ONE_V669_LOCAL_PARTIDARIO?.BUILD,
@@ -42,43 +43,19 @@ function patchManualUpdateButton(){
   const txt=document.getElementById('updateAppText');
   if(!btn||btn.dataset.oneUpdaterV669==='1')return;
   btn.dataset.oneUpdaterV669='1';
-  if(txt)txt.textContent='Buscar versión o recargar archivos sin borrar evidencias';
+  if(txt)txt.textContent='Buscar nueva versión de ONE SHOT';
   btn.addEventListener('click',async e=>{
-    e.preventDefault();
-    e.stopImmediatePropagation();
+    e.preventDefault();e.stopImmediatePropagation();
     if(!navigator.onLine){UI?.toast?.('Sin internet: no se puede actualizar');return;}
-    btn.classList.add('busy');
-    if(txt)txt.textContent='Comprobando versión publicada…';
+    if(!isNative()&&window.ONE_V6613_UPDATE_CAMERA_STABILITY?.checkUpdate)return window.ONE_V6613_UPDATE_CAMERA_STABILITY.checkUpdate();
+    btn.classList.add('busy');if(txt)txt.textContent='Comprobando versión publicada…';
     try{
-      const remote=await AppUpdater.feed();
-      const current=markCurrent();
-      if(remote?.build&&cmp(remote.build,current)>0){
-        if(txt)txt.textContent='Nueva versión disponible';
-        const accept=await AppUpdater.prompt(remote);
-        if(!accept){if(txt)txt.textContent='Actualización disponible · pendiente';return;}
-        localStorage.setItem('oneshotAppliedBuild',remote.build||current);
-        localStorage.setItem('oneshotRuntimeBuild',remote.build||current);
-        localStorage.removeItem('oneshotDismissedBuild');
-        await AppUpdater.install(remote);
-        return;
-      }
-      if(txt)txt.textContent='Versión actual · recargando archivos…';
-      UI?.toast?.(`ONE SHOT ${remote?.version||''} · recarga segura`,2600);
-      if(typeof AppUpdater.refreshPwa==='function'){
-        await AppUpdater.refreshPwa(remote||{build:current,version:'actual'});
-      }else{
-        const regs=await navigator.serviceWorker?.getRegistrations?.()||[];
-        for(const reg of regs){try{await reg.update();if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(_){}}
-        const keys=await caches.keys();
-        await Promise.all(keys.filter(k=>k.startsWith('oneshot-')).map(k=>caches.delete(k)));
-        sessionStorage.setItem('oneshotUpdatedFrom',CURRENT_BUILD);
-        location.replace(`${location.pathname}?refresh=${Date.now()}&v=${encodeURIComponent(remote?.build||current)}`);
-      }
-    }catch(err){
-      if(txt)txt.textContent='No se pudo actualizar · toca para reintentar';
-      UI?.toast?.(err?.message||String(err),3800);
-      btn.classList.remove('busy');
-    }
+      const remote=await AppUpdater.feed(),current=markCurrent();
+      if(!remote?.build||cmp(current,remote.build)>=0){if(txt)txt.textContent=`Ya tienes la última versión · ${remote?.version||current}`;UI?.toast?.(`✓ ONE SHOT ${remote?.version||''} está actualizado`,2400);return;}
+      if(txt)txt.textContent='Nueva versión disponible';
+      const accept=await AppUpdater.prompt(remote);if(!accept){if(txt)txt.textContent='Actualización disponible · pendiente';return;}
+      localStorage.setItem('oneshotAppliedBuild',remote.build||current);localStorage.setItem('oneshotRuntimeBuild',remote.build||current);localStorage.removeItem('oneshotDismissedBuild');await AppUpdater.install(remote);
+    }catch(err){if(txt)txt.textContent='No se pudo actualizar · toca para reintentar';UI?.toast?.(err?.message||String(err),3800)}finally{btn.classList.remove('busy')}
   },true);
 }
 
@@ -88,42 +65,24 @@ function patchUpdater(){
     tries++;
     try{
       if(typeof AppUpdater==='undefined'||!AppUpdater?.check||!AppUpdater?.prompt||!AppUpdater?.install){if(tries<100)return;clearInterval(timer);return;}
-      clearInterval(timer);
-      AppUpdater.__updateLoopHotfix='v6.6.12';
-      AppUpdater.feed=async()=>{
-        const url=isNative()?`https://raw.githubusercontent.com/DiegoRod24/one-shot-2/main/version.json?t=${Date.now()}`:`version.json?t=${Date.now()}`;
-        const r=await fetch(url,{cache:'no-store'});
-        if(!r.ok)throw Error('No se pudo leer la versión publicada');
-        return r.json();
-      };
+      clearInterval(timer);AppUpdater.__updateLoopHotfix='v6.6.13';
+      AppUpdater.feed=async()=>{const url=isNative()?`https://raw.githubusercontent.com/DiegoRod24/one-shot-2/main/version.json?t=${Date.now()}`:`version.json?t=${Date.now()}`;const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('No se pudo leer la versión publicada');return r.json();};
+      if(!isNative()&&window.ONE_V6613_UPDATE_CAMERA_STABILITY?.applyUpdate){AppUpdater.refreshPwa=remote=>window.ONE_V6613_UPDATE_CAMERA_STABILITY.applyUpdate(remote);}
       AppUpdater.check=async(force=false)=>{
         if(!navigator.onLine)return UI.toast('Sin internet: no se puede buscar actualización');
         try{
           const remote=await AppUpdater.feed(),current=markCurrent(),dismissed=localStorage.getItem('oneshotDismissedBuild')||'';
-          if(!remote?.build||remote.build===current||cmp(current,remote.build)>=0){
-            localStorage.removeItem('oneshotDismissedBuild');
-            const txt=document.getElementById('updateAppText');
-            if(txt)txt.textContent=`${remote?.version||'Versión actual'} · instalada`;
-            if(force)UI.toast(`ONE SHOT ${remote?.version||''} está actualizado`);
-            return;
-          }
+          if(!remote?.build||remote.build===current||cmp(current,remote.build)>=0){localStorage.removeItem('oneshotDismissedBuild');const txt=document.getElementById('updateAppText');if(txt)txt.textContent=`Ya tienes la última versión · ${remote?.version||'ONE SHOT'}`;if(force)UI.toast(`✓ ONE SHOT ${remote?.version||''} está actualizado`);return;}
           if(remote.build===dismissed&&!force)return;
-          const accept=await AppUpdater.prompt(remote);
-          if(!accept){localStorage.setItem('oneshotDismissedBuild',remote.build||'');return;}
-          localStorage.setItem('oneshotAppliedBuild',remote.build||current);
-          localStorage.setItem('oneshotRuntimeBuild',remote.build||current);
-          localStorage.removeItem('oneshotDismissedBuild');
-          await AppUpdater.install(remote);
-          setTimeout(()=>{try{localStorage.setItem('oneshotAppliedBuild',remote.build||CURRENT_BUILD)}catch(_){}},250);
+          if(!isNative()&&window.ONE_V6613_UPDATE_CAMERA_STABILITY?.checkUpdate)return window.ONE_V6613_UPDATE_CAMERA_STABILITY.checkUpdate();
+          const accept=await AppUpdater.prompt(remote);if(!accept){localStorage.setItem('oneshotDismissedBuild',remote.build||'');return;}
+          localStorage.setItem('oneshotAppliedBuild',remote.build||current);localStorage.setItem('oneshotRuntimeBuild',remote.build||current);localStorage.removeItem('oneshotDismissedBuild');await AppUpdater.install(remote);setTimeout(()=>{try{localStorage.setItem('oneshotAppliedBuild',remote.build||CURRENT_BUILD)}catch(_){}},250);
         }catch(e){UI.toast(e.message||String(e),3500)}
       };
-      markCurrent();
-      patchManualUpdateButton();
-      setTimeout(patchManualUpdateButton,700);
+      markCurrent();patchManualUpdateButton();setTimeout(patchManualUpdateButton,700);
     }catch(e){if(tries>=100)clearInterval(timer)}
   },40);
 }
-window.addEventListener('load',()=>setTimeout(patchUpdater,360),{once:true});
-if(document.readyState==='complete')setTimeout(patchUpdater,360);
+window.addEventListener('load',()=>setTimeout(patchUpdater,360),{once:true});if(document.readyState==='complete')setTimeout(patchUpdater,360);
 window.ONE_SHOT_BOOT={BUILD:CURRENT_BUILD,LEGACY_BUILD,CURRENT_BUILD,isIOS,standalone};
 })();
