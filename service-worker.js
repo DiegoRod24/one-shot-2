@@ -1,7 +1,7 @@
-const CACHE="oneshot-v6.6.4-editor-stable-field-ui-01";
-const RUNTIME_BUNDLE="./__oneshot_runtime_v664.js";
+const CACHE="oneshot-v6.6.5-editor-preview-evidence-toolbar-01";
+const RUNTIME_BUNDLE="./__oneshot_runtime_v665.js";
 
-// Arranque: cámara, evidencia y edición manual. El antiguo núcleo Fer/voz del editor sale del runtime.
+// Arranque: cámara, evidencia y edición manual. Fer/voz siguen fuera del runtime crítico.
 const DYNAMIC=[
   "one-bootstrap-v643.js","one-platform-v620.js",
   "municipal-data-v630-01.js","municipal-data-v630-02.js","municipal-data-v630-03.js","municipal-data-v630-04.js","municipal-data-v630-05.js","municipal-data-v630-metro.js",
