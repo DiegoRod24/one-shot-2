@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.0 · FIELD FOUNDATION + ACTIVIDAD POLÍTICA",
-  "build": "oneshot-v6.6.0-field-foundation-01",
+  "version": "v6.6.1 · PERFORMANCE RUNTIME SLIM",
+  "build": "oneshot-v6.6.1-performance-runtime-slim-01",
   "released": "2026-08-22",
-  "notes": "ONE SHOT pasa a flujo camera-first: la captura libre nunca depende de una misión. Mantiene edición de orientación/marco, partido, PANEL/BANNER/PINTA, empresa de panel, territorio, tramos y locales. Pausa temporalmente voz automática. Añade ACTIVIDAD POLÍTICA como entidad separada con foto o video geolocalizado, organización, tipo de actividad, contexto libre/misión/recorrido, persistencia local y sincronización Dropbox independiente. Preparado para mapa, control de calidad, Excel e índice ONE SHOT Operaciones.",
+  "notes": "Optimiza Android/iPhone priorizando Cámara y guardado local. Reduce el runtime crítico: reportes, Excel/UI de reportes, tramos, cobertura y hallazgos territoriales se cargan en reposo o cuando el usuario muestra intención de usarlos. Dropbox/Phase2 se cargan después del primer render. OCR/Tesseract queda fuera del arranque mientras la voz/OCR están OFF. Galería usa lazy decode para reducir trabajo de imágenes. Mantiene v6.6: captura libre, edición, partidos, PANEL/BANNER/PINTA, proveedor, actividad política foto/video y sincronización.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_0_FIELD_FOUNDATION.apk"
+  "apkFilename": "ONE_SHOT_v6_6_1_PERFORMANCE_RUNTIME_SLIM.apk"
 }
