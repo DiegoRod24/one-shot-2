@@ -1,8 +1,8 @@
-/* ONE SHOT · COMPATIBILITY BOOTSTRAP · MOBILE BATCH v6.6.7 */
+/* ONE SHOT · COMPATIBILITY BOOTSTRAP · MOBILE EDITOR POLISH v6.6.8 */
 (()=>{
 'use strict';
 const LEGACY_BUILD='oneshot-v6.4.3-data-edit-flow-fix-01';
-const CURRENT_BUILD='oneshot-v6.6.7-mobile-batch-classifier-01';
+const CURRENT_BUILD='oneshot-v6.6.8-mobile-editor-polish-01';
 const ua=navigator.userAgent||'';
 const isIOS=/iPhone|iPad|iPod/i.test(ua);
 const standalone=(()=>{try{return window.matchMedia?.('(display-mode: standalone)').matches===true||window.matchMedia?.('(display-mode: fullscreen)').matches===true||navigator.standalone===true||document.referrer.startsWith('android-app://')}catch(_){return navigator.standalone===true}})();
@@ -17,6 +17,7 @@ const maxBuild=(...vals)=>vals.filter(Boolean).reduce((best,v)=>!best||cmp(v,bes
 const runtimeBuild=()=>{
   let best=CURRENT_BUILD;
   for(const get of [
+    ()=>window.ONE_V668_MOBILE_EDITOR_POLISH?.BUILD,
     ()=>window.ONE_V667_MOBILE_BATCH?.BUILD,
     ()=>window.ONE_V664_EDITOR_STABLE?.BUILD,
     ()=>window.ONE_V653_MOBILE_UX?.BUILD,
@@ -36,8 +37,8 @@ const isNative=()=>{try{return typeof APKBridge!=='undefined'&&APKBridge.isNativ
 function patchManualUpdateButton(){
   const btn=document.getElementById('toolUpdateApp');
   const txt=document.getElementById('updateAppText');
-  if(!btn||btn.dataset.oneUpdaterV667==='1')return;
-  btn.dataset.oneUpdaterV667='1';
+  if(!btn||btn.dataset.oneUpdaterV668==='1')return;
+  btn.dataset.oneUpdaterV668='1';
   if(txt)txt.textContent='Buscar versión o recargar archivos sin borrar evidencias';
   btn.addEventListener('click',async e=>{
     e.preventDefault();
@@ -85,7 +86,7 @@ function patchUpdater(){
     try{
       if(typeof AppUpdater==='undefined'||!AppUpdater?.check||!AppUpdater?.prompt||!AppUpdater?.install){if(tries<100)return;clearInterval(timer);return;}
       clearInterval(timer);
-      AppUpdater.__updateLoopHotfix='v6.6.7';
+      AppUpdater.__updateLoopHotfix='v6.6.8';
       AppUpdater.feed=async()=>{
         const url=isNative()?`https://raw.githubusercontent.com/DiegoRod24/one-shot-2/main/version.json?t=${Date.now()}`:`version.json?t=${Date.now()}`;
         const r=await fetch(url,{cache:'no-store'});

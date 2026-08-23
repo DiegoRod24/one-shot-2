@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.7 · MOBILE BATCH CLASSIFIER",
-  "build": "oneshot-v6.6.7-mobile-batch-classifier-01",
+  "version": "v6.6.8 · MOBILE EDITOR POLISH",
+  "build": "oneshot-v6.6.8-mobile-editor-polish-01",
   "released": "2026-08-23",
-  "notes": "Convierte Seleccionar en un flujo operativo de campo. Permite clasificar evidencias seleccionadas una por una con foto grande, organización política, PANEL/BANNER/PINTA, empresa obligatoria solo para PANEL, repetición del valor anterior, salto, marca para revisión y avance automático opcional. Al terminar permite descargar el Excel usando el flujo actual de reportes o sincronizar solo las evidencias seleccionadas. En el móvil oculta la edición masiva antigua para dejar esa administración al futuro Dashboard.",
+  "notes": "Pulido móvil del flujo de Evidencias y Editor. Hace compacto el botón Seleccionar, corrige la visibilidad de Empresa para que solo aparezca en PANEL, refuerza Corregir marco para abrir y llevar al panel de ajuste, y agrega zoom de inspección por pellizco en la foto del editor y del clasificador por lote sin modificar el original.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_7_MOBILE_BATCH_CLASSIFIER.apk"
+  "apkFilename": "ONE_SHOT_v6_6_8_MOBILE_EDITOR_POLISH.apk"
 }
