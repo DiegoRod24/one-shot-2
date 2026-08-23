@@ -23,6 +23,8 @@ export async function onRequest(context) {
         el.append('<script src="/one-v660-political-activity.js"></script>', { html: true });
         // Reemplaza el parche v6.6.3: un solo controlador para editar y UI móvil.
         el.append('<script src="/one-v664-editor-stable.js"></script>', { html: true });
+        // v6.6.15: Historial cercano se aplica al instante y confirma el guardado.
+        el.append('<script src="/one-v6615-nearby-preferences.js"></script>', { html: true });
       },
     })
     .transform(response);
