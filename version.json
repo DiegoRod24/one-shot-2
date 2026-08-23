@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.8 · MOBILE EDITOR POLISH",
-  "build": "oneshot-v6.6.8-mobile-editor-polish-01",
+  "version": "v6.6.9 · LOCAL PARTIDARIO FIELD FLOW",
+  "build": "oneshot-v6.6.9-local-partidario-field-flow-01",
   "released": "2026-08-23",
-  "notes": "Pulido móvil del flujo de Evidencias y Editor. Hace compacto el botón Seleccionar, corrige la visibilidad de Empresa para que solo aparezca en PANEL, refuerza Corregir marco para abrir y llevar al panel de ajuste, y agrega zoom de inspección por pellizco en la foto del editor y del clasificador por lote sin modificar el original.",
+  "notes": "Agrega un flujo móvil específico para Local partidario sin mezclarlo con PANEL/BANNER/PINTA. Permite registrar el local desde la evidencia recién capturada o desde Editar evidencia, usando foto, GPS, dirección y organización política; crea/actualiza el punto territorial como POLITICAL_LOCATION y conserva la evidencia original. Mantiene el Excel separado de locales existente para el trabajo operativo mientras se construye el Dashboard.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_8_MOBILE_EDITOR_POLISH.apk"
+  "apkFilename": "ONE_SHOT_v6_6_9_LOCAL_PARTIDARIO_FIELD_FLOW.apk"
 }
