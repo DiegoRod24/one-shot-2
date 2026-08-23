@@ -1,5 +1,5 @@
-const CACHE="oneshot-v6.6.5-editor-preview-evidence-toolbar-01";
-const RUNTIME_BUNDLE="./__oneshot_runtime_v665.js";
+const CACHE="oneshot-v6.6.6-updater-safe-refresh-01";
+const RUNTIME_BUNDLE="./__oneshot_runtime_v666.js";
 
 // Arranque: cámara, evidencia y edición manual. Fer/voz siguen fuera del runtime crítico.
 const DYNAMIC=[
