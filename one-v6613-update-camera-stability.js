@@ -1,1 +1,52 @@
-/* placeholder */
+/* ONE SHOT v6.6.13 · ATOMIC UPDATE + CAMERA WATCHDOG */
+(()=>{
+'use strict';
+if(window.ONE_V6613_UPDATE_CAMERA_STABILITY)return;
+const BUILD='oneshot-v6.6.13-update-camera-stability-01';
+let pendingRemote=null,updating=false,watchdogRan=false;
+const D=id=>document.getElementById(id);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const isNative=()=>{try{return typeof APKBridge!=='undefined'&&APKBridge.isNative?.()===true}catch(_){return false}};
+const parse=v=>{const m=String(v||'').match(/(?:oneshot-)?v(\d+)\.(\d+)\.(\d+)/i);return m?[+m[1],+m[2],+m[3]]:null};
+const cmp=(a,b)=>{const A=parse(a),B=parse(b);if(!A||!B)return String(a||'')===String(b||'')?0:-1;for(let i=0;i<3;i++)if(A[i]!==B[i])return A[i]>B[i]?1:-1;return 0};
+function currentBuild(){
+  const vals=[window.ONE_SHOT_BOOT?.CURRENT_BUILD,localStorage.getItem('oneshotRuntimeBuild'),localStorage.getItem('oneshotAppliedBuild')].filter(Boolean);
+  return vals.reduce((best,v)=>!best||cmp(v,best)>0?v:best,BUILD)||BUILD;
+}
+function versionLabel(remote){return String(remote?.version||remote?.build||'ONE SHOT')}
+function toast(msg,ms=2600){try{UI?.toast?.(msg,ms,{placement:'top',tone:'soft'})}catch(_){} }
+function setToolText(text){const t=D('updateAppText');if(t)t.textContent=text}
+function ensureOverlay(){
+  let o=D('oneV6613UpdateOverlay');if(o)return o;
+  o=document.createElement('div');o.id='oneV6613UpdateOverlay';o.hidden=true;
+  o.innerHTML='<div class="one-v6613-box"><div id="oneV6613UpdateIcon">↻</div><h2 id="oneV6613UpdateTitle">Actualizando ONE SHOT</h2><p id="oneV6613UpdateText">Preparando actualización segura…</p><div class="one-v6613-track"><i id="oneV6613UpdateBar"></i></div><small id="oneV6613UpdatePct">0%</small></div>';
+  const s=document.createElement('style');s.id='oneV6613UpdateCss';s.textContent=`#oneV6613UpdateOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(2,8,20,.92);backdrop-filter:blur(12px);color:#fff}#oneV6613UpdateOverlay[hidden]{display:none!important}.one-v6613-box{width:min(420px,100%);padding:28px 22px;border:1px solid #31568d;border-radius:28px;background:linear-gradient(160deg,#071a39,#0a2f69);box-shadow:0 24px 80px #0008;text-align:center}#oneV6613UpdateIcon{width:72px;height:72px;margin:0 auto 16px;display:grid;place-items:center;border-radius:22px;background:linear-gradient(135deg,#2c70f4,#6d91ff);font-size:36px;font-weight:900;box-shadow:0 12px 32px #1652c766}.one-v6613-spin{animation:oneV6613Spin .8s linear infinite}@keyframes oneV6613Spin{to{transform:rotate(360deg)}}#oneV6613UpdateTitle{margin:0;font-size:26px;line-height:1.1}#oneV6613UpdateText{margin:10px 0 18px;color:#c9d8ed;line-height:1.4}.one-v6613-track{height:10px;border-radius:999px;overflow:hidden;background:#ffffff20}.one-v6613-track i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#36d399,#4d84ff);transition:width .28s ease}#oneV6613UpdatePct{display:block;margin-top:9px;color:#b8cae3;font-weight:800}`;document.head.appendChild(s);document.body.appendChild(o);return o;
+}
+function progress(p,title,text,done=false){const o=ensureOverlay();o.hidden=false;const icon=D('oneV6613UpdateIcon');if(icon){icon.textContent=done?'✓':'↻';icon.classList.toggle('one-v6613-spin',!done)}if(D('oneV6613UpdateTitle'))D('oneV6613UpdateTitle').textContent=title||'Actualizando ONE SHOT';if(D('oneV6613UpdateText'))D('oneV6613UpdateText').textContent=text||'';if(D('oneV6613UpdateBar'))D('oneV6613UpdateBar').style.width=`${Math.max(0,Math.min(100,p))}%`;if(D('oneV6613UpdatePct'))D('oneV6613UpdatePct').textContent=`${Math.round(p)}%`}
+function hideOverlay(delay=0){setTimeout(()=>{const o=D('oneV6613UpdateOverlay');if(o)o.hidden=true},delay)}
+async function remoteVersion(){const r=await fetch(`version.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error('No se pudo comprobar la versión publicada');return r.json()}
+function showLatest(remote){const label=versionLabel(remote);setToolText(`Ya tienes la última versión · ${label}`);progress(100,'ONE SHOT está actualizado',`${label} ya está instalada. No necesitas recargar nada.`,true);hideOverlay(1800);toast(`✓ ${label} · última versión instalada`,2200)}
+function openPrompt(remote){pendingRemote=remote;if(D('updateModalVersion'))D('updateModalVersion').textContent=`${versionLabel(remote)} · lista para instalar`;D('updateModal')?.classList.add('open')}
+function closePrompt(){D('updateModal')?.classList.remove('open');pendingRemote=null}
+async function waitWorker(reg,timeout=7500){let w=reg.waiting||reg.installing;if(!w)return reg.active||null;if(w.state==='installed'||w.state==='activated')return w;return await new Promise(resolve=>{let done=false;const finish=x=>{if(done)return;done=true;clearTimeout(t);try{w.removeEventListener('statechange',on)}catch(_){}resolve(x)};const on=()=>{if(['installed','activated'].includes(w.state))finish(w)};const t=setTimeout(()=>finish(reg.waiting||reg.active||w),timeout);w.addEventListener('statechange',on)})}
+async function waitControllerChange(timeout=4500){if(!navigator.serviceWorker)return false;return await new Promise(resolve=>{let done=false;const finish=v=>{if(done)return;done=true;clearTimeout(t);navigator.serviceWorker.removeEventListener('controllerchange',on);resolve(v)};const on=()=>finish(true);const t=setTimeout(()=>finish(false),timeout);navigator.serviceWorker.addEventListener('controllerchange',on,{once:true})})}
+async function stopCameraSafely(){try{if(typeof State!=='undefined')State.cameraWanted=false}catch(_){}try{if(typeof Camera!=='undefined'&&Camera.stop)await Promise.race([Camera.stop({keepWanted:false}),sleep(1400)])}catch(_){}try{const v=D('video');if(v?.srcObject){v.srcObject.getTracks?.().forEach(t=>t.stop());v.srcObject=null}}catch(_){}}
+async function saveBeforeReload(){try{if(typeof Store!=='undefined'&&Store.saveAll)await Promise.race([Store.saveAll(),sleep(1800)])}catch(_){} }
+async function applyUpdate(remote){
+  if(updating)return;updating=true;remote=remote||pendingRemote;if(!remote){try{remote=await remoteVersion()}catch(e){updating=false;return toast(e.message||String(e),3400)}}
+  D('updateModal')?.classList.remove('open');progress(8,'Actualizando ONE SHOT','Guardando evidencias y cerrando la cámara…');
+  try{
+    await saveBeforeReload();await stopCameraSafely();progress(28,'Actualizando ONE SHOT','Preparando los archivos nuevos…');
+    localStorage.setItem('oneshotAppliedBuild',remote.build||BUILD);localStorage.setItem('oneshotRuntimeBuild',remote.build||BUILD);localStorage.removeItem('oneshotDismissedBuild');sessionStorage.setItem('oneshotUpdateJustApplied',JSON.stringify({build:remote.build||BUILD,version:remote.version||remote.build||'',at:Date.now()}));
+    const reg=await navigator.serviceWorker?.getRegistration?.();
+    if(reg){await reg.update();progress(52,'Actualizando ONE SHOT','Instalando la nueva versión…');const worker=await waitWorker(reg);const waiting=reg.waiting||worker;if(waiting&&waiting.state!=='activated')waiting.postMessage?.({type:'SKIP_WAITING'});progress(75,'Actualizando ONE SHOT','Activando la versión nueva…');await waitControllerChange()}
+    progress(94,'Actualizando ONE SHOT','Reabriendo ONE SHOT con la cámara trasera…');await sleep(420);const u=new URL(location.href);u.searchParams.set('refresh',String(Date.now()));u.searchParams.set('v',remote.build||BUILD);location.replace(u.pathname+u.search+u.hash);
+  }catch(err){updating=false;progress(100,'No se pudo completar',err?.message||String(err),true);setToolText('No se pudo actualizar · toca para reintentar');toast(err?.message||String(err),4000);hideOverlay(2600)}
+}
+async function checkUpdate(){if(updating)return;if(isNative())return typeof AppUpdater!=='undefined'?AppUpdater.check?.(true):undefined;setToolText('Comprobando versión…');try{const remote=await remoteVersion();const cur=currentBuild();if(!remote?.build||cmp(cur,remote.build)>=0)return showLatest(remote);setToolText(`Nueva versión · ${versionLabel(remote)}`);openPrompt(remote)}catch(err){setToolText('No se pudo comprobar · toca para reintentar');toast(err?.message||String(err),3500)}}
+function intercept(e){const t=e.target?.closest?.('#toolUpdateApp,#quickUpdateBtn,#updateNowBtn,#updateLaterBtn,#updateModalClose');if(!t||isNative())return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();if(t.id==='toolUpdateApp'||t.id==='quickUpdateBtn')return void checkUpdate();if(t.id==='updateNowBtn')return void applyUpdate(pendingRemote);closePrompt()}
+function afterUpdateMessage(){let raw='';try{raw=sessionStorage.getItem('oneshotUpdateJustApplied')||''}catch(_){}if(!raw)return;try{sessionStorage.removeItem('oneshotUpdateJustApplied')}catch(_){}let info={};try{info=JSON.parse(raw)}catch(_){}progress(100,'Actualización completada',`${info.version||info.build||'ONE SHOT'} instalada. Preparando cámara trasera…`,true);setToolText(`Última versión instalada · ${info.version||info.build||''}`);const finish=()=>{hideOverlay(900);toast(`✓ Actualizado · ${info.version||info.build||'ONE SHOT'}`,2400)};let n=0;const t=setInterval(()=>{n++;let active=false;try{active=typeof State!=='undefined'&&State.cameraStatus==='active'}catch(_){}if(active||n>35){clearInterval(t);finish()}},120)}
+async function cameraWatchdog(){if(watchdogRan)return;watchdogRan=true;await sleep(4200);let needs=false;try{needs=typeof State!=='undefined'&&State.cameraWanted!==false&&(!State.currentTrack||State.currentTrack.readyState!=='live'||State.cameraStatus!=='active')}catch(_){}if(!needs||document.hidden)return;try{toast('Cámara tardando · recuperando automáticamente…',2200);if(typeof State!=='undefined')State.__oneRearStartupDone=false;await Promise.race([Camera?.stop?.({keepWanted:true}),sleep(900)]);await Promise.race([Camera?.start?.({silent:true,force:true}),sleep(7000)])}catch(_){}await sleep(900);let ok=false;try{ok=State.cameraStatus==='active'&&State.currentTrack?.readyState==='live'}catch(_){}if(!ok)toast('La cámara no respondió. Toca ↻ para reintentar.',3600)}
+function boot(){ensureOverlay().hidden=true;document.addEventListener('click',intercept,true);window.addEventListener('load',()=>{setTimeout(afterUpdateMessage,220);setTimeout(cameraWatchdog,250)},{once:true});if(document.readyState==='complete'){setTimeout(afterUpdateMessage,220);setTimeout(cameraWatchdog,250)}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();window.ONE_V6613_UPDATE_CAMERA_STABILITY={BUILD,checkUpdate,applyUpdate,cameraWatchdog,currentBuild};
+})();
