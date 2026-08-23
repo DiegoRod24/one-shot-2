@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.3 · FIELD FLOW CLEANUP",
-  "build": "oneshot-v6.6.3-field-flow-cleanup-01",
+  "version": "v6.6.4 · EDITOR STABLE + FIELD UI",
+  "build": "oneshot-v6.6.4-editor-stable-field-ui-01",
   "released": "2026-08-23",
-  "notes": "Simplifica ONE SHOT para trabajo de campo. Fer, voz, OCR y sugerencias quedan ocultos mientras están OFF. El editor pasa a clasificación manual táctil con buscador del catálogo completo, PANEL/BANNER/PINTA y proveedor solo para panel. Territorio se reduce a Recorrido libre, Tramo repetitivo y Zona planificada opcional; planificación avanzada queda plegada. Mejora jerarquía móvil y evita controles innecesarios sobre la información. Conserva evidencias y base local.",
+  "notes": "Cierra las tres fases de estabilización del editor. Fase 1: recupera siempre la evidencia activa por ID, elimina el núcleo antiguo de Fer/voz del runtime y evita estados contradictorios de guardado. Fase 2: flujo manual rápido con foto visible, buscador de organizaciones del catálogo completo, logos bajo demanda, PANEL/BANNER/PINTA y empresa solo para PANEL; formulario completo queda opcional. Fase 3: reconstruye el modal para Android/iPhone, elimina superposiciones, hace las acciones estáticas, oculta la barra inferior mientras se edita y compacta la cabecera de Evidencias. Conserva originales, IndexedDB, GPS, edición de marco/orientación, sincronización y reportes.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_3_FIELD_FLOW_CLEANUP.apk"
+  "apkFilename": "ONE_SHOT_v6_6_4_EDITOR_STABLE_FIELD_UI.apk"
 }
