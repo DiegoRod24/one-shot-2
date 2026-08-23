@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.12 · FIELD FLOW CLEANUP",
-  "build": "oneshot-v6.6.12-field-flow-cleanup-01",
+  "version": "v6.6.13 · UPDATE + CAMERA STABILITY",
+  "build": "oneshot-v6.6.13-update-camera-stability-01",
   "released": "2026-08-23",
-  "notes": "Corrige Corregir marco con controles táctiles estables aunque el editor se reconstruya, evita el refresco pesado de galería durante el guardado, oculta completamente Fer/asistente mientras siga OFF y simplifica Territorio para campo: Recorrido, Tramo y Lugares visibles; Planificación, Smart Sector, Team Missions y Smart Route se conservan plegados como opciones avanzadas. No modifica evidencias originales, Excel, GPS ni sincronización.",
+  "notes": "Actualización PWA atómica: guarda el estado, cierra la cámara, instala y activa primero el nuevo Service Worker y recién después recarga. Si ya está instalada la última versión, lo confirma sin recargar. Añade progreso visual de actualización, confirmación posterior y watchdog de cámara para recuperar automáticamente un arranque que tarde demasiado. Conserva evidencias, Excel, GPS y sincronización.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_12_FIELD_FLOW_CLEANUP.apk"
+  "apkFilename": "ONE_SHOT_v6_6_13_UPDATE_CAMERA_STABILITY.apk"
 }
