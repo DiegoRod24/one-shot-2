@@ -1,8 +1,8 @@
-/* ONE SHOT v6.6.13 · CAMERA-FIRST IDLE LOADER */
+/* ONE SHOT v6.6.14 · CAMERA-FIRST IDLE LOADER */
 (()=>{
 'use strict';
 if(window.ONE_V661_IDLE_LOADER)return;
-const BUILD='oneshot-v6.6.13-camera-first-idle-loader-01';
+const BUILD='oneshot-v6.6.14-camera-first-idle-loader-01';
 const FEATURES={
   mobile:['one-v667-mobile-batch.js','one-v668-mobile-editor-polish.js','one-v669-local-partidario.js'],
   cloud:['one-sync-worker-mode.js','one-dropbox-sync.js','one-phase2-edit-center.js'],
@@ -15,13 +15,13 @@ async function ensure(name){for(const src of FEATURES[name]||[])await loadScript
 async function ensureAdmin(){for(const name of ['reports','territory']){try{await ensure(name)}catch(e){console.warn('[ONE SHOT PERF]',name,e)}await new Promise(r=>setTimeout(r,0))}document.documentElement.dataset.oneShotIdleReady='1'}
 function warmByIntent(e){const t=e.target?.closest?.('button,a,[data-view],[data-nav]');if(!t)return;const text=((t.textContent||'')+' '+(t.id||'')+' '+(t.dataset?.view||'')+' '+(t.dataset?.nav||'')).toLowerCase();if(/seleccion|evidencia|clasificar|lote|editar|marco|local partidario|local/.test(text))ensure('mobile').catch(()=>{});if(/sincron|dropbox|nube|respaldo|editar nube/.test(text))ensure('cloud').catch(()=>{});if(/reporte|excel|pdf|export/.test(text))ensure('reports').catch(()=>{});if(/territorio|ruta|tramo|recorrido|cobertura|sector/.test(text))ensure('territory').catch(()=>{})}
 function cameraLive(){try{return typeof State!=='undefined'&&State.cameraStatus==='active'&&State.currentTrack?.readyState==='live'}catch(_){return false}}
-function afterCameraReady(fn,maxWait=6500){const started=performance.now();const tick=()=>{if(cameraLive()||performance.now()-started>=maxWait){setTimeout(fn,180);return}setTimeout(tick,90)};tick()}
-function idle(fn,timeout){if('requestIdleCallback' in window)requestIdleCallback(fn,{timeout});else setTimeout(fn,Math.min(timeout,2600))}
+function afterCameraReady(fn,maxWait=14000){const started=performance.now();const tick=()=>{if(cameraLive()){setTimeout(fn,220);return}if(performance.now()-started>=maxWait){setTimeout(fn,500);return}setTimeout(tick,110)};tick()}
+function idle(fn,timeout){if('requestIdleCallback' in window)requestIdleCallback(fn,{timeout});else setTimeout(fn,Math.min(timeout,3200))}
 function schedule(){
-  // Primero una imagen de cámara estable. Nada pesado compite con getUserMedia/video.play.
-  afterCameraReady(()=>idle(()=>ensure('mobile').catch(e=>console.warn('[ONE SHOT PERF] mobile',e)),1400),5200);
-  afterCameraReady(()=>idle(()=>ensure('cloud').catch(e=>console.warn('[ONE SHOT PERF] cloud',e)),2600),6500);
-  afterCameraReady(()=>idle(()=>ensureAdmin().catch(e=>console.warn('[ONE SHOT PERF] admin',e)),5200),7200);
+  // Si la cámara tarda, seguimos esperando: no le robamos CPU/red durante el arranque.
+  afterCameraReady(()=>idle(()=>ensure('mobile').catch(e=>console.warn('[ONE SHOT PERF] mobile',e)),1800),12000);
+  afterCameraReady(()=>idle(()=>ensure('cloud').catch(e=>console.warn('[ONE SHOT PERF] cloud',e)),3600),15000);
+  afterCameraReady(()=>idle(()=>ensureAdmin().catch(e=>console.warn('[ONE SHOT PERF] admin',e)),7000),18000);
 }
 function tuneImage(img){if(!img)return;img.loading='lazy';img.decoding='async';img.fetchPriority='low'}
 function optimizeImages(root=document){if(root?.matches?.('#evidenceList img,.evidenceList img,.gallery img'))tuneImage(root);root?.querySelectorAll?.('img')?.forEach(tuneImage)}
