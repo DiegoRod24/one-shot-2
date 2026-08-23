@@ -4,8 +4,14 @@ export async function onRequest(context) {
   if (!contentType.includes("text/html")) return response;
 
   return new HTMLRewriter()
-    // OCR está temporalmente OFF en v6.6: no descargar Tesseract (~carga pesada) al abrir cámara.
+    // OCR y Fer quedan temporalmente OFF: no cargar Tesseract ni scripts visuales/voz del asistente.
     .on('script[src*="tesseract"]', {
+      element(el) { el.remove(); },
+    })
+    .on('script[src*="fer-" i]', {
+      element(el) { el.remove(); },
+    })
+    .on('script[src*="fer_" i]', {
       element(el) { el.remove(); },
     })
     .on("head", {
@@ -17,6 +23,8 @@ export async function onRequest(context) {
     })
     .on("body", {
       element(el) {
+        // Fer OFF primero: elimina cualquier UI heredada que todavía pueda venir desde app.js.
+        el.append('<script src="/one-v662-fer-off.js"></script>', { html: true });
         // Performance: primero cámara. Sync/Phase2/reportes/territorio cargan en idle o por intención.
         el.append('<script src="/one-v661-idle-loader.js"></script>', { html: true });
         el.append('<script src="/one-v660-political-activity.js"></script>', { html: true });
