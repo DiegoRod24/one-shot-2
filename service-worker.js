@@ -1,5 +1,5 @@
-const CACHE="oneshot-v6.6.9-local-partidario-field-flow-01";
-const RUNTIME_BUNDLE="./__oneshot_runtime_v669.js";
+const CACHE="oneshot-v6.6.10-editor-freeze-hotfix-01";
+const RUNTIME_BUNDLE="./__oneshot_runtime_v6610.js";
 
 // Arranque: cámara, evidencia y edición manual. Fer/voz siguen fuera del runtime crítico.
 const DYNAMIC=[
