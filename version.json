@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.15 · NEARBY HISTORY CONTROL",
-  "build": "oneshot-v6.6.15-nearby-preferences-01",
+  "version": "v6.6.16 · SYNC SIMPLE",
+  "build": "oneshot-v6.6.16-sync-identity-01",
   "released": "2026-08-23",
-  "notes": "Historial cercano ahora se activa o desactiva inmediatamente. Al apagarlo se cierra cualquier aviso de antecedente abierto y las siguientes capturas no muestran coincidencias cercanas. Guardar configuración muestra confirmación visible y el estado final del historial cercano. Conserva evidencias, Excel, GPS y sincronización.",
+  "notes": "Sincronización móvil simplificada: Equipo/Brigada deja de mostrarse y se conserva internamente como ONPE. Solo queda Persona/alias como dato opcional; la clave autoriza el dispositivo. Se pueden sincronizar evidencias clasificadas o pendientes para revisión posterior en el Dashboard. Conserva Dropbox, originales, GPS y Excel.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_15_NEARBY_HISTORY_CONTROL.apk"
+  "apkFilename": "ONE_SHOT_v6_6_16_SYNC_SIMPLE.apk"
 }
