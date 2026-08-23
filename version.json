@@ -1,8 +1,8 @@
 {
-  "version": "v6.5.3 · MOBILE UX + FER CONVERSATION STABILITY",
-  "build": "oneshot-v6.5.3-mobile-ux-fer-field-stability-01",
-  "released": "2026-08-20",
-  "notes": "Repara el visor móvil para mantener foto, información y acciones dentro de 100dvh; compacta Editar con Fer y elimina la superposición del asistente sobre la foto. La conversación pasa a half-duplex con sessionId + turnId, espera silenciosa y anti-eco de 8 s. El guardado es persistence-first antes de avanzar. Mantiene 75 organizaciones, 42 proveedores y PANEL/BANNER/PINTA. Añade salida Excel solo de locales partidarios, tramos de pancartas dibujados o recorridos y GeoJSON preparado para ONE SHOT Operaciones. Mantiene Cámara, bottom navigation, oneshotEvidenceDB_v2, originales, Territorio y ReportScope.",
+  "version": "v6.6.0 · FIELD FOUNDATION + ACTIVIDAD POLÍTICA",
+  "build": "oneshot-v6.6.0-field-foundation-01",
+  "released": "2026-08-22",
+  "notes": "ONE SHOT pasa a flujo camera-first: la captura libre nunca depende de una misión. Mantiene edición de orientación/marco, partido, PANEL/BANNER/PINTA, empresa de panel, territorio, tramos y locales. Pausa temporalmente voz automática. Añade ACTIVIDAD POLÍTICA como entidad separada con foto o video geolocalizado, organización, tipo de actividad, contexto libre/misión/recorrido, persistencia local y sincronización Dropbox independiente. Preparado para mapa, control de calidad, Excel e índice ONE SHOT Operaciones.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_5_3_MOBILE_UX_FER_FIELD_STABILITY.apk"
+  "apkFilename": "ONE_SHOT_v6_6_0_FIELD_FOUNDATION.apk"
 }

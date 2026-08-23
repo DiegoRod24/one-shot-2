@@ -29,6 +29,7 @@ Un comportamiento operativo debe tener **un solo propietario activo**. Los archi
 | Reportes de tramo existentes | `one-v6413-corridor-reports.js` |
 | Sincronización de medios Dropbox | `one-dropbox-sync.js` + `functions/api/dropbox/*` |
 | Versionado editorial no destructivo | `one-phase2-edit-center.js` + `functions/api/dropbox/version.js` |
+| Actividad política foto/video | `one-v660-political-activity.js` + `functions/api/dropbox/activity-upload.js` |
 
 ## Reglas de interacción v6.5.3
 
@@ -108,6 +109,54 @@ Cada evidencia puede conservar varias representaciones sin destruir la fuente:
 `mediaVersions[]` registra la secuencia y `currentImagePath` señala la versión vigente en nube. Dropbox conserva los binarios y `metadata.json` conserva trazabilidad. Las correcciones se guardan en `/correcciones/<timestamp>.<ext>`.
 
 Una evidencia importada desde Dropbox debe decodificar como imagen antes de entrar a IndexedDB. Si la original no es utilizable pero existe una marcada válida, se conserva como `ONLY_MARKED` y se declara `originalMediaUnavailable=true`.
+
+## ONE SHOT v6.6 · Field Foundation
+
+### Camera-first
+
+- La cámara está disponible siempre. Una misión, zona, sector o recorrido **nunca bloquea una captura libre**.
+- `captureMode` distingue `LIBRE`, `MISION` y `RECORRIDO` sin cambiar la validez de la evidencia.
+- Una captura libre aporta evidencia, pero **no demuestra cobertura territorial**.
+- La cobertura solo nace de un recorrido/sector explícitamente iniciado.
+- Si existe una zona asignada, Operaciones podrá advertir por proximidad y ofrecer `Iniciar recorrido`; la aceptación del usuario inicia el tracking.
+- Voz automática y STT quedan temporalmente en pausa para priorizar captura táctil estable. La edición manual de giro/marco y clasificación permanece activa.
+
+### Evidencia física vs actividad política
+
+`evidence` continúa reservado para propaganda física y hallazgos territoriales. `political_activity` es una entidad distinta para hechos observados con componente temporal/móvil.
+
+Tipos iniciales de `PoliticalActivityV1`:
+
+- `ACTIVACION_ORQUESTA`
+- `MITIN_REUNION`
+- `MARCHA`
+- `CARAVANA`
+- `ENTREGA_REGALOS`
+- `VENTA_ENTREGA_MATERIAL`
+- `VOLANTEO`
+- `PUERTA_A_PUERTA`
+- `BANDERAZO`
+- `OTRA_ACTIVIDAD`
+
+Cada actividad conserva: organización, fecha/hora, GPS y precisión, dirección, departamento/provincia/distrito, proceso, foto o video original, observación, identidad de equipo/dispositivo, misión/recorrido opcional y estado de revisión.
+
+El teléfono **solo registra lo observado**. No declara por sí mismo infracciones ni conclusiones normativas; esas decisiones pertenecen al segundo filtro de ONE SHOT Operaciones.
+
+Las actividades usan `oneshotPoliticalActivityDB_v1` para persistencia local separada y Dropbox `/actividades/YYYY/MM/<codigo>/` para su media y `metadata.json`. Video operativo inicial: máximo 90 s y 80 MB.
+
+### Contrato rumbo a Operaciones
+
+ONE SHOT Operaciones manejará como mínimo entidades separadas:
+
+- `evidence`: PANEL/BANNER/PINTA y evidencia puntual.
+- `political_location`: local partidario u otro lugar persistente.
+- `propaganda_corridor`: tramo repetitivo/postes.
+- `political_activity`: activación, marcha, mitin, caravana, entrega observada, etc.
+- `route_coverage`: por dónde sí inspeccionó el equipo.
+- `field_sector`: zona solicitada/asignada.
+- `municipal_case`: agrupación para carta, respuesta y seguimiento.
+
+Dropbox conserva binarios; D1 será el índice consultable. Dashboard y Excel deberán leer el mismo contrato de datos en vez de mantener estructuras paralelas.
 
 ## Fuentes canónicas
 
