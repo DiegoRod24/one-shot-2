@@ -5,29 +5,23 @@ export async function onRequest(context) {
 
   return new HTMLRewriter()
     // OCR y Fer quedan temporalmente OFF: no cargar Tesseract ni scripts visuales/voz del asistente.
-    .on('script[src*="tesseract"]', {
-      element(el) { el.remove(); },
-    })
-    .on('script[src*="fer-" i]', {
-      element(el) { el.remove(); },
-    })
-    .on('script[src*="fer_" i]', {
-      element(el) { el.remove(); },
-    })
+    .on('script[src*="tesseract"]', { element(el) { el.remove(); } })
+    .on('script[src*="fer-" i]', { element(el) { el.remove(); } })
+    .on('script[src*="fer_" i]', { element(el) { el.remove(); } })
     .on("head", {
       element(el) {
         el.append('<link rel="stylesheet" href="/one-dropbox-sync.css">', { html: true });
         el.append('<link rel="stylesheet" href="/one-phase2-edit-center.css">', { html: true });
         el.append('<link rel="stylesheet" href="/one-v660-field-foundation.css">', { html: true });
+        el.append('<link rel="stylesheet" href="/one-v663-field-cleanup.css">', { html: true });
       },
     })
     .on("body", {
       element(el) {
-        // Fer OFF primero: elimina cualquier UI heredada que todavía pueda venir desde app.js.
         el.append('<script src="/one-v662-fer-off.js"></script>', { html: true });
-        // Performance: primero cámara. Sync/Phase2/reportes/territorio cargan en idle o por intención.
         el.append('<script src="/one-v661-idle-loader.js"></script>', { html: true });
         el.append('<script src="/one-v660-political-activity.js"></script>', { html: true });
+        el.append('<script src="/one-v663-field-cleanup.js"></script>', { html: true });
       },
     })
     .transform(response);

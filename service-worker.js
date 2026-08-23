@@ -1,7 +1,7 @@
-const CACHE="oneshot-v6.6.2-fer-off-update-loop-fix-01";
-const RUNTIME_BUNDLE="./__oneshot_runtime_v662.js";
+const CACHE="oneshot-v6.6.3-field-flow-cleanup-01";
+const RUNTIME_BUNDLE="./__oneshot_runtime_v663.js";
 
-// Arranque: solo piezas necesarias para cámara, evidencia, edición y compatibilidad.
+// Arranque: piezas necesarias para cámara, evidencia, edición y compatibilidad.
 const DYNAMIC=[
   "one-bootstrap-v643.js","one-platform-v620.js",
   "municipal-data-v630-01.js","municipal-data-v630-02.js","municipal-data-v630-03.js","municipal-data-v630-04.js","municipal-data-v630-05.js","municipal-data-v630-metro.js",
@@ -11,12 +11,11 @@ const DYNAMIC=[
   "one-v651-assets.js","one-v651-domain.js","one-v651-municipal.js","one-v651-edit-core.js","one-v653-mobile-ux.js"
 ];
 
-// Se descargan/cargan después del primer render mediante one-v661-idle-loader.js.
 const LAZY=[
   "one-v646-reports.js","one-v6411-reports.js","one-v651-reports-ui.js",
   "one-v6413-corridor.js","one-v6413-corridor-reports.js","one-v6415-territory-ops.js","one-v653-field-findings.js"
 ];
-const ASSETS=["./","index.html","styles.css","app.js","version.json","manifest.json","oneshot-erm-data.js",...DYNAMIC,"one-v661-idle-loader.js","one-v662-fer-off.js","oneshot-logo.svg","oneshot-mark.png","oneshot-mark-transparent.png","icon-192.png","icon-512.png"];
+const ASSETS=["./","index.html","styles.css","app.js","version.json","manifest.json","oneshot-erm-data.js",...DYNAMIC,"one-v661-idle-loader.js","one-v662-fer-off.js","one-v663-field-cleanup.js","one-v663-field-cleanup.css","oneshot-logo.svg","oneshot-mark.png","oneshot-mark-transparent.png","icon-192.png","icon-512.png"];
 
 async function buildRuntimeBundle(cache){const parts=[];for(const file of DYNAMIC){let r=await cache.match(file);if(!r){r=await fetch(file,{cache:"reload"});if(!r.ok)throw new Error(`Runtime ${file}: ${r.status}`);await cache.put(file,r.clone())}parts.push(await r.text())}const bundle=new Response(parts.join("\n"),{headers:{"Content-Type":"application/javascript; charset=utf-8","Cache-Control":"public, max-age=31536000, immutable"}});await cache.put(RUNTIME_BUNDLE,bundle.clone());return bundle}
 async function runtimeBundle(cache){return(await cache.match(RUNTIME_BUNDLE))||buildRuntimeBundle(cache)}
