@@ -1,10 +1,10 @@
-/* ONE SHOT v6.6.8 · PERFORMANCE · IDLE FEATURE LOADER */
+/* ONE SHOT v6.6.9 · PERFORMANCE · IDLE FEATURE LOADER */
 (()=>{
 'use strict';
 if(window.ONE_V661_IDLE_LOADER)return;
-const BUILD='oneshot-v6.6.8-mobile-editor-polish-01';
+const BUILD='oneshot-v6.6.9-local-partidario-field-flow-01';
 const FEATURES={
-  mobile:['one-v667-mobile-batch.js','one-v668-mobile-editor-polish.js'],
+  mobile:['one-v667-mobile-batch.js','one-v668-mobile-editor-polish.js','one-v669-local-partidario.js'],
   cloud:['one-sync-worker-mode.js','one-dropbox-sync.js','one-phase2-edit-center.js'],
   reports:['one-v646-reports.js','one-v6411-reports.js','one-v651-reports-ui.js'],
   territory:['one-v6413-corridor.js','one-v6413-corridor-reports.js','one-v6415-territory-ops.js','one-v653-field-findings.js']
@@ -22,7 +22,7 @@ async function ensureAdmin(){for(const name of ['reports','territory']){try{awai
 function warmByIntent(e){
   const t=e.target?.closest?.('button,a,[data-view],[data-nav]');if(!t)return;
   const text=((t.textContent||'')+' '+(t.id||'')+' '+(t.dataset?.view||'')+' '+(t.dataset?.nav||'')).toLowerCase();
-  if(/seleccion|evidencia|clasificar|lote|editar|marco/.test(text))ensure('mobile').catch(()=>{});
+  if(/seleccion|evidencia|clasificar|lote|editar|marco|local partidario|local/.test(text))ensure('mobile').catch(()=>{});
   if(/sincron|dropbox|nube|respaldo|editar nube/.test(text))ensure('cloud').catch(()=>{});
   if(/reporte|excel|pdf|export/.test(text))ensure('reports').catch(()=>{});
   if(/territorio|ruta|tramo|recorrido|cobertura|sector/.test(text))ensure('territory').catch(()=>{});
@@ -31,7 +31,7 @@ function schedule(){
   const mobile=()=>ensure('mobile').catch(e=>console.warn('[ONE SHOT PERF] mobile',e));
   const cloud=()=>ensure('cloud').catch(e=>console.warn('[ONE SHOT PERF] cloud',e));
   const admin=()=>ensureAdmin().catch(e=>console.warn('[ONE SHOT PERF] idle',e));
-  setTimeout(mobile,220);
+  setTimeout(mobile,180);
   if('requestIdleCallback' in window){requestIdleCallback(cloud,{timeout:2600});requestIdleCallback(admin,{timeout:7000});}
   else{setTimeout(cloud,1600);setTimeout(admin,4200);}
 }
