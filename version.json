@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.13 · UPDATE + CAMERA STABILITY",
-  "build": "oneshot-v6.6.13-update-camera-stability-01",
+  "version": "v6.6.14 · FAST FIELD START",
+  "build": "oneshot-v6.6.14-fast-field-start-01",
   "released": "2026-08-23",
-  "notes": "Actualización PWA atómica: guarda el estado, cierra la cámara, instala y activa primero el nuevo Service Worker y recién después recarga. Si ya está instalada la última versión, lo confirma sin recargar. Añade progreso visual de actualización, confirmación posterior y watchdog de cámara para recuperar automáticamente un arranque que tarde demasiado. Conserva evidencias, Excel, GPS y sincronización.",
+  "notes": "Arranque de campo optimizado: la cámara deja de competir con ExcelJS, OCR y mapas. La hora local aparece inmediatamente y se valida contra servidor en segundo plano. GPS comienza temprano si ya tiene permiso, muestra posición primero y resuelve la dirección después de que la cámara esté activa. Excel y Leaflet se cargan bajo demanda o en segundo plano después de la cámara. Conserva evidencias, Excel, GPS y sincronización.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_13_UPDATE_CAMERA_STABILITY.apk"
+  "apkFilename": "ONE_SHOT_v6_6_14_FAST_FIELD_START.apk"
 }
