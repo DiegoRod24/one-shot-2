@@ -1,14 +1,14 @@
-const CACHE="oneshot-v6.6.10-editor-freeze-hotfix-01";
-const RUNTIME_BUNDLE="./__oneshot_runtime_v6610.js";
+const CACHE="oneshot-v6.6.11-camera-rear-fast-01";
+const RUNTIME_BUNDLE="./__oneshot_runtime_v6611.js";
 
-// Arranque: cámara, evidencia y edición manual. Fer/voz siguen fuera del runtime crítico.
+// Arranque: cámara trasera primero, evidencia y edición manual. Fer/voz siguen fuera del runtime crítico.
 const DYNAMIC=[
   "one-bootstrap-v643.js","one-platform-v620.js",
   "municipal-data-v630-01.js","municipal-data-v630-02.js","municipal-data-v630-03.js","municipal-data-v630-04.js","municipal-data-v630-05.js","municipal-data-v630-metro.js",
   "party-catalog-v6410.js",
   "one-v646-core.js","one-v646-evidence.js","one-v646-map.js","one-v647-core.js","one-v6411-orientation.js","one-v6414-health-runtime.js",
   "one-v6416-evidence-recovery.js","one-v6416-media-legacy-bridge.js","one-v6416-runtime-meta.js",
-  "one-v651-assets.js","one-v651-domain.js","one-v651-municipal.js","one-v653-mobile-ux.js"
+  "one-v651-assets.js","one-v651-domain.js","one-v651-municipal.js","one-v653-mobile-ux.js","one-v6611-camera-fast.js"
 ];
 
 const LAZY=[
