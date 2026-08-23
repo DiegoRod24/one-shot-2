@@ -1,5 +1,5 @@
-const CACHE="oneshot-v6.6.8-mobile-editor-polish-01";
-const RUNTIME_BUNDLE="./__oneshot_runtime_v668.js";
+const CACHE="oneshot-v6.6.9-local-partidario-field-flow-01";
+const RUNTIME_BUNDLE="./__oneshot_runtime_v669.js";
 
 // Arranque: cámara, evidencia y edición manual. Fer/voz siguen fuera del runtime crítico.
 const DYNAMIC=[
@@ -15,7 +15,7 @@ const LAZY=[
   "one-v646-reports.js","one-v6411-reports.js","one-v651-reports-ui.js",
   "one-v6413-corridor.js","one-v6413-corridor-reports.js","one-v6415-territory-ops.js","one-v653-field-findings.js"
 ];
-const ASSETS=["./","index.html","styles.css","app.js","version.json","manifest.json","oneshot-erm-data.js",...DYNAMIC,"one-v661-idle-loader.js","one-v662-fer-off.js","one-v664-editor-stable.js","one-v664-editor-stable.css","one-v667-mobile-batch.js","one-v668-mobile-editor-polish.js","oneshot-logo.svg","oneshot-mark.png","oneshot-mark-transparent.png","icon-192.png","icon-512.png"];
+const ASSETS=["./","index.html","styles.css","app.js","version.json","manifest.json","oneshot-erm-data.js",...DYNAMIC,"one-v661-idle-loader.js","one-v662-fer-off.js","one-v664-editor-stable.js","one-v664-editor-stable.css","one-v667-mobile-batch.js","one-v668-mobile-editor-polish.js","one-v669-local-partidario.js","oneshot-logo.svg","oneshot-mark.png","oneshot-mark-transparent.png","icon-192.png","icon-512.png"];
 
 async function buildRuntimeBundle(cache){const parts=[];for(const file of DYNAMIC){let r=await cache.match(file);if(!r){r=await fetch(file,{cache:"reload"});if(!r.ok)throw new Error(`Runtime ${file}: ${r.status}`);await cache.put(file,r.clone())}parts.push(await r.text())}const bundle=new Response(parts.join("\n"),{headers:{"Content-Type":"application/javascript; charset=utf-8","Cache-Control":"public, max-age=31536000, immutable"}});await cache.put(RUNTIME_BUNDLE,bundle.clone());return bundle}
 async function runtimeBundle(cache){return(await cache.match(RUNTIME_BUNDLE))||buildRuntimeBundle(cache)}
