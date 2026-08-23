@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.5 · PREVIEW + EVIDENCE TOOLBAR",
-  "build": "oneshot-v6.6.5-editor-preview-evidence-toolbar-01",
+  "version": "v6.6.6 · UPDATER SAFE REFRESH",
+  "build": "oneshot-v6.6.6-updater-safe-refresh-01",
   "released": "2026-08-23",
-  "notes": "Mejora la usabilidad del editor y la pantalla Evidencias. La foto vuelve siempre a vista ajustada al abrir una evidencia, evita quedar atrapada en el modo expandido heredado, mantiene opción de ampliar y deja Corregir marco visible sin tapar el contenido. Simplifica overlays sobre la foto. En Evidencias agrupa Revisión rápida, Fotos anteriores, selector de vista y Seleccionar en una barra compacta horizontal, eliminando el espacio blanco y la dispersión de botones. Conserva clasificación manual, originales, IndexedDB, GPS, sincronización y reportes.",
+  "notes": "Corrige el comportamiento del botón Actualizar ONE SHOT. El icono superior solo comprueba si existe una versión nueva. El botón grande de Herramientas instala una versión nueva cuando existe y, si ya estás en la última, fuerza una recarga segura de archivos, Service Worker y cachés ONE SHOT sin borrar IndexedDB ni evidencias. También muestra estados claros de comprobación, versión instalada y errores.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_5_PREVIEW_EVIDENCE_TOOLBAR.apk"
+  "apkFilename": "ONE_SHOT_v6_6_6_UPDATER_SAFE_REFRESH.apk"
 }
