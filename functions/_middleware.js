@@ -25,6 +25,8 @@ export async function onRequest(context) {
         el.append('<script src="/one-v664-editor-stable.js"></script>', { html: true });
         // v6.6.15: Historial cercano se aplica al instante y confirma el guardado.
         el.append('<script src="/one-v6615-nearby-preferences.js"></script>', { html: true });
+        // v6.6.16: sincronización móvil con un solo identificador humano opcional.
+        el.append('<script src="/one-v6616-sync-identity.js"></script>', { html: true });
       },
     })
     .transform(response);
