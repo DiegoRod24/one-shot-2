@@ -1,8 +1,8 @@
-/* ONE SHOT v6.6.9 · PERFORMANCE · IDLE FEATURE LOADER */
+/* ONE SHOT v6.6.10 · PERFORMANCE · IDLE FEATURE LOADER */
 (()=>{
 'use strict';
 if(window.ONE_V661_IDLE_LOADER)return;
-const BUILD='oneshot-v6.6.9-local-partidario-field-flow-01';
+const BUILD='oneshot-v6.6.10-editor-freeze-hotfix-01';
 const FEATURES={
   mobile:['one-v667-mobile-batch.js','one-v668-mobile-editor-polish.js','one-v669-local-partidario.js'],
   cloud:['one-sync-worker-mode.js','one-dropbox-sync.js','one-phase2-edit-center.js'],
@@ -35,13 +35,21 @@ function schedule(){
   if('requestIdleCallback' in window){requestIdleCallback(cloud,{timeout:2600});requestIdleCallback(admin,{timeout:7000});}
   else{setTimeout(cloud,1600);setTimeout(admin,4200);}
 }
+function tuneImage(img){if(!img)return;img.loading='lazy';img.decoding='async';img.fetchPriority='low';}
 function optimizeImages(root=document){
-  root.querySelectorAll?.('#evidenceList img, .evidenceList img, .gallery img').forEach(img=>{img.loading='lazy';img.decoding='async';img.fetchPriority='low';});
+  if(root?.matches?.('#evidenceList img,.evidenceList img,.gallery img'))tuneImage(root);
+  root?.querySelectorAll?.('img')?.forEach(tuneImage);
 }
-const observer=new MutationObserver(m=>{for(const x of m)for(const n of x.addedNodes)if(n.nodeType===1)optimizeImages(n);});
+let evidenceObserver=null;
+function observeEvidenceList(){
+  const root=document.querySelector('#evidenceList');if(!root||evidenceObserver)return;
+  evidenceObserver=new MutationObserver(m=>{for(const x of m)for(const n of x.addedNodes)if(n.nodeType===1)optimizeImages(n)});
+  evidenceObserver.observe(root,{childList:true,subtree:true});
+  optimizeImages(root);
+}
 function start(){
   try{if(typeof State!=='undefined'&&State.settings){State.settings.assistantVoice=false;State.settings.assistantAuto=false;State.settings.assistantOcr=false;Store?.saveLite?.();}}catch(_){}
-  optimizeImages();observer.observe(document.body,{childList:true,subtree:true});schedule();
+  observeEvidenceList();schedule();
 }
 document.addEventListener('pointerdown',warmByIntent,{capture:true,passive:true});
 window.addEventListener('load',start,{once:true});if(document.readyState==='complete')start();
