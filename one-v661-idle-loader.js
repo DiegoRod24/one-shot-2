@@ -1,8 +1,8 @@
-/* ONE SHOT v6.6.10 · PERFORMANCE · IDLE FEATURE LOADER */
+/* ONE SHOT v6.6.11 · PERFORMANCE · CAMERA FIRST IDLE LOADER */
 (()=>{
 'use strict';
 if(window.ONE_V661_IDLE_LOADER)return;
-const BUILD='oneshot-v6.6.10-editor-freeze-hotfix-01';
+const BUILD='oneshot-v6.6.11-camera-rear-fast-01';
 const FEATURES={
   mobile:['one-v667-mobile-batch.js','one-v668-mobile-editor-polish.js','one-v669-local-partidario.js'],
   cloud:['one-sync-worker-mode.js','one-dropbox-sync.js','one-phase2-edit-center.js'],
@@ -27,13 +27,23 @@ function warmByIntent(e){
   if(/reporte|excel|pdf|export/.test(text))ensure('reports').catch(()=>{});
   if(/territorio|ruta|tramo|recorrido|cobertura|sector/.test(text))ensure('territory').catch(()=>{});
 }
+function afterCameraReady(fn,maxWait=1700){
+  const started=performance.now();
+  const tick=()=>{
+    let ready=false;try{ready=typeof State!=='undefined'&&State.cameraStatus==='active'}catch(_){}
+    if(ready||performance.now()-started>=maxWait){setTimeout(fn,180);return;}
+    setTimeout(tick,70);
+  };
+  tick();
+}
 function schedule(){
   const mobile=()=>ensure('mobile').catch(e=>console.warn('[ONE SHOT PERF] mobile',e));
   const cloud=()=>ensure('cloud').catch(e=>console.warn('[ONE SHOT PERF] cloud',e));
   const admin=()=>ensureAdmin().catch(e=>console.warn('[ONE SHOT PERF] idle',e));
-  setTimeout(mobile,180);
-  if('requestIdleCallback' in window){requestIdleCallback(cloud,{timeout:2600});requestIdleCallback(admin,{timeout:7000});}
-  else{setTimeout(cloud,1600);setTimeout(admin,4200);}
+  // La primera prioridad es mostrar cámara trasera. Editor/lote/local se calientan después.
+  afterCameraReady(mobile,1700);
+  if('requestIdleCallback' in window){requestIdleCallback(cloud,{timeout:3200});requestIdleCallback(admin,{timeout:7600});}
+  else{setTimeout(cloud,2300);setTimeout(admin,5000);}
 }
 function tuneImage(img){if(!img)return;img.loading='lazy';img.decoding='async';img.fetchPriority='low';}
 function optimizeImages(root=document){
@@ -48,7 +58,7 @@ function observeEvidenceList(){
   optimizeImages(root);
 }
 function start(){
-  try{if(typeof State!=='undefined'&&State.settings){State.settings.assistantVoice=false;State.settings.assistantAuto=false;State.settings.assistantOcr=false;Store?.saveLite?.();}}catch(_){}
+  try{if(typeof State!=='undefined'&&State.settings){State.settings.assistantEnabled=false;State.settings.assistantVoice=false;State.settings.assistantAuto=false;State.settings.assistantOcr=false;Store?.saveLite?.();}}catch(_){}
   observeEvidenceList();schedule();
 }
 document.addEventListener('pointerdown',warmByIntent,{capture:true,passive:true});

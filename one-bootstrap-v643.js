@@ -1,8 +1,8 @@
-/* ONE SHOT · COMPATIBILITY BOOTSTRAP · LOCAL PARTIDARIO v6.6.9 */
+/* ONE SHOT · COMPATIBILITY BOOTSTRAP · FAST REAR CAMERA v6.6.11 */
 (()=>{
 'use strict';
 const LEGACY_BUILD='oneshot-v6.4.3-data-edit-flow-fix-01';
-const CURRENT_BUILD='oneshot-v6.6.9-local-partidario-field-flow-01';
+const CURRENT_BUILD='oneshot-v6.6.11-camera-rear-fast-01';
 const ua=navigator.userAgent||'';
 const isIOS=/iPhone|iPad|iPod/i.test(ua);
 const standalone=(()=>{try{return window.matchMedia?.('(display-mode: standalone)').matches===true||window.matchMedia?.('(display-mode: fullscreen)').matches===true||navigator.standalone===true||document.referrer.startsWith('android-app://')}catch(_){return navigator.standalone===true}})();
@@ -17,6 +17,7 @@ const maxBuild=(...vals)=>vals.filter(Boolean).reduce((best,v)=>!best||cmp(v,bes
 const runtimeBuild=()=>{
   let best=CURRENT_BUILD;
   for(const get of [
+    ()=>window.ONE_V6611_CAMERA_FAST?.BUILD,
     ()=>window.ONE_V669_LOCAL_PARTIDARIO?.BUILD,
     ()=>window.ONE_V668_MOBILE_EDITOR_POLISH?.BUILD,
     ()=>window.ONE_V667_MOBILE_BATCH?.BUILD,
@@ -87,7 +88,7 @@ function patchUpdater(){
     try{
       if(typeof AppUpdater==='undefined'||!AppUpdater?.check||!AppUpdater?.prompt||!AppUpdater?.install){if(tries<100)return;clearInterval(timer);return;}
       clearInterval(timer);
-      AppUpdater.__updateLoopHotfix='v6.6.9';
+      AppUpdater.__updateLoopHotfix='v6.6.11';
       AppUpdater.feed=async()=>{
         const url=isNative()?`https://raw.githubusercontent.com/DiegoRod24/one-shot-2/main/version.json?t=${Date.now()}`:`version.json?t=${Date.now()}`;
         const r=await fetch(url,{cache:'no-store'});
