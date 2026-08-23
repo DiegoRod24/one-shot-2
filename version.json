@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.6 · UPDATER SAFE REFRESH",
-  "build": "oneshot-v6.6.6-updater-safe-refresh-01",
+  "version": "v6.6.7 · MOBILE BATCH CLASSIFIER",
+  "build": "oneshot-v6.6.7-mobile-batch-classifier-01",
   "released": "2026-08-23",
-  "notes": "Corrige el comportamiento del botón Actualizar ONE SHOT. El icono superior solo comprueba si existe una versión nueva. El botón grande de Herramientas instala una versión nueva cuando existe y, si ya estás en la última, fuerza una recarga segura de archivos, Service Worker y cachés ONE SHOT sin borrar IndexedDB ni evidencias. También muestra estados claros de comprobación, versión instalada y errores.",
+  "notes": "Convierte Seleccionar en un flujo operativo de campo. Permite clasificar evidencias seleccionadas una por una con foto grande, organización política, PANEL/BANNER/PINTA, empresa obligatoria solo para PANEL, repetición del valor anterior, salto, marca para revisión y avance automático opcional. Al terminar permite descargar el Excel usando el flujo actual de reportes o sincronizar solo las evidencias seleccionadas. En el móvil oculta la edición masiva antigua para dejar esa administración al futuro Dashboard.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_6_UPDATER_SAFE_REFRESH.apk"
+  "apkFilename": "ONE_SHOT_v6_6_7_MOBILE_BATCH_CLASSIFIER.apk"
 }
