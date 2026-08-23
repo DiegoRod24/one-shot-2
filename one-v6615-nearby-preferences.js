@@ -6,6 +6,14 @@ const BUILD='oneshot-v6.6.15-nearby-preferences-01';
 const $=id=>document.getElementById(id);
 let feedbackTimer=null;
 
+function versionTuple(v){const m=String(v||'').match(/v?(\d+)\.(\d+)\.(\d+)/i);return m?[+m[1],+m[2],+m[3]]:[0,0,0]}
+function newerOrEqual(a,b){const A=versionTuple(a),B=versionTuple(b);for(let i=0;i<3;i++){if(A[i]!==B[i])return A[i]>B[i]}return true}
+try{
+  const applied=localStorage.getItem('oneshotAppliedBuild')||'';
+  if(!applied||newerOrEqual(BUILD,applied))localStorage.setItem('oneshotAppliedBuild',BUILD);
+  localStorage.setItem('oneshotRuntimeBuild',BUILD);
+}catch(_){}
+
 function runtimeReady(){
   try{return typeof State!=='undefined'&&State.settings&&typeof Store!=='undefined'}catch(_){return false}
 }
