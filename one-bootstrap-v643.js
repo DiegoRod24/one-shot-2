@@ -1,8 +1,8 @@
-/* ONE SHOT · COMPATIBILITY BOOTSTRAP · UPDATE + CAMERA STABILITY v6.6.13 */
+/* ONE SHOT · COMPATIBILITY BOOTSTRAP · FAST FIELD START v6.6.14 */
 (()=>{
 'use strict';
 const LEGACY_BUILD='oneshot-v6.4.3-data-edit-flow-fix-01';
-const CURRENT_BUILD='oneshot-v6.6.13-update-camera-stability-01';
+const CURRENT_BUILD='oneshot-v6.6.14-fast-field-start-01';
 const ua=navigator.userAgent||'';
 const isIOS=/iPhone|iPad|iPod/i.test(ua);
 const standalone=(()=>{try{return window.matchMedia?.('(display-mode: standalone)').matches===true||window.matchMedia?.('(display-mode: fullscreen)').matches===true||navigator.standalone===true||document.referrer.startsWith('android-app://')}catch(_){return navigator.standalone===true}})();
@@ -17,6 +17,7 @@ const maxBuild=(...vals)=>vals.filter(Boolean).reduce((best,v)=>!best||cmp(v,bes
 const runtimeBuild=()=>{
   let best=CURRENT_BUILD;
   for(const get of [
+    ()=>window.ONE_V6614_FAST_FIELD_START?.BUILD,
     ()=>window.ONE_V6613_UPDATE_CAMERA_STABILITY?.BUILD,
     ()=>window.ONE_V6612_FIELD_FLOW_CLEANUP?.BUILD,
     ()=>window.ONE_V6611_CAMERA_FAST?.BUILD,
@@ -65,7 +66,7 @@ function patchUpdater(){
     tries++;
     try{
       if(typeof AppUpdater==='undefined'||!AppUpdater?.check||!AppUpdater?.prompt||!AppUpdater?.install){if(tries<100)return;clearInterval(timer);return;}
-      clearInterval(timer);AppUpdater.__updateLoopHotfix='v6.6.13';
+      clearInterval(timer);AppUpdater.__updateLoopHotfix='v6.6.14';
       AppUpdater.feed=async()=>{const url=isNative()?`https://raw.githubusercontent.com/DiegoRod24/one-shot-2/main/version.json?t=${Date.now()}`:`version.json?t=${Date.now()}`;const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('No se pudo leer la versión publicada');return r.json();};
       if(!isNative()&&window.ONE_V6613_UPDATE_CAMERA_STABILITY?.applyUpdate){AppUpdater.refreshPwa=remote=>window.ONE_V6613_UPDATE_CAMERA_STABILITY.applyUpdate(remote);}
       AppUpdater.check=async(force=false)=>{
