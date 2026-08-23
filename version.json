@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.11 · FAST REAR CAMERA",
-  "build": "oneshot-v6.6.11-camera-rear-fast-01",
+  "version": "v6.6.12 · FIELD FLOW CLEANUP",
+  "build": "oneshot-v6.6.12-field-flow-cleanup-01",
   "released": "2026-08-23",
-  "notes": "Prioriza la cámara trasera desde el primer arranque, elimina la prueba inicial de la cámara frontal, abre video en paralelo al resto de la inicialización y difiere la enumeración de lentes hasta después de mostrar imagen. Mientras el asistente siga OFF, su carga no bloquea la cámara. Conserva evidencias, Excel, GPS, originales y sincronización.",
+  "notes": "Corrige Corregir marco con controles táctiles estables aunque el editor se reconstruya, evita el refresco pesado de galería durante el guardado, oculta completamente Fer/asistente mientras siga OFF y simplifica Territorio para campo: Recorrido, Tramo y Lugares visibles; Planificación, Smart Sector, Team Missions y Smart Route se conservan plegados como opciones avanzadas. No modifica evidencias originales, Excel, GPS ni sincronización.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_11_FAST_REAR_CAMERA.apk"
+  "apkFilename": "ONE_SHOT_v6_6_12_FIELD_FLOW_CLEANUP.apk"
 }
