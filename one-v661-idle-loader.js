@@ -4,12 +4,7 @@
 if(window.ONE_V661_IDLE_LOADER)return;
 const BUILD='oneshot-v6.6.1-performance-runtime-slim-01';
 const FEATURES={
-  municipal:[
-    'municipal-data-v630-01.js','municipal-data-v630-02.js','municipal-data-v630-03.js',
-    'municipal-data-v630-04.js','municipal-data-v630-05.js','municipal-data-v630-metro.js',
-    'one-v651-municipal.js'
-  ],
-  maps:['one-v646-map.js'],
+  cloud:['one-sync-worker-mode.js','one-dropbox-sync.js','one-phase2-edit-center.js'],
   reports:['one-v646-reports.js','one-v6411-reports.js','one-v651-reports-ui.js'],
   territory:['one-v6413-corridor.js','one-v6413-corridor-reports.js','one-v6415-territory-ops.js','one-v653-field-findings.js']
 };
@@ -22,8 +17,29 @@ function loadScript(src){
   pending.set(src,p);return p;
 }
 async function ensure(name){for(const src of FEATURES[name]||[])await loadScript(src);return true;}
-async function ensureAll(){for(const name of ['municipal','maps','reports','territory']){try{await ensure(name);}catch(e){console.warn('[ONE SHOT PERF]',name,e);}await new Promise(r=>setTimeout(r,0));}document.documentElement.dataset.oneShotIdleReady='1';}
-function warmByIntent(e){const t=e.target?.closest?.('button,a,[data-view],[data-nav]');if(!t)return;const text=((t.textContent||'')+' '+(t.id||'')+' '+(t.dataset?.view||'')+' '+(t.dataset?.nav||'')).toLowerCase();if(/reporte|excel|pdf|export/.test(text))ensure('reports').catch(()=>{});if(/municip|carta|destino/.test(text))ensure('municipal').catch(()=>{});if(/mapa|territorio|lugar|ruta|tramo|recorrido/.test(text)){ensure('maps').catch(()=>{});ensure('territory').catch(()=>{});}}
-function schedule(){const run=()=>ensureAll().catch(e=>console.warn('[ONE SHOT PERF] idle',e));if('requestIdleCallback' in window)requestIdleCallback(run,{timeout:6500});else setTimeout(run,3200);}
-document.addEventListener('pointerdown',warmByIntent,{capture:true,passive:true});window.addEventListener('load',schedule,{once:true});if(document.readyState==='complete')schedule();window.ONE_V661_IDLE_LOADER={BUILD,ensure,ensureAll,FEATURES};
+async function ensureAdmin(){for(const name of ['reports','territory']){try{await ensure(name);}catch(e){console.warn('[ONE SHOT PERF]',name,e);}await new Promise(r=>setTimeout(r,0));}document.documentElement.dataset.oneShotIdleReady='1';}
+function warmByIntent(e){
+  const t=e.target?.closest?.('button,a,[data-view],[data-nav]');if(!t)return;
+  const text=((t.textContent||'')+' '+(t.id||'')+' '+(t.dataset?.view||'')+' '+(t.dataset?.nav||'')).toLowerCase();
+  if(/sincron|dropbox|nube|respaldo|editar nube/.test(text))ensure('cloud').catch(()=>{});
+  if(/reporte|excel|pdf|export/.test(text))ensure('reports').catch(()=>{});
+  if(/territorio|ruta|tramo|recorrido|cobertura|sector/.test(text))ensure('territory').catch(()=>{});
+}
+function schedule(){
+  const cloud=()=>ensure('cloud').catch(e=>console.warn('[ONE SHOT PERF] cloud',e));
+  const admin=()=>ensureAdmin().catch(e=>console.warn('[ONE SHOT PERF] idle',e));
+  if('requestIdleCallback' in window){requestIdleCallback(cloud,{timeout:2600});requestIdleCallback(admin,{timeout:7000});}
+  else{setTimeout(cloud,1600);setTimeout(admin,4200);}
+}
+function optimizeImages(root=document){
+  root.querySelectorAll?.('#evidenceList img, .evidenceList img, .gallery img').forEach(img=>{img.loading='lazy';img.decoding='async';img.fetchPriority='low';});
+}
+const observer=new MutationObserver(m=>{for(const x of m)for(const n of x.addedNodes)if(n.nodeType===1)optimizeImages(n);});
+function start(){
+  try{if(typeof State!=='undefined'&&State.settings){State.settings.assistantVoice=false;State.settings.assistantAuto=false;State.settings.assistantOcr=false;Store?.saveLite?.();}}catch(_){}
+  optimizeImages();observer.observe(document.body,{childList:true,subtree:true});schedule();
+}
+document.addEventListener('pointerdown',warmByIntent,{capture:true,passive:true});
+window.addEventListener('load',start,{once:true});if(document.readyState==='complete')start();
+window.ONE_V661_IDLE_LOADER={BUILD,ensure,ensureAdmin,FEATURES};
 })();
