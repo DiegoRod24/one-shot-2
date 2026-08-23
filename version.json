@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.9 · LOCAL PARTIDARIO FIELD FLOW",
-  "build": "oneshot-v6.6.9-local-partidario-field-flow-01",
+  "version": "v6.6.10 · EDITOR FREEZE HOTFIX",
+  "build": "oneshot-v6.6.10-editor-freeze-hotfix-01",
   "released": "2026-08-23",
-  "notes": "Agrega un flujo móvil específico para Local partidario sin mezclarlo con PANEL/BANNER/PINTA. Permite registrar el local desde la evidencia recién capturada o desde Editar evidencia, usando foto, GPS, dirección y organización política; crea/actualiza el punto territorial como POLITICAL_LOCATION y conserva la evidencia original. Mantiene el Excel separado de locales existente para el trabajo operativo mientras se construye el Dashboard.",
+  "notes": "Corrige el bloqueo al tocar Editar después de la integración de Local partidario. Elimina el observador global del DOM que podía saturar Android/iPhone al construir el editor y lo reemplaza por un enganche puntual al abrir Editar. Local partidario se conserva sin vigilar toda la aplicación. No modifica evidencias, originales, Excel ni sincronización.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_9_LOCAL_PARTIDARIO_FIELD_FLOW.apk"
+  "apkFilename": "ONE_SHOT_v6_6_10_EDITOR_FREEZE_HOTFIX.apk"
 }

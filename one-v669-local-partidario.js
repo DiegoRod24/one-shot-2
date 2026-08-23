@@ -1,8 +1,8 @@
-/* ONE SHOT v6.6.9 · LOCAL PARTIDARIO · FIELD FLOW */
+/* ONE SHOT v6.6.10 · LOCAL PARTIDARIO · EDITOR FREEZE HOTFIX */
 (()=>{
 'use strict';
 if(window.ONE_V669_LOCAL_PARTIDARIO)return;
-const BUILD='oneshot-v6.6.9-local-partidario-field-flow-01';
+const BUILD='oneshot-v6.6.10-editor-freeze-hotfix-01';
 const q=(s,r=document)=>r.querySelector(s);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
@@ -13,7 +13,7 @@ function places(){try{return typeof Places!=='undefined'?Places:window.Places}ca
 function reports(){try{return typeof Reports!=='undefined'?Reports:window.Reports}catch(_){return window.Reports}}
 function media(){try{return typeof EvidenceMedia!=='undefined'?EvidenceMedia:window.EvidenceMedia}catch(_){return window.EvidenceMedia}}
 function catalog(){return Array.isArray(window.ONE_PARTY_CATALOG_V6410)?window.ONE_PARTY_CATALOG_V6410:[]}
-function toast(t,ms=2500){try{return UI?.toast?.(t,ms,{placement:'top',tone:'soft'})}catch(_){console.log('[ONE SHOT v6.6.9]',t)}}
+function toast(t,ms=2500){try{return typeof UI!=='undefined'&&UI.toast?UI.toast(t,ms,{placement:'top',tone:'soft'}):void 0}catch(_){console.log('[ONE SHOT v6.6.10]',t)}}
 function logo(name){return name?`/assets/parties/${encodeURIComponent(slug(name))}.png`:''}
 function imageFor(r){try{return media()?.display?.(r)||r?.rescuedImage||r?.correctedImage||r?.stampedImage||r?.image||''}catch(_){return r?.rescuedImage||r?.stampedImage||r?.image||''}}
 function record(id=''){
@@ -24,7 +24,6 @@ function record(id=''){
   return st.records.find(x=>String(x.id)===String(wanted))||st.records[0]||null;
 }
 function isLocal(r){return norm(r?.findingSubtype)==='LOCAL PARTIDARIO'||norm(r?.entityType)==='POLITICAL LOCATION'}
-
 function css(){
   if(q('#oneV669Css'))return;
   const s=document.createElement('style');s.id='oneV669Css';s.textContent=`
@@ -43,7 +42,6 @@ function css(){
 `;
   document.head.appendChild(s);
 }
-
 const LocalFlow={
   currentId:'',
   current(){return record(this.currentId)},
@@ -59,32 +57,44 @@ const LocalFlow={
     this.ensureModal();const r=record(id);if(!r)return toast('No hay una evidencia disponible para registrar el local');this.currentId=r.id;
     q('#oneV669Img').src=imageFor(r);q('#oneV669Code').textContent=r.photoCode||r.id||'Evidencia';q('#oneV669Address').textContent=r.captureAddress||r.address||'Dirección pendiente';
     const g=r.gps;q('#oneV669Gps').textContent=g?`GPS ±${Math.round(Number(g.accuracy||0))} m · ${Number(g.latitude).toFixed(6)}, ${Number(g.longitude).toFixed(6)}`:'Sin GPS';
-    const p=(r.placeId&&places()?.get?.(r.placeId))||null;const party=r.party||p?.party||'',name=r.localName||((p?.type==='Local partidario'&&p?.name)||''),note=r.localObservation||p?.note||'';
+    const p=(r.placeId&&places()?.get?.(r.placeId))||null,party=r.party||p?.party||'',name=r.localName||((p?.type==='Local partidario'&&p?.name)||''),note=r.localObservation||p?.note||'';
     q('#oneV669Party').value=party;q('#oneV669Name').value=name||(party?`Local partidario · ${party}`:'');q('#oneV669Note').value=note;this.paintSelected(party);
     q('#oneV669Location').innerHTML=`<strong>${esc(r.department||r.region||'')}</strong>${r.province?` · ${esc(r.province)}`:''}${r.district?` · ${esc(r.district)}`:''}<br>${esc(r.captureAddress||r.address||'Dirección pendiente')}`;
     q('#oneV669Warn').hidden=!!g;q('#oneV669Save').disabled=!g;q('#oneV669Modal').classList.add('open');
   },
   close(){q('#oneV669Modal')?.classList.remove('open');this.currentId=''},
   async save(){
-    const r=this.current();if(!r)return toast('No se encontró la evidencia');if(!r.gps)return toast('Esta evidencia necesita GPS antes de crear el local');
-    const party=q('#oneV669Party')?.value?.trim()||'';if(!party)return toast('Selecciona la organización política');
-    const exact=catalog().find(x=>norm(x.name)===norm(party));const partyName=exact?.name||party;const name=q('#oneV669Name')?.value?.trim()||`Local partidario · ${partyName}`;const note=q('#oneV669Note')?.value?.trim()||'';
-    const now=new Date().toISOString();r.party=partyName;r.findingSubtype='LOCAL_PARTIDARIO';r.entityType='POLITICAL_LOCATION';r.localName=name;r.localObservation=note;r.localRegisteredAt=r.localRegisteredAt||now;r.localUpdatedAt=now;r.reviewTouched=true;
-    const P=places();let p=r.placeId&&P?.get?.(r.placeId);if(!p)p=P?.createFromRecord?.(r,{name,type:'Local partidario'});if(!p)throw Error('No se pudo crear el punto del local');
-    p.type='Local partidario';p.entityType='POLITICAL_LOCATION';p.name=name;p.party=partyName;p.note=note;p.address=r.captureAddress||r.address||p.address||'';p.department=r.department||r.region||p.department||'';p.province=r.province||p.province||'';p.district=r.district||p.district||'';p.latitude=Number(r.gps.latitude);p.longitude=Number(r.gps.longitude);p.lastSeen=r.createdAt||now;p.updatedAt=now;r.localPlaceId=p.id;
-    await store()?.save?.(r);store()?.saveLite?.();try{P?.render?.()}catch(_){ }try{reports()?.invalidate?.()}catch(_){ }
-    this.close();toast('✓ Local partidario guardado');refreshButtons();
+    const btn=q('#oneV669Save');try{
+      const r=this.current();if(!r)throw Error('No se encontró la evidencia');if(!r.gps)throw Error('Esta evidencia necesita GPS antes de crear el local');
+      const party=q('#oneV669Party')?.value?.trim()||'';if(!party)throw Error('Selecciona la organización política');
+      if(btn){btn.disabled=true;btn.textContent='Guardando…'}
+      const exact=catalog().find(x=>norm(x.name)===norm(party)),partyName=exact?.name||party,name=q('#oneV669Name')?.value?.trim()||`Local partidario · ${partyName}`,note=q('#oneV669Note')?.value?.trim()||'',now=new Date().toISOString();
+      r.party=partyName;r.findingSubtype='LOCAL_PARTIDARIO';r.entityType='POLITICAL_LOCATION';r.localName=name;r.localObservation=note;r.localRegisteredAt=r.localRegisteredAt||now;r.localUpdatedAt=now;r.reviewTouched=true;
+      const P=places();let p=r.placeId&&P?.get?.(r.placeId);if(!p)p=P?.createFromRecord?.(r,{name,type:'Local partidario'});if(!p)throw Error('No se pudo crear el punto del local');
+      p.type='Local partidario';p.entityType='POLITICAL_LOCATION';p.name=name;p.party=partyName;p.note=note;p.address=r.captureAddress||r.address||p.address||'';p.department=r.department||r.region||p.department||'';p.province=r.province||p.province||'';p.district=r.district||p.district||'';p.latitude=Number(r.gps.latitude);p.longitude=Number(r.gps.longitude);p.lastSeen=r.createdAt||now;p.updatedAt=now;r.localPlaceId=p.id;
+      await store()?.save?.(r);store()?.saveLite?.();try{P?.render?.()}catch(_){ }try{reports()?.invalidate?.()}catch(_){ }
+      this.close();toast('✓ Local partidario guardado');setTimeout(refreshEditorButton,0);
+    }catch(err){toast(`No se pudo guardar local · ${err.message||err}`,3500)}finally{if(btn){btn.textContent='✓ Guardar local';btn.disabled=!this.current()?.gps}}
   }
 };
-
-function refreshButtons(){
-  const bar=q('#quickCaptureBar');if(bar&&!q('#oneV669QuickLocalCapture',bar)){const b=document.createElement('button');b.id='oneV669QuickLocalCapture';b.className='one-v669-quick-local';b.type='button';b.textContent='🏢 Local';const edit=q('#quickCaptureEdit',bar),close=q('#quickCaptureClose',bar);if(edit)edit.insertAdjacentElement('afterend',b);else if(close)bar.insertBefore(b,close);else bar.appendChild(b);b.onclick=()=>LocalFlow.open()}
-  const quick=q('#oneV664QuickEditor');if(quick&&!q('#oneV669QuickLocalEditor',quick)){const b=document.createElement('button');b.id='oneV669QuickLocalEditor';b.className='one-v669-quick-local';b.type='button';const r=record();b.textContent=isLocal(r)?'🏢 Local partidario ✓':'🏢 Registrar como local partidario';const st=q('#oneV664EditStatus',quick);if(st)quick.insertBefore(b,st);else quick.appendChild(b);b.onclick=()=>LocalFlow.open(record()?.id||'')}
-  const r=record();const eb=q('#oneV669QuickLocalEditor');if(eb&&r)eb.textContent=isLocal(r)?'🏢 Local partidario ✓':'🏢 Registrar como local partidario';
+function ensureCaptureButton(){
+  const bar=q('#quickCaptureBar');if(!bar||q('#oneV669QuickLocalCapture',bar))return;
+  const b=document.createElement('button');b.id='oneV669QuickLocalCapture';b.className='one-v669-quick-local';b.type='button';b.textContent='🏢 Local';const edit=q('#quickCaptureEdit',bar),close=q('#quickCaptureClose',bar);if(edit)edit.insertAdjacentElement('afterend',b);else if(close)bar.insertBefore(b,close);else bar.appendChild(b);b.onclick=()=>LocalFlow.open();
 }
-
-function observe(){const o=new MutationObserver(()=>refreshButtons());o.observe(document.body,{childList:true,subtree:true});setInterval(refreshButtons,1800)}
-function boot(){css();LocalFlow.ensureModal();refreshButtons();observe()}
+function refreshEditorButton(id=''){
+  const quick=q('#oneV664QuickEditor');if(!quick)return;
+  let b=q('#oneV669QuickLocalEditor',quick);if(!b){b=document.createElement('button');b.id='oneV669QuickLocalEditor';b.className='one-v669-quick-local';b.type='button';const st=q('#oneV664EditStatus',quick);if(st)quick.insertBefore(b,st);else quick.appendChild(b);b.onclick=()=>LocalFlow.open(q('#editId')?.value||id||'')}
+  const r=record(q('#editId')?.value||id||'');b.textContent=isLocal(r)?'🏢 Local partidario ✓':'🏢 Registrar como local partidario';
+}
+function hookEditor(){
+  let tries=0;const attempt=()=>{tries++;let ed=null;try{ed=typeof Editor!=='undefined'?Editor:window.Editor}catch(_){ed=window.Editor}
+    if(!ed?.open){if(tries<120)setTimeout(attempt,50);return}
+    if(ed.__v6610LocalHook){if(q('#editModal')?.classList.contains('open'))setTimeout(refreshEditorButton,0);return}
+    ed.__v6610LocalHook=true;const oldOpen=ed.open.bind(ed);ed.open=(id,...rest)=>{const out=oldOpen(id,...rest);requestAnimationFrame(()=>setTimeout(()=>refreshEditorButton(id),60));return out};
+    if(q('#editModal')?.classList.contains('open'))requestAnimationFrame(()=>setTimeout(refreshEditorButton,60));
+  };attempt();
+}
+function boot(){css();LocalFlow.ensureModal();ensureCaptureButton();hookEditor()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
-window.ONE_V669_LOCAL_PARTIDARIO={BUILD,open:(id)=>LocalFlow.open(id),close:()=>LocalFlow.close(),isLocal,refreshButtons};
+window.ONE_V669_LOCAL_PARTIDARIO={BUILD,open:id=>LocalFlow.open(id),close:()=>LocalFlow.close(),isLocal,refreshButtons:()=>{ensureCaptureButton();refreshEditorButton()}};
 })();
