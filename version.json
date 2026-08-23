@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.1 · PERFORMANCE RUNTIME SLIM",
-  "build": "oneshot-v6.6.1-performance-runtime-slim-01",
-  "released": "2026-08-22",
-  "notes": "Optimiza Android/iPhone priorizando Cámara y guardado local. Reduce el runtime crítico: reportes, Excel/UI de reportes, tramos, cobertura y hallazgos territoriales se cargan en reposo o cuando el usuario muestra intención de usarlos. Dropbox/Phase2 se cargan después del primer render. OCR/Tesseract queda fuera del arranque mientras la voz/OCR están OFF. Galería usa lazy decode para reducir trabajo de imágenes. Mantiene v6.6: captura libre, edición, partidos, PANEL/BANNER/PINTA, proveedor, actividad política foto/video y sincronización.",
+  "version": "v6.6.2 · FER OFF + UPDATE LOOP FIX",
+  "build": "oneshot-v6.6.2-fer-off-update-loop-fix-01",
+  "released": "2026-08-23",
+  "notes": "Desactiva temporalmente el asistente virtual Fer y elimina sus módulos/poses del runtime crítico para evitar conflictos y reducir carga en Android/iPhone. Corrige el bucle de actualización: el runtime ahora reconoce correctamente la build instalada y no vuelve a ofrecer la misma versión. Conserva evidencias, configuración, captura libre, edición, partidos, PANEL/BANNER/PINTA, proveedor, actividad política y sincronización.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_1_PERFORMANCE_RUNTIME_SLIM.apk"
+  "apkFilename": "ONE_SHOT_v6_6_2_FER_OFF_UPDATE_FIX.apk"
 }
