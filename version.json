@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.19 · ARRANQUE VISIBLE + TRAMO EN MAPA",
-  "build": "oneshot-v6.6.19-tramo-map-startup-02",
+  "version": "v6.6.20 · TRAMO MAPA ESTABLE",
+  "build": "oneshot-v6.6.20-tramo-map-stable-01",
   "released": "2026-08-24",
-  "notes": "Muestra progreso real durante arranque de cámara, GPS y ubicación para evitar sensación de bloqueo. El flujo Tramo queda reservado a pancartas/carteles repetitivos en postes: una evidencia fija el punto A, el usuario dibuja el recorrido sobre mapa, ONE SHOT calcula distancia y guarda coordenadas/GeoJSON y punto B. Tramo se carga por intención sin traer todo Territorio al inicio.",
+  "notes": "Arranque con progreso visible de cámara, GPS y ubicación. Tramo reservado exclusivamente a pancartas/carteles repetitivos en postes: la evidencia inicial fija A, se dibuja el recorrido sobre mapa, se calcula distancia y se guardan A/B, coordenadas y GeoJSON. Carga Tramo por intención para evitar congelamientos y elimina PANEL/BANNER/PINTA de este flujo.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_19_TRAMO_MAP_STARTUP.apk"
+  "apkFilename": "ONE_SHOT_v6_6_20_TRAMO_MAPA_ESTABLE.apk"
 }
