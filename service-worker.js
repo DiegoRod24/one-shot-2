@@ -1,5 +1,5 @@
-const CACHE="oneshot-v6.6.17-tramo-postes-01";
-const RUNTIME_BUNDLE="./__oneshot_runtime_v6617.js";
+const CACHE="oneshot-v6.6.18-field-flow-01";
+const RUNTIME_BUNDLE="./__oneshot_runtime_v6618.js";
 
 // Cámara primero. Excel, OCR, mapas y Tramos se cargan después de tener video o por intención.
 const DYNAMIC=[
@@ -15,7 +15,7 @@ const LAZY=[
   "one-v646-reports.js","one-v6411-reports.js","one-v651-reports-ui.js",
   "one-v6413-corridor.js","one-v6617-tramo-postes.js","one-v6413-corridor-reports.js","one-v6617-tramo-reports.js","one-v6415-territory-ops.js","one-v653-field-findings.js"
 ];
-const ASSETS=["./","index.html","styles.css","app.js","version.json","manifest.json","oneshot-erm-data.js",...DYNAMIC,"one-v661-idle-loader.js","one-v662-fer-off.js","one-v664-editor-stable.js","one-v664-editor-stable.css","one-v667-mobile-batch.js","one-v668-mobile-editor-polish.js","one-v669-local-partidario.js","oneshot-logo.svg","oneshot-mark.png","oneshot-mark-transparent.png","icon-192.png","icon-512.png"];
+const ASSETS=["./","index.html","styles.css","app.js","version.json","manifest.json","oneshot-erm-data.js",...DYNAMIC,"one-v661-idle-loader.js","one-v662-fer-off.js","one-v664-editor-stable.js","one-v664-editor-stable.css","one-v667-mobile-batch.js","one-v668-mobile-editor-polish.js","one-v669-local-partidario.js","one-v6618-field-flow.js","oneshot-logo.svg","oneshot-mark.png","oneshot-mark-transparent.png","icon-192.png","icon-512.png"];
 
 function slimShell(html){
   return String(html||"")
