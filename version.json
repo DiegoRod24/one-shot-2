@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.18 · FLUJO CAMPO + SYNC TEST",
-  "build": "oneshot-v6.6.18-field-flow-01",
+  "version": "v6.6.19 · ARRANQUE VISIBLE + TRAMO EN MAPA",
+  "build": "oneshot-v6.6.19-tramo-map-startup-01",
   "released": "2026-08-24",
-  "notes": "Corrige Actividad política con guardado local verificado antes de sincronizar; añade estado visible y sincronización en segundo plano. Evidencias incorpora acceso directo para convertir una foto existente en Local partidario con organización obligatoria. Tras capturar aparece atajo Tramo para usar esa foto como muestra del recorrido A→B. Sincronización añade prueba real de escritura Dropbox y prueba de una sola evidencia. Incluye llegada guiada desde ONE SHOP.",
+  "notes": "Muestra progreso real durante arranque de cámara, GPS y ubicación para evitar sensación de bloqueo. El flujo Tramo queda reservado a pancartas/carteles repetitivos en postes: una evidencia fija el punto A, el usuario dibuja el recorrido sobre mapa, ONE SHOT calcula distancia y guarda coordenadas/GeoJSON y punto B. Tramo se carga por intención sin traer todo Territorio al inicio.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_18_FIELD_FLOW_SYNC_TEST.apk"
+  "apkFilename": "ONE_SHOT_v6_6_19_TRAMO_MAP_STARTUP.apk"
 }
