@@ -20,6 +20,8 @@ export async function onRequest(context) {
       element(el) {
         el.append('<script src="/one-v662-fer-off.js"></script>', { html: true });
         el.append('<script src="/one-v661-idle-loader.js"></script>', { html: true });
+        // v6.6.19: feedback inmediato de cámara/GPS/ubicación y apertura rápida de Tramo.
+        el.append('<script src="/one-v6619-startup-status.js"></script>', { html: true });
         el.append('<script src="/one-v660-political-activity.js"></script>', { html: true });
         // Reemplaza el parche v6.6.3: un solo controlador para editar y UI móvil.
         el.append('<script src="/one-v664-editor-stable.js"></script>', { html: true });
