@@ -4,6 +4,8 @@
 if(window.ONE_V6619_STARTUP_STATUS)return;
 const BUILD='oneshot-v6.6.19-tramo-map-startup-01';
 const $=id=>document.getElementById(id);
+const getState=()=>{try{return typeof State!=='undefined'?State:window.State}catch(_){return window.State}};
+const getUI=()=>{try{return typeof UI!=='undefined'?UI:window.UI}catch(_){return window.UI}};
 const started=performance.now();
 let lastText='',readySince=0,busyDepth=0;
 
@@ -27,34 +29,34 @@ function ensure(){
 }
 function validGps(g){return !!g&&Number.isFinite(Number(g.latitude))&&Number.isFinite(Number(g.longitude))}
 function addressReady(){const t=String($('wmAddr')?.textContent||'').trim();return !!t&&!/pendiente|buscando|detectad|resolviendo|afinando|gps/i.test(t)}
-function cameraReady(){try{return window.State?.cameraStatus==='active'&&State.currentTrack?.readyState==='live'}catch(_){return false}}
+function cameraReady(){const st=getState();return !!(st?.cameraStatus==='active'&&st.currentTrack?.readyState==='live')}
 function paint(){
-  ensure();const host=$('one6619Startup');if(!host)return;
-  const camera=cameraReady(),gps=validGps(window.State?.gps),addr=addressReady(),elapsed=Math.max(0,Math.floor((performance.now()-started)/1000));
+  ensure();const host=$('one6619Startup'),st=getState();if(!host)return;
+  const camera=cameraReady(),gps=validGps(st?.gps),addr=addressReady(),elapsed=Math.max(0,Math.floor((performance.now()-started)/1000));
   let title,sub,pct=12,done=false;
   if(!camera){title=`Preparando cámara… ${elapsed}s`;sub=elapsed>=6?'Está tardando un poco; seguimos intentando sin bloquear la app.':'Cámara trasera primero · GPS se prepara en paralelo';pct=Math.min(38,12+elapsed*4)}
   else if(!gps){title=`Cámara lista · buscando GPS… ${elapsed}s`;sub='Ya puedes encuadrar. Esperando coordenadas para georreferenciar.';pct=52}
-  else if(!addr){title=`GPS ±${Math.round(Number(State.gps.accuracy||0))} m · resolviendo ubicación…`;sub=elapsed>=8?'Puedes capturar; dirección/ubigeo seguirá completándose sobre esas coordenadas.':'Calculando dirección y ubigeo sin detener la cámara.';pct=78}
-  else{title='✓ ONE SHOT listo para evidencia';sub=`GPS ±${Math.round(Number(State.gps.accuracy||0))} m · ubicación preparada`;pct=100;done=true}
+  else if(!addr){title=`GPS ±${Math.round(Number(st.gps.accuracy||0))} m · resolviendo ubicación…`;sub=elapsed>=8?'Puedes capturar; dirección/ubigeo seguirá completándose sobre esas coordenadas.':'Calculando dirección y ubigeo sin detener la cámara.';pct=78}
+  else{title='✓ ONE SHOT listo para evidencia';sub=`GPS ±${Math.round(Number(st.gps.accuracy||0))} m · ubicación preparada`;pct=100;done=true}
   const sig=`${title}|${sub}`;if(sig!==lastText){lastText=sig;$('one6619StartupTitle').textContent=title;$('one6619StartupSub').textContent=sub;$('one6619StartupBar').style.width=`${pct}%`}
   host.classList.toggle('show',!done||!readySince);$('one6619StartupSpin').classList.toggle('ok',done);
   if(done){if(!readySince)readySince=Date.now();if(Date.now()-readySince>1800){host.classList.add('done');setTimeout(()=>host.classList.remove('show'),260)}}else{readySince=0;host.classList.remove('done')}
 }
 function busy(title,sub=''){ensure();busyDepth++;$('one6619BusyTitle').textContent=title||'Preparando…';$('one6619BusySub').textContent=sub||'Un momento, ONE SHOT está cargando solo lo necesario.';$('one6619Busy').classList.add('open')}
 function unbusy(){busyDepth=Math.max(0,busyDepth-1);if(!busyDepth)$('one6619Busy')?.classList.remove('open')}
-function seedFromLast(){const id=window.State?.lastShotId||'',r=(window.State?.records||[]).find(x=>String(x.id)===String(id));if(!r)return null;const g=r.gps;return {evidenceId:r.id,photoCode:r.photoCode||r.id,gps:validGps(g)?{latitude:Number(g.latitude),longitude:Number(g.longitude),accuracy:Number(g.accuracy||0),timestamp:Number(g.timestamp||Date.parse(r.createdAt)||Date.now())}:null,address:r.captureAddress||r.address||'',department:r.department||r.region||'',province:r.province||'',district:r.district||'',ubigeo:r.ubigeo||''}}
+function seedFromLast(){const st=getState(),id=st?.lastShotId||'',r=(st?.records||[]).find(x=>String(x.id)===String(id));if(!r)return null;const g=r.gps;return {evidenceId:r.id,photoCode:r.photoCode||r.id,gps:validGps(g)?{latitude:Number(g.latitude),longitude:Number(g.longitude),accuracy:Number(g.accuracy||0),timestamp:Number(g.timestamp||Date.parse(r.createdAt)||Date.now())}:null,address:r.captureAddress||r.address||'',department:r.department||r.region||'',province:r.province||'',district:r.district||'',ubigeo:r.ubigeo||''}}
 async function fastTramo(){
-  const seed=seedFromLast();if(!seed?.gps){try{UI?.toast?.('La foto necesita GPS para usarla como punto A del tramo',3000)}catch(_){}return}
+  const seed=seedFromLast(),ui=getUI();if(!seed?.gps){ui?.toast?.('La foto necesita GPS para usarla como punto A del tramo',3000);return}
   window.ONE_V6619_TRAMO_SEED=seed;busy('Preparando mapa del tramo…','Usaré la foto recién tomada como punto A. Cargando solo Tramo + mapa.');
   try{
     const loader=window.ONE_V661_IDLE_LOADER;if(!loader?.ensure)throw new Error('El cargador de campo aún no está listo');
     await Promise.all([loader.ensure('tramo'),window.ONEDeps?.leaflet?.()||Promise.resolve()]);
-    try{window.UI?.setView?.('Places')}catch(_){}
+    try{ui?.setView?.('Places')}catch(_){}
     await new Promise(r=>setTimeout(r,80));
-    try{window.PropagandaCorridor?.injectV6617?.();window.PropagandaCorridor?.paint?.();window.ONE_V6619_TRAMO_MAP?.prepare?.()}catch(_){}
+    try{const c=typeof PropagandaCorridor!=='undefined'?PropagandaCorridor:window.PropagandaCorridor;c?.injectV6617?.();c?.paint?.();window.ONE_V6619_TRAMO_MAP?.prepare?.()}catch(_){}
     const card=$('v6413CorridorCard');card?.scrollIntoView?.({behavior:'smooth',block:'start'});
-    try{UI?.toast?.('📍 Punto A cargado desde tu evidencia. Elige partido e inicia para dibujar el tramo.',3600)}catch(_){}
-  }catch(err){console.error('[ONE SHOT v6.6.19 tramo]',err);try{UI?.toast?.(`No pude abrir Tramo · ${err.message||err}`,3800)}catch(_){}}
+    ui?.toast?.('📍 Punto A cargado desde tu evidencia. Elige partido e inicia para dibujar el tramo.',3600)
+  }catch(err){console.error('[ONE SHOT v6.6.19 tramo]',err);ui?.toast?.(`No pude abrir Tramo · ${err.message||err}`,3800)}
   finally{unbusy()}
 }
 function interceptTramo(){document.addEventListener('click',e=>{const b=e.target?.closest?.('#one6618QuickTramo');if(!b)return;e.preventDefault();e.stopImmediatePropagation();fastTramo()},true)}
