@@ -2,12 +2,12 @@
 (()=>{
 'use strict';
 if(window.ONE_V661_IDLE_LOADER)return;
-const BUILD='oneshot-v6.6.19-camera-first-idle-loader-01';
+const BUILD='oneshot-v6.6.19-camera-first-idle-loader-02';
 const FEATURES={
   mobile:['one-v667-mobile-batch.js','one-v668-mobile-editor-polish.js','one-v669-local-partidario.js'],
   cloud:['one-sync-worker-mode.js','one-dropbox-sync.js','one-phase2-edit-center.js'],
   reports:['one-v646-reports.js','one-v6411-reports.js','one-v651-reports-ui.js'],
-  tramo:['one-v6413-corridor.js','one-v6617-tramo-postes.js','one-v6413-corridor-reports.js','one-v6617-tramo-reports.js','one-v6619-tramo-map.js'],
+  tramo:['one-v6413-corridor.js','one-v6617-tramo-postes.js','one-v6413-corridor-reports.js','one-v6617-tramo-reports.js','one-v6620-tramo-map.js'],
   territory:['one-v6415-territory-ops.js','one-v653-field-findings.js']
 };
 const loaded=new Set(),pending=new Map();
@@ -18,8 +18,8 @@ async function ensure(name){
   if(name==='tramo'||name==='territory'){
     try{window.ONE_V6413_CORRIDOR?.start?.()}catch(_){}
     try{window.ONE_V6617_TRAMO_POSTES?.start?.()}catch(_){}
-    try{window.PropagandaCorridor?.injectV6617?.();window.PropagandaCorridor?.paint?.()}catch(_){}
-    try{window.ONE_V6619_TRAMO_MAP?.prepare?.()}catch(_){}
+    try{const c=typeof PropagandaCorridor!=='undefined'?PropagandaCorridor:window.PropagandaCorridor;c?.injectV6617?.();c?.paint?.()}catch(_){}
+    try{window.ONE_V6620_TRAMO_MAP?.prepare?.()}catch(_){}
     try{window.ONE_V6413_CORRIDOR_REPORTS?.start?.();window.ONE_V6617_TRAMO_REPORTS?.start?.()}catch(_){}
   }
   return true
