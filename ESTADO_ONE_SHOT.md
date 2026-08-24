@@ -1,6 +1,6 @@
 # ONE SHOT · Estado funcional y próximos pasos
 
-Actualizado: 2026-08-23
+Actualizado: 2026-08-24
 
 ## Objetivo del producto
 
@@ -12,17 +12,18 @@ ONE SHOT Campo debe permitir recolectar evidencia política en calle con la meno
 |---|---|---|---|
 | Cámara trasera rápida | 🧪 En prueba | Prioriza cámara trasera, arranque camera-first | Medir tiempos Android/iPhone y seguir reduciendo bloqueos |
 | Hora / GPS / dirección | 🧪 En prueba | Hora local inmediata; GPS y dirección en segundo plano | Mejorar precisión inicial y mensajes cuando GPS demora |
-| Evidencias | 🧪 En prueba | Lista, filtros, ver, editar, mapa, seleccionar | Terminar pulido visual y acciones de selección |
+| Evidencias | 🧪 En prueba | Lista, filtros, ver, editar, mapa, seleccionar; acceso directo para convertir la misma foto en Local partidario | Terminar pulido visual y acciones de selección |
 | Clasificación individual | ✅ Funcional | Partido + PANEL/BANNER/PINTA; empresa solo PANEL | Validación final en varios teléfonos |
 | Clasificación por lote | ✅ Funcional | Seleccionar varias → clasificar → guardar y siguiente | Pulir repetir anterior y salida final |
 | Editor / marco | 🧪 En prueba | Foto visible, zoom inspección, giro/marco no destructivo | Validar estabilidad de todos los controles en Android/iPhone |
-| Local partidario | 🧪 En prueba | Registra la evidencia como POLITICAL_LOCATION con GPS | Probar historial y deduplicación de un mismo local |
-| Tramo carteles/postes | 🧪 v6.6.17 | A→B, recorrido GPS, postes y carteles separados, fotos muestra | Prueba real en avenida y ajuste de UX |
+| Local partidario | 🧪 v6.6.18 | Convierte una evidencia existente en POLITICAL_LOCATION reutilizando foto/GPS; organización política obligatoria | Probar historial y deduplicación de un mismo local |
+| Tramo carteles/postes | 🧪 v6.6.18 | A→B, recorrido GPS, postes/carteles separados, fotos muestra; atajo Tramo tras capturar para usar esa foto como primera muestra | Prueba real en avenida y ajuste de UX |
 | Recorrido / cobertura | 🧪 Base disponible | Registra por dónde pasó el verificador aunque no haya hallazgos | Simplificar continuidad, pausa y cierre para campo |
 | Zona asignada | 🟡 Parcial | Existe planificación/sector avanzado | Conectar con Dashboard: publicar zona, aceptar/continuar, progreso |
-| Actividad política foto/video | 🟡 Parcial | Entidad y backend de actividad política ya existen | Crear/terminar UI móvil simple y validar video real |
+| Actividad política foto/video | 🧪 v6.6.18 | Foto/video, partido, actividad y GPS; guarda/verifica primero en IndexedDB y sincroniza después en segundo plano | Validar guardado real y video en varios Android/iPhone |
 | Historial cercano | ✅ Configurable | Puede alertar evidencia previa o quedar OFF | Validación final de preferencia persistente |
-| Sincronización | ✅ Funcional | Dropbox central; Persona/alias opcional; acepta PENDIENTE | Validar lotes grandes y reintentos/red inestable |
+| Sincronización | 🧪 v6.6.18 | Dropbox central; Persona/alias opcional; prueba real de escritura y prueba de una sola evidencia | Validar con segundo dispositivo y luego lotes grandes/red inestable |
+| Migración ONE SHOP → ONE SHOT 2 | 🧪 v5.6.4/v6.6.18 | ONE SHOP revisa y respalda recuperables antes de habilitar el salto a ONE SHOT 2; no borra el origen | Probar con el trabajador que aún usa one-shop.pages.dev |
 | Excel de campo | ✅ Funcional | Reporte XLSX con fotos, GPS y hojas especializadas | Mantener compatibilidad mientras nace Dashboard |
 | Fer / voz / OCR | ⏸ OFF | Oculto para no interferir | Retomar solo cuando esté estable y realmente aporte |
 | Actualizador PWA | 🧪 En prueba | Busca/instala versión y conserva evidencias | Seguir validando transición y confirmación de última versión |
@@ -37,6 +38,14 @@ ONE SHOT Campo debe permitir recolectar evidencia política en calle con la meno
 4. **POLITICAL_ACTIVITY** · Actividad política con foto/video.
 5. **FIELD_ROUTE** · Recorrido de inspección, incluso sin hallazgos.
 6. **WORK_ZONE / FIELD_SECTOR** · Zona que coordinación desea revisar.
+
+## Prueba corta v6.6.18
+
+1. **Actividad:** registrar foto/video → partido → tipo → Guardar actividad. Debe confirmar primero `Actividad guardada` y luego mostrar el estado de nube.
+2. **Local partidario:** desde una tarjeta de Evidencias tocar `🏢 Local`, seleccionar organización y guardar. La misma foto/GPS se reutiliza; no se duplica la evidencia.
+3. **Tramo:** tomar una foto representativa → `🪧 Tramo` → iniciar en A → contar/postes/carteles y tomar muestras → finalizar en B.
+4. **Sync:** guardar clave del dispositivo → `🧪 Probar escritura` → `☁ Probar última evidencia` → recién después `Sincronizar pendientes`.
+5. **Migración:** en ONE SHOP actualizar a v5.6.4 → `Cambiar app` → `Respaldar y preparar cambio` → abrir ONE SHOT 2 solo si no quedan errores de sincronización recuperable.
 
 ## Excel operativo
 
@@ -75,9 +84,9 @@ Mientras el Dashboard no sustituya el flujo actual, Excel sigue siendo una salid
 
 ## Orden de trabajo recomendado
 
-1. Terminar y validar **Tramo carteles/postes**.
-2. Simplificar **Recorrido/Cobertura** para uso real de campo.
-3. Cerrar **Actividad política foto/video**.
+1. Validar en móvil **Actividad + Local + Tramo + Sync** de v6.6.18.
+2. Validar la migración de un trabajador **ONE SHOP → ONE SHOT 2** sin pérdida.
+3. Simplificar **Recorrido/Cobertura** para uso real de campo.
 4. Validar **Excel completo** de todas las entidades.
 5. Congelar el alcance de **ONE SHOT Campo 1.0**.
 6. Rebasar/actualizar la base D1 de Fase 3 contra `main`.
