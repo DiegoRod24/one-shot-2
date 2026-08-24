@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.17 · TRAMO CARTELES / POSTES",
-  "build": "oneshot-v6.6.17-tramo-postes-01",
-  "released": "2026-08-23",
-  "notes": "Tramo repetitivo adaptado a carteles y postes: punto A con GPS, recorrido, punto B al finalizar, conteo separado de postes y carteles, calidad exacta/aproximada/no contabilizada, fotos muestra automáticas, cambio de propaganda para iniciar un nuevo tramo y Excel ampliado con postes/carteles. Mantiene Excel, originales, GPS, sincronización y cámara-first.",
+  "version": "v6.6.18 · FLUJO CAMPO + SYNC TEST",
+  "build": "oneshot-v6.6.18-field-flow-01",
+  "released": "2026-08-24",
+  "notes": "Corrige Actividad política con guardado local verificado antes de sincronizar; añade estado visible y sincronización en segundo plano. Evidencias incorpora acceso directo para convertir una foto existente en Local partidario con organización obligatoria. Tras capturar aparece atajo Tramo para usar esa foto como muestra del recorrido A→B. Sincronización añade prueba real de escritura Dropbox y prueba de una sola evidencia. Incluye llegada guiada desde ONE SHOP.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_17_TRAMO_CARTELES_POSTES.apk"
+  "apkFilename": "ONE_SHOT_v6_6_18_FIELD_FLOW_SYNC_TEST.apk"
 }
