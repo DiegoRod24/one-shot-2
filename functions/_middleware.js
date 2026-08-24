@@ -27,6 +27,8 @@ export async function onRequest(context) {
         el.append('<script src="/one-v6615-nearby-preferences.js"></script>', { html: true });
         // v6.6.16: sincronización móvil con un solo identificador humano opcional.
         el.append('<script src="/one-v6616-sync-identity.js"></script>', { html: true });
+        // v6.6.18: guardado local primero + atajos Local/Tramo + prueba real de sincronización.
+        el.append('<script src="/one-v6618-field-flow.js"></script>', { html: true });
       },
     })
     .transform(response);
