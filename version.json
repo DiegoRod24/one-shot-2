@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.20 · TRAMO MAPA ESTABLE",
-  "build": "oneshot-v6.6.20-tramo-map-stable-01",
+  "version": "v6.6.21 · CAMPO RÁPIDO + TRAMO MAPA",
+  "build": "oneshot-v6.6.21-campo-tramo-map-01",
   "released": "2026-08-24",
-  "notes": "Arranque con progreso visible de cámara, GPS y ubicación. Tramo reservado exclusivamente a pancartas/carteles repetitivos en postes: la evidencia inicial fija A, se dibuja el recorrido sobre mapa, se calcula distancia y se guardan A/B, coordenadas y GeoJSON. Carga Tramo por intención para evitar congelamientos y elimina PANEL/BANNER/PINTA de este flujo.",
+  "notes": "Feedback visible durante cámara/GPS/ubicación y cargas diferidas. Tramo exclusivo para pancartas/carteles repetitivos en postes: una foto fija el punto A, se dibuja el recorrido sobre mapa, se calcula distancia y se guardan A/B, coordenadas y GeoJSON. PANEL/BANNER/PINTA permanecen como evidencias individuales. Los módulos pesados cargan por intención para reducir congelamientos.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_20_TRAMO_MAPA_ESTABLE.apk"
+  "apkFilename": "ONE_SHOT_v6_6_21_CAMPO_TRAMO_MAPA.apk"
 }
