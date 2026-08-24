@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.21 · CAMPO RÁPIDO + TRAMO MAPA",
-  "build": "oneshot-v6.6.21-campo-tramo-map-01",
+  "version": "v6.6.22 · TRAMO CALLE REAL",
+  "build": "oneshot-v6.6.22-tramo-calle-real-01",
   "released": "2026-08-24",
-  "notes": "Feedback visible durante cámara/GPS/ubicación y cargas diferidas. Tramo exclusivo para pancartas/carteles repetitivos en postes: una foto fija el punto A, se dibuja el recorrido sobre mapa, se calcula distancia y se guardan A/B, coordenadas y GeoJSON. PANEL/BANNER/PINTA permanecen como evidencias individuales. Los módulos pesados cargan por intención para reducir congelamientos.",
+  "notes": "Tramo específico para carteles/pancartas repetitivas en postes. La foto inicial fija A; se traza la vía hasta B, se calcula distancia y GeoJSON, se registra distribución en la vía, postes/carteles y conteo exacto/aproximado. Permite video muestra opcional de hasta 90 s/80 MB y respaldo Dropbox. PANEL/BANNER/PINTA continúan como evidencias individuales. Excel incorpora distribución, videos y geometría.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_21_CAMPO_TRAMO_MAPA.apk"
+  "apkFilename": "ONE_SHOT_v6_6_22_TRAMO_CALLE_REAL.apk"
 }
