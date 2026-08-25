@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.25 · CÁMARA 0.5 IPHONE + ANDROID",
-  "build": "oneshot-v6.6.25-ultrawide-ios-android-01",
+  "version": "v6.6.26 · RUNTIME LIVIANO + 0.5 DIRECTO",
+  "build": "oneshot-v6.6.26-runtime-slim-camera-core-01",
   "released": "2026-08-25",
-  "notes": "Revisión cruzada de cámara para iPhone/iPad y Android. En iOS corrige el caso Back Dual/Triple Camera: si Safari expone zoom hardware desde 0.5, ONE SHOT lo aplica directamente sin limitarlo a 1x. En Android mantiene detección del ultra gran angular físico y heurísticas solo para cámaras genéricas Android. Ambos sistemas vuelven a enumerar lentes después de permisos, pueden memorizar el lente 0.5x y permiten restablecer la calibración. Nunca se simula 0.5x con zoom digital si el navegador no expone un lente o rango real compatible.",
+  "notes": "Limpieza de rendimiento para iPhone y Android. Se elimina el controlador de cámara viejo, el observador global de Fer y la precarga automática de mapas, municipio, territorio y reportes. Esos módulos cargan solo cuando el usuario los abre. La cámara queda con un único controlador: trasera primero, 0.5x directo y 1x directo. Tocar 0.5x nunca abre el menú; si el navegador expone un ultra gran angular real cambia automáticamente, y si no lo expone se mantiene 1x y avisa. Se limpia una sola vez la calibración antigua que podía hacer que 0.5x y 1x usaran el mismo lente.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_25_ULTRAWIDE_IOS_ANDROID.apk"
+  "apkFilename": "ONE_SHOT_v6_6_26_RUNTIME_SLIM_05_DIRECTO.apk"
 }
