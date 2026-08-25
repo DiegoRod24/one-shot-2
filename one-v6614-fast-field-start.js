@@ -1,8 +1,8 @@
-/* ONE SHOT v6.6.14 · FAST FIELD START */
+/* ONE SHOT v6.6.26 · FAST FIELD START · SIN PRECARGAS PESADAS */
 (()=>{
 'use strict';
 if(window.ONE_V6614_FAST_FIELD_START)return;
-const BUILD='oneshot-v6.6.14-fast-field-start-01';
+const BUILD='oneshot-v6.6.26-fast-field-start-slim-01';
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const idle=cb=>('requestIdleCallback'in window?requestIdleCallback(cb,{timeout:4000}):setTimeout(cb,1200));
 
@@ -23,18 +23,13 @@ function paintClockNow(){
     if(!window.__oneFastClockTimer)window.__oneFastClockTimer=setInterval(()=>UI.updateClock?.(),1000);
   }catch(_){}
 }
-
 function patchTime(){
   if(typeof TimeTrust==='undefined'||TimeTrust.__fastStart)return;
   TimeTrust.__fastStart=true;
-  const baseSync=TimeTrust.sync.bind(TimeTrust);
-  let scheduled=false;
+  const baseSync=TimeTrust.sync.bind(TimeTrust);let scheduled=false;
   TimeTrust.sync=async()=>{
-    paintClockNow();
-    if(scheduled)return true;
-    scheduled=true;
-    const run=async()=>{for(let i=0;i<30;i++){if(State?.cameraStatus==='active')break;await wait(150)}await wait(1200);try{await baseSync()}catch(_){} };
-    idle(run);
+    paintClockNow();if(scheduled)return true;scheduled=true;
+    idle(async()=>{for(let i=0;i<24;i++){if(State?.cameraStatus==='active')break;await wait(180)}await wait(900);try{await baseSync()}catch(_){} });
     return true;
   };
   paintClockNow();
@@ -44,29 +39,29 @@ function patchGps(){
   if(typeof GPS==='undefined'||GPS.__fastStart)return;
   GPS.__fastStart=true;
   const baseStart=GPS.start.bind(GPS),baseResolve=GPS.resolveLive.bind(GPS);
+  let reverseTimer=null,reverseBusy=false;
   GPS.start=function(){if(State.gpsWatchId!=null)return;return baseStart()};
+  const scheduleReverse=(delay=700)=>{
+    clearTimeout(reverseTimer);
+    reverseTimer=setTimeout(async()=>{
+      if(reverseBusy||!State.__onePendingReverseGps)return;
+      if(State.cameraStatus!=='active'){scheduleReverse(450);return}
+      reverseBusy=true;const g=State.__onePendingReverseGps;State.__onePendingReverseGps=null;
+      try{await baseResolve(g,false)}catch(_){}finally{reverseBusy=false;if(State.__onePendingReverseGps)scheduleReverse(500)}
+    },delay);
+  };
   GPS.resolveLive=async function(g,force=false){
-    if(force)return baseResolve(g,true);
-    if(!g)return;
-    if(State.cameraStatus!=='active'){
-      State.__onePendingReverseGps=g;
-      const a=document.getElementById('wmAddr');if(a)a.textContent='GPS detectado · resolviendo dirección…';
-      return;
-    }
+    if(force)return baseResolve(g,true);if(!g)return;
     State.__onePendingReverseGps=g;
+    const a=document.getElementById('wmAddr');if(a)a.textContent=State.cameraStatus==='active'?'Ubicación detectada · obteniendo dirección…':'GPS detectado · cámara primero…';
+    scheduleReverse(State.cameraStatus==='active'?650:350);
   };
-  const flush=async()=>{
-    if(State.__oneReverseBusy||!State.__onePendingReverseGps||State.cameraStatus!=='active')return;
-    State.__oneReverseBusy=true;const g=State.__onePendingReverseGps;State.__onePendingReverseGps=null;
-    await wait(900);try{await baseResolve(g,false)}catch(_){}finally{State.__oneReverseBusy=false}
-  };
-  setInterval(flush,700);
   try{
     navigator.permissions?.query?.({name:'geolocation'}).then(p=>{
       if(p?.state!=='granted')return;
       const a=document.getElementById('wmAddr');if(a)a.textContent='Buscando ubicación…';
       navigator.geolocation?.getCurrentPosition?.(pos=>{
-        try{State.gps=GPS.norm(pos);GPS.setChip(`GPS ±${Math.round(State.gps.accuracy||0)}m`);GPS.water();GPS.paintHealth();if(a)a.textContent='Ubicación detectada · afinando dirección…';State.__onePendingReverseGps=State.gps}catch(_){}
+        try{State.gps=GPS.norm(pos);GPS.setChip(`GPS ±${Math.round(State.gps.accuracy||0)}m`);GPS.water();GPS.paintHealth();if(a)a.textContent='Ubicación detectada · afinando dirección…';State.__onePendingReverseGps=State.gps;scheduleReverse(500)}catch(_){}
       },()=>{}, {enableHighAccuracy:false,maximumAge:120000,timeout:900});
       GPS.start();
     }).catch(()=>{});
@@ -86,17 +81,12 @@ function patchDependencies(){
   if(typeof SmartSectorCoverage!=='undefined'&&typeof SmartSectorCoverage.render==='function'&&!SmartSectorCoverage.__oneDepsPatched){const base=SmartSectorCoverage.render.bind(SmartSectorCoverage);SmartSectorCoverage.render=function(...args){if(!window.L){Deps.leaflet().then(()=>base(...args)).catch(()=>{});return;}return base(...args)};SmartSectorCoverage.__oneDepsPatched=true}
 }
 
-function warmAfterCamera(){
-  let done=false;const t=setInterval(()=>{if(done)return;if(State?.cameraStatus==='active'){done=true;clearInterval(t);idle(()=>Deps.leaflet().catch(()=>{}));setTimeout(()=>idle(()=>Deps.excel().catch(()=>{})),3500)}},180);setTimeout(()=>{if(!done){done=true;clearInterval(t)}},15000)
-}
-
 let tries=0;const boot=setInterval(()=>{
   tries++;
   try{
-    if(typeof State==='undefined'||typeof UI==='undefined'||typeof TimeTrust==='undefined'||typeof GPS==='undefined'){if(tries<300)return;clearInterval(boot);return}
-    clearInterval(boot);patchTime();patchGps();patchDependencies();warmAfterCamera();
-    setTimeout(patchDependencies,1200);
-  }catch(_){if(tries>=300)clearInterval(boot)}
-},10);
+    if(typeof State==='undefined'||typeof UI==='undefined'||typeof TimeTrust==='undefined'||typeof GPS==='undefined'){if(tries<220)return;clearInterval(boot);return}
+    clearInterval(boot);patchTime();patchGps();patchDependencies();setTimeout(patchDependencies,1400);
+  }catch(_){if(tries>=220)clearInterval(boot)}
+},15);
 window.ONE_V6614_FAST_FIELD_START={BUILD,Deps,paintClockNow};
 })();
