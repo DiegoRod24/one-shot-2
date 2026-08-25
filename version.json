@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.24 · CÁMARA 0.5 ULTRA WIDE",
-  "build": "oneshot-v6.6.24-ultrawide-01",
+  "version": "v6.6.25 · CÁMARA 0.5 IPHONE + ANDROID",
+  "build": "oneshot-v6.6.25-ultrawide-ios-android-01",
   "released": "2026-08-25",
-  "notes": "Agrega acceso 0.5x al lente ultra gran angular real cuando Android/iPhone y el navegador lo exponen. Mejora detección de cámaras traseras con nombres genéricos, vuelve a refrescar sensores después de conceder permisos y permite memorizar manualmente el lente actual como 0.5x desde Lente / encuadre. 1x restaura el lente principal; si el navegador no expone un ultra gran angular físico, ONE SHOT no simula un zoom-out digital.",
+  "notes": "Revisión cruzada de cámara para iPhone/iPad y Android. En iOS corrige el caso Back Dual/Triple Camera: si Safari expone zoom hardware desde 0.5, ONE SHOT lo aplica directamente sin limitarlo a 1x. En Android mantiene detección del ultra gran angular físico y heurísticas solo para cámaras genéricas Android. Ambos sistemas vuelven a enumerar lentes después de permisos, pueden memorizar el lente 0.5x y permiten restablecer la calibración. Nunca se simula 0.5x con zoom digital si el navegador no expone un lente o rango real compatible.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_24_ULTRAWIDE.apk"
+  "apkFilename": "ONE_SHOT_v6_6_25_ULTRAWIDE_IOS_ANDROID.apk"
 }
