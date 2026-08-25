@@ -31,6 +31,8 @@ export async function onRequest(context) {
         el.append('<script src="/one-v6616-sync-identity.js"></script>', { html: true });
         // v6.6.18: guardado local primero + atajos Local/Tramo + prueba real de sincronización.
         el.append('<script src="/one-v6618-field-flow.js"></script>', { html: true });
+        // v6.6.24: 0.5x usa lente ultra gran angular físico cuando el navegador lo expone.
+        el.append('<script src="/one-v6624-ultrawide.js"></script>', { html: true });
       },
     })
     .transform(response);
