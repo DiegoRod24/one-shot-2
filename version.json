@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.23 · TRAMO GUARDADO REAL",
-  "build": "oneshot-v6.6.23-tramo-state-hotfix-01",
-  "released": "2026-08-24",
-  "notes": "Corrige el flujo de Tramo: Iniciar tramo ahora crea siempre el registro PROPAGANDA_CORRIDOR antes de habilitar el dibujo. Pausar/Reanudar y Guardar trazo operan sobre el mismo tramo activo; se evita dibujar una línea sin estado interno. También se fuerza la interfaz correcta de postes/carteles y se mantiene A, B, distancia y GeoJSON.",
+  "version": "v6.6.24 · CÁMARA 0.5 ULTRA WIDE",
+  "build": "oneshot-v6.6.24-ultrawide-01",
+  "released": "2026-08-25",
+  "notes": "Agrega acceso 0.5x al lente ultra gran angular real cuando Android/iPhone y el navegador lo exponen. Mejora detección de cámaras traseras con nombres genéricos, vuelve a refrescar sensores después de conceder permisos y permite memorizar manualmente el lente actual como 0.5x desde Lente / encuadre. 1x restaura el lente principal; si el navegador no expone un ultra gran angular físico, ONE SHOT no simula un zoom-out digital.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_23_TRAMO_GUARDADO_REAL.apk"
+  "apkFilename": "ONE_SHOT_v6_6_24_ULTRAWIDE.apk"
 }
