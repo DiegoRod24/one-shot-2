@@ -31,7 +31,7 @@ export async function onRequest(context) {
         el.append('<script src="/one-v6616-sync-identity.js"></script>', { html: true });
         // v6.6.18: guardado local primero + atajos Local/Tramo + prueba real de sincronización.
         el.append('<script src="/one-v6618-field-flow.js"></script>', { html: true });
-        // v6.6.24: 0.5x usa lente ultra gran angular físico cuando el navegador lo expone.
+        // v6.6.25: cámara 0.5x real revisada para iPhone/iPad y Android.
         el.append('<script src="/one-v6624-ultrawide.js"></script>', { html: true });
       },
     })
