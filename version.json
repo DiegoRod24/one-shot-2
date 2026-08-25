@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.22 · TRAMO CALLE REAL",
-  "build": "oneshot-v6.6.22-tramo-calle-real-01",
+  "version": "v6.6.23 · TRAMO GUARDADO REAL",
+  "build": "oneshot-v6.6.23-tramo-state-hotfix-01",
   "released": "2026-08-24",
-  "notes": "Tramo específico para carteles/pancartas repetitivas en postes. La foto inicial fija A; se traza la vía hasta B, se calcula distancia y GeoJSON, se registra distribución en la vía, postes/carteles y conteo exacto/aproximado. Permite video muestra opcional de hasta 90 s/80 MB y respaldo Dropbox. PANEL/BANNER/PINTA continúan como evidencias individuales. Excel incorpora distribución, videos y geometría.",
+  "notes": "Corrige el flujo de Tramo: Iniciar tramo ahora crea siempre el registro PROPAGANDA_CORRIDOR antes de habilitar el dibujo. Pausar/Reanudar y Guardar trazo operan sobre el mismo tramo activo; se evita dibujar una línea sin estado interno. También se fuerza la interfaz correcta de postes/carteles y se mantiene A, B, distancia y GeoJSON.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_22_TRAMO_CALLE_REAL.apk"
+  "apkFilename": "ONE_SHOT_v6_6_23_TRAMO_GUARDADO_REAL.apk"
 }
