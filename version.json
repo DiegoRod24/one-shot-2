@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.27 · GPS LISTO + DIRECCIÓN EN SEGUNDO PLANO",
-  "build": "oneshot-v6.6.27-location-nonblocking-01",
-  "released": "2026-08-25",
-  "notes": "La captura deja de esperar dirección/ubigeo. ONE SHOT queda listo apenas cámara + GPS son válidos. La geocodificación inversa tiene timeout corto, caché y reintento en segundo plano; si OpenStreetMap/Nominatim tarda o falla, se conservan latitud/longitud y la app sigue operativa. El indicador de arranque desaparece al tener cámara + GPS y ya no queda eternamente en 'resolviendo ubicación'. Mantiene el runtime liviano y la cámara 0.5x directa de v6.6.26.",
+  "version": "v6.6.28 · FLUJO CAMPO LIMPIO",
+  "build": "oneshot-v6.6.28-field-flow-slim-01",
+  "released": "2026-08-26",
+  "notes": "Limpieza de flujo y rendimiento para iPhone y Android. La actualización completada ahora muestra un botón Entrar a ONE SHOT que hace una entrada limpia sin depender de cámara/GPS. El aviso grande de arranque desaparece apenas la cámara está viva; GPS y dirección continúan en segundo plano. El Historial cercano deja de interrumpir después de capturar: se revisa dentro de Editar evidencia con foto cercana, distancia y acciones Permanece/Modificada/Retirada/Nueva. Desactivar Historial cercano aplica al instante y cierra cualquier relación pendiente. El HTML inicial carga solo cámara, indicador breve y lazy-loader; editor, actividad, nube, historial, mapas, municipio y reportes se cargan después o por intención. Se reduce también el precache inicial del Service Worker.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_27_GPS_DIRECCION_BACKGROUND.apk"
+  "apkFilename": "ONE_SHOT_v6_6_28_FLUJO_CAMPO_LIMPIO.apk"
 }
