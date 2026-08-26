@@ -1,8 +1,8 @@
-/* ONE SHOT v6.6.26 · FAST FIELD START · SIN PRECARGAS PESADAS */
+/* ONE SHOT v6.6.27 · FAST FIELD START · UBICACION NO BLOQUEANTE */
 (()=>{
 'use strict';
 if(window.ONE_V6614_FAST_FIELD_START)return;
-const BUILD='oneshot-v6.6.26-fast-field-start-slim-01';
+const BUILD='oneshot-v6.6.27-fast-location-timeout-01';
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const idle=cb=>('requestIdleCallback'in window?requestIdleCallback(cb,{timeout:4000}):setTimeout(cb,1200));
 
@@ -35,33 +35,80 @@ function patchTime(){
   paintClockNow();
 }
 
+function pendingLocation(g,reason=''){
+  return {address:reason?`Dirección pendiente · ${reason}`:'Ubicación pendiente',addressStructured:'',street:'',houseNumber:'',postcode:'',city:'',country:'',ubigeo:'',district:'',department:'',province:'',latitude:Number(g?.latitude),longitude:Number(g?.longitude),pending:true};
+}
 function patchGps(){
   if(typeof GPS==='undefined'||GPS.__fastStart)return;
   GPS.__fastStart=true;
   const baseStart=GPS.start.bind(GPS),baseResolve=GPS.resolveLive.bind(GPS);
-  let reverseTimer=null,reverseBusy=false;
+  let reverseTimer=null,reverseBusy=false,retryTimer=null;
+  const reverseCache=new Map();
+
   GPS.start=function(){if(State.gpsWatchId!=null)return;return baseStart()};
-  const scheduleReverse=(delay=700)=>{
+
+  // Geocodificacion inversa rapida: nunca puede frenar la captura.
+  // Nominatim es un servicio externo; si tarda, conservamos GPS y reintentamos despues.
+  GPS.reverse=async function(g){
+    if(!g)return pendingLocation(g);
+    if(!navigator.onLine)return pendingLocation(g,'sin conexión');
+    const key=`${Number(g.latitude).toFixed(4)},${Number(g.longitude).toFixed(4)}`;
+    const hit=reverseCache.get(key);
+    if(hit&&Date.now()-hit.at<180000)return hit.meta;
+    const controller=typeof AbortController!=='undefined'?new AbortController():null;
+    const kill=setTimeout(()=>{try{controller?.abort()}catch(_){}},2200);
+    try{
+      const url=`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=es&addressdetails=1&lat=${encodeURIComponent(g.latitude)}&lon=${encodeURIComponent(g.longitude)}`;
+      const r=await fetch(url,{headers:{Accept:'application/json'},signal:controller?.signal});
+      if(!r.ok)throw new Error(`HTTP ${r.status}`);
+      const j=await r.json(),a=j.address||{};
+      const street=a.road||a.pedestrian||a.footway||a.residential||'',houseNumber=a.house_number||'',postcode=a.postcode||'';
+      const district=a.city_district||a.suburb||a.district||a.town||a.city||a.county||'';
+      const city=a.city||a.town||a.municipality||a.village||district||'',province=a.county||a.province||'',department=a.state||'',country=a.country||'';
+      const structured=[street&&houseNumber?`${street} ${houseNumber}`:street,district&&district!==city?district:'',city,province,department,postcode,country].filter(Boolean).filter((x,i,arr)=>arr.indexOf(x)===i).join(', ');
+      const meta={address:structured||j.display_name||'Ubicación pendiente',addressStructured:structured,street,houseNumber,postcode,city,country,ubigeo:'',district,department,province,pending:false};
+      reverseCache.set(key,{at:Date.now(),meta});
+      return meta;
+    }catch(_){return pendingLocation(g,'por completar')}
+    finally{clearTimeout(kill)}
+  };
+
+  const scheduleRetry=()=>{
+    clearTimeout(retryTimer);
+    retryTimer=setTimeout(async()=>{
+      if(!navigator.onLine||!State.gps||document.hidden)return;
+      try{await baseResolve(State.gps,true)}catch(_){}
+    },8000);
+  };
+  const resolveNow=async(g,force=false)=>{
+    try{await baseResolve(g,force)}catch(_){}
+    const meta=State.liveLocation;
+    if(meta?.pending||!/\S/.test(String(meta?.address||''))||/pendiente|por completar/i.test(String(meta?.address||'')))scheduleRetry();
+    return meta;
+  };
+  const scheduleReverse=(delay=500)=>{
     clearTimeout(reverseTimer);
     reverseTimer=setTimeout(async()=>{
       if(reverseBusy||!State.__onePendingReverseGps)return;
-      if(State.cameraStatus!=='active'){scheduleReverse(450);return}
+      if(State.cameraStatus!=='active'){scheduleReverse(350);return}
       reverseBusy=true;const g=State.__onePendingReverseGps;State.__onePendingReverseGps=null;
-      try{await baseResolve(g,false)}catch(_){}finally{reverseBusy=false;if(State.__onePendingReverseGps)scheduleReverse(500)}
+      try{await resolveNow(g,false)}finally{reverseBusy=false;if(State.__onePendingReverseGps)scheduleReverse(450)}
     },delay);
   };
   GPS.resolveLive=async function(g,force=false){
-    if(force)return baseResolve(g,true);if(!g)return;
+    if(!g)return;
+    if(force)return resolveNow(g,true);
     State.__onePendingReverseGps=g;
-    const a=document.getElementById('wmAddr');if(a)a.textContent=State.cameraStatus==='active'?'Ubicación detectada · obteniendo dirección…':'GPS detectado · cámara primero…';
-    scheduleReverse(State.cameraStatus==='active'?650:350);
+    const a=document.getElementById('wmAddr');if(a)a.textContent=State.cameraStatus==='active'?'GPS listo · completando dirección…':'GPS detectado · cámara primero…';
+    scheduleReverse(State.cameraStatus==='active'?420:300);
   };
+
   try{
     navigator.permissions?.query?.({name:'geolocation'}).then(p=>{
       if(p?.state!=='granted')return;
       const a=document.getElementById('wmAddr');if(a)a.textContent='Buscando ubicación…';
       navigator.geolocation?.getCurrentPosition?.(pos=>{
-        try{State.gps=GPS.norm(pos);GPS.setChip(`GPS ±${Math.round(State.gps.accuracy||0)}m`);GPS.water();GPS.paintHealth();if(a)a.textContent='Ubicación detectada · afinando dirección…';State.__onePendingReverseGps=State.gps;scheduleReverse(500)}catch(_){}
+        try{State.gps=GPS.norm(pos);GPS.setChip(`GPS ±${Math.round(State.gps.accuracy||0)}m`);GPS.water();GPS.paintHealth();if(a)a.textContent='GPS listo · completando dirección…';State.__onePendingReverseGps=State.gps;scheduleReverse(350)}catch(_){}
       },()=>{}, {enableHighAccuracy:false,maximumAge:120000,timeout:900});
       GPS.start();
     }).catch(()=>{});
