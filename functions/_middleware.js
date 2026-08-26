@@ -10,6 +10,7 @@ export async function onRequest(context) {
     .on('script[src*="fer_" i]', { element(el) { el.remove(); } })
     .on("head", {
       element(el) {
+        // CSS se mantiene cacheado; los motores JS administrativos ya no arrancan con la cámara.
         el.append('<link rel="stylesheet" href="/one-dropbox-sync.css">', { html: true });
         el.append('<link rel="stylesheet" href="/one-phase2-edit-center.css">', { html: true });
         el.append('<link rel="stylesheet" href="/one-v660-field-foundation.css">', { html: true });
@@ -18,16 +19,12 @@ export async function onRequest(context) {
     })
     .on("body", {
       element(el) {
-        // v6.6.26: un único controlador para arranque de cámara + trasera + 0.5x/1x.
-        // Se carga primero para que nada administrativo retrase la cámara.
+        // v6.6.28: arranque mínimo. Solo cámara + indicador breve + cargador bajo demanda.
         el.append('<script src="/one-v6624-ultrawide.js"></script>', { html: true });
         el.append('<script src="/one-v6619-startup-status.js"></script>', { html: true });
         el.append('<script src="/one-v661-idle-loader.js"></script>', { html: true });
-        el.append('<script src="/one-v660-political-activity.js"></script>', { html: true });
-        el.append('<script src="/one-v664-editor-stable.js"></script>', { html: true });
-        el.append('<script src="/one-v6615-nearby-preferences.js"></script>', { html: true });
-        el.append('<script src="/one-v6616-sync-identity.js"></script>', { html: true });
-        el.append('<script src="/one-v6618-field-flow.js"></script>', { html: true });
+        // Editor, historial, actividad, nube, mapas, municipio y reportes se cargan después
+        // de que la cámara esté viva o cuando el usuario toca la función correspondiente.
       },
     })
     .transform(response);
