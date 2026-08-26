@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.26 · RUNTIME LIVIANO + 0.5 DIRECTO",
-  "build": "oneshot-v6.6.26-runtime-slim-camera-core-01",
+  "version": "v6.6.27 · GPS LISTO + DIRECCIÓN EN SEGUNDO PLANO",
+  "build": "oneshot-v6.6.27-location-nonblocking-01",
   "released": "2026-08-25",
-  "notes": "Limpieza de rendimiento para iPhone y Android. Se elimina el controlador de cámara viejo, el observador global de Fer y la precarga automática de mapas, municipio, territorio y reportes. Esos módulos cargan solo cuando el usuario los abre. La cámara queda con un único controlador: trasera primero, 0.5x directo y 1x directo. Tocar 0.5x nunca abre el menú; si el navegador expone un ultra gran angular real cambia automáticamente, y si no lo expone se mantiene 1x y avisa. Se limpia una sola vez la calibración antigua que podía hacer que 0.5x y 1x usaran el mismo lente.",
+  "notes": "La captura deja de esperar dirección/ubigeo. ONE SHOT queda listo apenas cámara + GPS son válidos. La geocodificación inversa tiene timeout corto, caché y reintento en segundo plano; si OpenStreetMap/Nominatim tarda o falla, se conservan latitud/longitud y la app sigue operativa. El indicador de arranque desaparece al tener cámara + GPS y ya no queda eternamente en 'resolviendo ubicación'. Mantiene el runtime liviano y la cámara 0.5x directa de v6.6.26.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_26_RUNTIME_SLIM_05_DIRECTO.apk"
+  "apkFilename": "ONE_SHOT_v6_6_27_GPS_DIRECCION_BACKGROUND.apk"
 }
