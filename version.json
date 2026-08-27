@@ -1,8 +1,8 @@
 {
-  "version": "v6.6.28 · FLUJO CAMPO LIMPIO",
-  "build": "oneshot-v6.6.28-field-flow-slim-01",
-  "released": "2026-08-26",
-  "notes": "Limpieza de flujo y rendimiento para iPhone y Android. La actualización completada ahora muestra un botón Entrar a ONE SHOT que hace una entrada limpia sin depender de cámara/GPS. El aviso grande de arranque desaparece apenas la cámara está viva; GPS y dirección continúan en segundo plano. El Historial cercano deja de interrumpir después de capturar: se revisa dentro de Editar evidencia con foto cercana, distancia y acciones Permanece/Modificada/Retirada/Nueva. Desactivar Historial cercano aplica al instante y cierra cualquier relación pendiente. El HTML inicial carga solo cámara, indicador breve y lazy-loader; editor, actividad, nube, historial, mapas, municipio y reportes se cargan después o por intención. Se reduce también el precache inicial del Service Worker.",
+  "version": "v6.7.0 · CAMPO ESTABLE / RUNTIME LIMPIO",
+  "build": "oneshot-v6.7.0-field-stable-01",
+  "released": "2026-08-27",
+  "notes": "Consolidación de rendimiento para iPhone y Android. El arranque previo a app.js baja de 17 módulos de compatibilidad a 8 de núcleo. Editor, historial, recuperación, clasificación, actividad, Dropbox, mapas, municipios, tramos y reportes ya no se precargan en segundo plano: se cargan una sola vez cuando el usuario toca la función. La primera visita también elimina Leaflet, ExcelJS y Tesseract del arranque. Se mantienen cámara 0.5/1x directa, GPS/dirección no bloqueantes, botón Entrar a ONE SHOT tras actualizar y captura local independiente de nube.",
   "apkUrl": "",
-  "apkFilename": "ONE_SHOT_v6_6_28_FLUJO_CAMPO_LIMPIO.apk"
+  "apkFilename": "ONE_SHOT_v6_7_0_CAMPO_ESTABLE.apk"
 }
